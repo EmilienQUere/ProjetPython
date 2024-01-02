@@ -1,3 +1,5 @@
-# Projet Python
-
-Voici le descritpif du projet Python 
+# Projet Python 
+Collaborateur : Quere Emilien (manager)
+                Esseul Antonin
+                Le Roy Alexis
+            
