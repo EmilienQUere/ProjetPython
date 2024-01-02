@@ -1,5 +1,5 @@
-# Projet Test
-## Projet Python
-test_antonin
-
-gtegefe
+# Projet Python
+Collaborateur : Quere Emilien
+                Esseul Antonin
+                Le Roy Alexis
+#
