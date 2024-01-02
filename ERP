@@ -1,0 +1,9 @@
+# ERP ODOO
+
+## 1- Préparation a l'installation :
+https://www.odoo.com/documentation/15.0/fr/administration/install/packages.html
+
+Odoo à besoin d'un serveur Postgre SQL pour fonctionner correctement
+
+ sudo apt install postgresql -y
+ 
