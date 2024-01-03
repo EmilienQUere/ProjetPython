@@ -13,8 +13,13 @@ class App(tk.Tk):
         self.screen_x = 50
         self.screen_y = 0
         geometry = str(self.screen_h)+"x"+str(self.screen_v)+"+"+str(self.screen_x)+"+"+str(self.screen_y)
-
-        
+        self.geometry(geometry)
+        self.resizable(True, True) # (width, heigth)
+        self.minsize(100, 100)
+        self.maxsize(self.winfo_screenwidth(), self.winfo_screenheight())
+        self.attributes('-alpha', 0.9) # window transparency
+#       self.iconbitmap(Path("Image/Viande.ico"))
+        self.title("Barbak SARL")
 
 #============================================================
         
