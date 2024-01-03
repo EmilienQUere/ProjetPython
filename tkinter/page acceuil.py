@@ -3,10 +3,10 @@ from tkinter import ttk, messagebox
 
 # Informations sur les utilisateurs
 utilisateurs = {
-    "utilisateur1": {"mot_de_passe": "motdepasse1", "page": "PageUtilisateur1"},
-    "utilisateur2": {"mot_de_passe": "motdepasse2", "page": "PageUtilisateur2"},
-    "utilisateur3": {"mot_de_passe": "motdepasse3", "page": "PageUtilisateur3"},
-    "utilisateur4": {"mot_de_passe": "motdepasse4", "page": "PageUtilisateur4"},
+    "utilisateur1": {"mot_de_passe": "1111", "page": "PageUtilisateur1"},
+    "utilisateur2": {"mot_de_passe": "2222", "page": "PageUtilisateur2"},
+    "utilisateur3": {"mot_de_passe": "3333", "page": "PageUtilisateur3"},
+    "utilisateur4": {"mot_de_passe": "4444", "page": "PageUtilisateur4"},
 }
 
 def main():
@@ -43,11 +43,6 @@ def creer_fenetre_connexion():
 
     liste_utilisateurs.set(list(utilisateurs.keys())[0])  # Définir la première valeur par défaut
 
-    # Widget œil pour afficher/masquer le mot de passe
-    global eye_widget
-    eye_widget = EyeWidget(cadre_principal, entry_mot_de_passe)
-    eye_widget.grid(row=1, column=2, pady=5, padx=(5, 10), sticky="W")
-
     # Bouton de connexion
     bouton_connexion = ttk.Button(cadre_principal, text="Se connecter", command=verifier_connexion, style="TButton")
     bouton_connexion.grid(row=3, column=0, columnspan=3, pady=10, sticky="WE")
@@ -63,24 +58,6 @@ def creer_fenetre_connexion():
     centrer_fenetre(fenetre_connexion)
 
     fenetre_connexion.mainloop()
-
-class EyeWidget(tk.Label):
-    def __init__(self, parent, target_entry, *args, **kwargs):
-        super().__init__(parent, text="👁", font=("Arial", 12), *args, **kwargs)
-        self.target_entry = target_entry
-        self.eye_state = tk.BooleanVar(value=True)
-        self.bind("<Button-1>", self.toggle_eye)
-
-    def toggle_eye(self, event):
-        self.eye_state = not self.eye_state.get()
-        self.config(text="👁" if self.eye_state else "👁‍🗨")
-        self.update_password_visibility()
-
-    def update_password_visibility(self):
-        if self.eye_state:
-            self.target_entry.config(show="*")
-        else:
-            self.target_entry.config(show="")
 
 def configurer_styles():
     style = ttk.Style()
