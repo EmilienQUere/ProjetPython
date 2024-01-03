@@ -1,1 +1,4 @@
+Mot de passe admin      :
 Mot de passe logistique : log
+Mot de passe production :
+Mot de passe vente      :
