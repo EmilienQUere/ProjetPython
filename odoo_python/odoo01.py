@@ -1,11 +1,11 @@
 import xmlrpc.client
 
-def Connect(ip='localhost', port=8069):
+def Connect(ip='10.0.2.15', port=8069):
     # Informations de connexion à Odoo
-    url = 'http://{}:{}/'.format(ip, port)
-    db = 'nom_de_votre_base_de_donnees'
-    username = 'votre_nom_utilisateur'
-    password = 'votre_mot_de_passe'
+    url = 'http://{localhost}:{8069}/'.format(ip, port)
+    db = 'demo'
+    username = 'emilienqr@gmail.com'
+    password = '2000'
 
     # Établir une connexion
     common = xmlrpc.client.ServerProxy('{}xmlrpc/2/common'.format(url))
@@ -13,7 +13,7 @@ def Connect(ip='localhost', port=8069):
 
     # Vérifier si l'authentification a réussi
     if uid:
-        print('Authentification réussie. UID: {}'.format(uid))
+        print('Authentification réussie. UID: {Mitchell Admin}'.format(uid))
     else:
         print('Échec de l\'authentification.')
         return
@@ -22,7 +22,7 @@ def Connect(ip='localhost', port=8069):
     print('Adresse URL de connexion à Odoo:', url)
 
     # Récupérer la version d'Odoo
-    version = common.version()
+    version = common.version(15)
     print('Version d\'Odoo:', version.get('server_version'))
 
 if __name__ == '__main__':
