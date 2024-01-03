@@ -4,31 +4,14 @@ from pathlib import Path
 
 # Informations sur les utilisateurs
 utilisateurs = {
-    "utilisateur1": {"mot_de_passe": "1111", "page": "PageUtilisateur1"},
-    "utilisateur2": {"mot_de_passe": "2222", "page": "PageUtilisateur2"},
-    "utilisateur3": {"mot_de_passe": "3333", "page": "PageUtilisateur3"},
-    "utilisateur4": {"mot_de_passe": "4444", "page": "PageUtilisateur4"},
+    "Administrateur": {"mot_de_passe": "1111", "page": "Admin"},
+    "Production": {"mot_de_passe": "2222", "page": "Production"},
+    "Logistique": {"mot_de_passe": "3333", "page": "Logistique"},
+    "Vente": {"mot_de_passe": "4444", "page": "Vente"},
 }
 
 def main():
-    def __init__(self):
-        """Application constructor (heritage=Tk object)"""
-        super().__init__()
-        self.screen_h = 800
-        self.screen_v = self.winfo_screenheight()
-        self.screen_x = 50
-        self.screen_y = 0
-        geometry = str(self.screen_h)+"x"+str(self.screen_v)+"+"+str(self.screen_x)+"+"+str(self.screen_y)
-        self.geometry(geometry)
-        self.resizable(True, True) # (width, heigth)
-        self.minsize(100, 100)
-        self.maxsize(self.winfo_screenwidth(), self.winfo_screenheight())
-        self.attributes('-alpha', 0.9) # window transparency
-#       self.iconbitmap(Path("Image/Viande.ico"))
-        self.title("Barbak SARL")
     creer_fenetre_connexion()
-    self.iconbitmap(Path("Image/Viande.ico"))
-    self.title("Barbak SARL")
 
 def creer_fenetre_connexion():
     global fenetre_connexion
@@ -75,6 +58,11 @@ def creer_fenetre_connexion():
     # Centrer la fenêtre
     centrer_fenetre(fenetre_connexion)
 
+    #Logo et titre de la fenetre
+    fenetre_connexion.title("Barbak SARL")
+    chemin_icone = (Path("Viande.ico"))
+    #fenetre_connexion.iconbitmap(chemin_icone)
+
     fenetre_connexion.mainloop()
 
 def configurer_styles():
@@ -104,6 +92,18 @@ def ouvrir_page_utilisateur(page):
     fenetre_utilisateur = tk.Tk()  # Créer une nouvelle fenêtre pour la page de l'utilisateur
     fenetre_utilisateur.title(page)
 
+  # Dimenssionnement de la fenetre
+    fenetre_utilisateur.screen_h = fenetre_utilisateur.winfo_screenwidth()
+    fenetre_utilisateur.screen_v = fenetre_utilisateur.winfo_screenheight()
+    fenetre_utilisateur.screen_x = 0
+    fenetre_utilisateur.screen_y = 0
+    geometry = str(fenetre_utilisateur.screen_h)+"x"+str(fenetre_utilisateur.screen_v)+"+"+str(fenetre_utilisateur.screen_x)+"+"+str(fenetre_utilisateur.screen_y)
+    fenetre_utilisateur.geometry(geometry)
+    fenetre_utilisateur.resizable(True, True) # (width, heigth)
+    fenetre_utilisateur.minsize(100, 100)
+    fenetre_utilisateur.maxsize(fenetre_utilisateur.winfo_screenwidth(), fenetre_utilisateur.winfo_screenheight())
+    fenetre_utilisateur.attributes('-alpha', 0.9) # window transparency
+
     # Style personnalisé
     style = ttk.Style()
     style.configure("TFrame", background="#ececec")
@@ -116,7 +116,7 @@ def ouvrir_page_utilisateur(page):
     cadre_principal.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
 
     label_bienvenue = ttk.Label(cadre_principal, text=f"Bienvenue sur {page}!", style="TLabel")
-    label_bienvenue.grid(row=0, column=0, pady=20)
+    label_bienvenue.grid(row=700, column=700, pady=20)
 
     # Bouton de déconnexion
     bouton_deconnexion = ttk.Button(cadre_principal, text="Déconnexion", command=lambda: deconnexion(fenetre_utilisateur), style="TButton")
@@ -124,10 +124,7 @@ def ouvrir_page_utilisateur(page):
 
     # Configuration du style pour le cadre principal
     style.configure("TFrame", background="#ececec")
-
-    # Centrer la fenêtre
-    centrer_fenetre(fenetre_utilisateur)
-
+  
     fenetre_utilisateur.mainloop()
 
 def deconnexion(fenetre):
