@@ -1,4 +1,5 @@
 import tkinter as tk
+import xmlrpc.client
 from tkinter import ttk, messagebox
 from pathlib import Path
 
@@ -10,8 +11,12 @@ utilisateurs = {
     "Vente": {"mot_de_passe": "4444", "page": "Vente"},
 }
 
+#======================================================================================================================================================================
+
 def main():
     creer_fenetre_connexion()
+
+#======================================================================================================================================================================
 
 def creer_fenetre_connexion():
     global fenetre_connexion
@@ -64,6 +69,8 @@ def creer_fenetre_connexion():
 
     fenetre_connexion.mainloop()
 
+#======================================================================================================================================================================
+
 def configurer_styles():
     style = ttk.Style()
 
@@ -76,15 +83,20 @@ def configurer_styles():
     # Style pour la liste déroulante (Combobox)
     style.configure("TCombobox", padding=(5, 3), font=("Helvetica", 12), background="#f0f0f0")
 
+#======================================================================================================================================================================
+
 def verifier_connexion():
     nom_utilisateur = nom_utilisateur_var.get()
     mot_de_passe = entry_mot_de_passe.get()
 
-    if nom_utilisateur in utilisateurs and utilisateurs[nom_utilisateur]["mot_de_passe"] == mot_de_passe:
-        page_utilisateur = utilisateurs[nom_utilisateur]["page"]
+    connect()
+
+    if verif==True:
         ouvrir_page_utilisateur(page_utilisateur)
     else:
         messagebox.showerror("Erreur de connexion", "Nom d'utilisateur ou mot de passe incorrect.")
+
+#======================================================================================================================================================================
 
 def ouvrir_page_utilisateur(page):
     fenetre_connexion.destroy()  # Fermer la fenêtre de connexion actuelle
@@ -126,9 +138,13 @@ def ouvrir_page_utilisateur(page):
   
     fenetre_utilisateur.mainloop()
 
+#======================================================================================================================================================================
+
 def deconnexion(fenetre):
     fenetre.destroy()  # Fermer la fenêtre actuelle
     creer_fenetre_connexion()  # Réafficher la fenêtre de connexion
+
+#======================================================================================================================================================================
 
 def centrer_fenetre(fenetre):
     fenetre.update_idletasks()
@@ -142,6 +158,30 @@ def centrer_fenetre(fenetre):
     y_position = (hauteur_ecran - hauteur_fenetre) // 2
 
     fenetre.geometry(f"+{x_position}+{y_position}")
+
+#======================================================================================================================================================================
+
+def connect(nom_utilisateur, mot_de_passe):
+    try:
+        common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format('http://172.31.11.13:8069'))
+        uid = common.authenticate('demo', nom_utilisateur, mot_de_passe, {})
+        
+        if uid:
+            models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format('http://172.31.11.13:8069'))
+            return models, xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format('http://172.31.11.13:8069'))
+        else:
+            print("Connexion échouée : Authentification impossible")
+            return None, None
+    except Exception as e:
+        print(f"Erreur de connexion : {e}")
+        return None, None
+    
+odoo_models, odoo_connection = connect('http://172.31.11.13:8069', 'demo', nom_utilisateur, mot_de_passe)
+if odoo_connection and odoo_models:
+    print("Connexion réussie à Odoo")
+    verif=True
+
+#======================================================================================================================================================================
 
 # Fonction principale pour lancer l'application
 if __name__ == "__main__":
