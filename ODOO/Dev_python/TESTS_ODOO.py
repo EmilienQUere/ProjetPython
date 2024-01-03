@@ -1,7 +1,13 @@
 import xmlrpc.client
 
-def connect(url, db, username, password):
-   
+# Utilisation de la fonction Company() pour récupérer l'identifiant d'une entreprise spécifique
+url = 'http://172.31.11.13:8069'
+db = 'demo'
+username = 'emilienqr@gmail.com'
+password = '2000'
+company_name = 'Barbak'
+
+def connect(url, db, username, password)  
     try:
         common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format(url))
         uid = common.authenticate(db, username, password, {})
@@ -16,12 +22,6 @@ def connect(url, db, username, password):
         print(f"Erreur de connexion : {e}")
         return None
 
-
-url = 'http://localhost:8069'
-db = 'demo'
-username = 'emilienqr@gmail.com'
-password = '2000'
-
 odoo_models, odoo_connection = connect(url, db, username, password)
 if odoo_connection and odoo_models:
     print("Connexion réussie à Odoo")
@@ -34,19 +34,7 @@ if odoo_connection and odoo_models:
         #print(partner)
 
 def Company(models, db, uid, password, company_name):
-    """
-    Récupère l'identifiant d'une entreprise dans les modèles Odoo en fonction du nom de l'entreprise.
-    
-    Args:
-    - models: L'objet ServerProxy pour accéder aux modèles Odoo
-    - db: Nom de la base de données Odoo
-    - uid: Identifiant de l'utilisateur Odoo
-    - password: Mot de passe de l'utilisateur Odoo
-    - company_name: Nom de l'entreprise
-    
-    Returns:
-    - L'identifiant de l'entreprise (company_id) si trouvé, sinon None
-    """
+
     try:
         company_id = models.execute_kw(db, uid, password,
                                        'res.company', 'search', 
@@ -60,13 +48,6 @@ def Company(models, db, uid, password, company_name):
     except Exception as e:
         print(f"Erreur lors de la recherche de l'entreprise : {e}")
         return None
-
-# Utilisation de la fonction Company() pour récupérer l'identifiant d'une entreprise spécifique
-url = 'http://localhost:8069'
-db = 'demo'
-username = 'emilienqr@gmail.com'
-password = '2000'
-company_name = 'Barbak'
 
 odoo_models, odoo_connection = connect(url, db, username, password)
 if odoo_models and odoo_connection:
