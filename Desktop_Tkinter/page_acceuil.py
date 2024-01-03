@@ -60,8 +60,7 @@ def creer_fenetre_connexion():
 
     #Logo et titre de la fenetre
     fenetre_connexion.title("Barbak SARL")
-    chemin_icone = (Path("Viande.ico"))
-    #fenetre_connexion.iconbitmap(chemin_icone)
+    fenetre_connexion.iconbitmap(Path("Viande.ico"))
 
     fenetre_connexion.mainloop()
 
@@ -102,7 +101,7 @@ def ouvrir_page_utilisateur(page):
     fenetre_utilisateur.resizable(True, True) # (width, heigth)
     fenetre_utilisateur.minsize(100, 100)
     fenetre_utilisateur.maxsize(fenetre_utilisateur.winfo_screenwidth(), fenetre_utilisateur.winfo_screenheight())
-    fenetre_utilisateur.attributes('-alpha', 0.9) # window transparency
+    fenetre_utilisateur.attributes('-alpha', 1.0) # window transparency
 
     # Style personnalisé
     style = ttk.Style()
@@ -116,11 +115,11 @@ def ouvrir_page_utilisateur(page):
     cadre_principal.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
 
     label_bienvenue = ttk.Label(cadre_principal, text=f"Bienvenue sur {page}!", style="TLabel")
-    label_bienvenue.grid(row=700, column=700, pady=20)
+    label_bienvenue.grid(row=0, column=0, pady=20)
 
     # Bouton de déconnexion
     bouton_deconnexion = ttk.Button(cadre_principal, text="Déconnexion", command=lambda: deconnexion(fenetre_utilisateur), style="TButton")
-    bouton_deconnexion.grid(row=1, column=0, pady=10, sticky="w")
+    bouton_deconnexion.grid(row=0, column=0, pady=10, sticky="w")
 
     # Configuration du style pour le cadre principal
     style.configure("TFrame", background="#ececec")
