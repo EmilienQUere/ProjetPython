@@ -1,10 +1,10 @@
 import xmlrpc.client
 
-def Connect(ip='localhost', port=8069, password=''):
+def Connect(ip='localhost', port=8069, password='2000'):
     # Informations de connexion à Odoo
     url = 'http://{}:{}/'.format(ip, port)
     db = 'demo'  # Utilisation de la base de données demo
-    username = 'uimm.xmlrpc@gmail.com'
+    username = 'emilienqr@gmail.com'
     
     # Établir une connexion
     common = xmlrpc.client.ServerProxy('{}xmlrpc/2/common'.format(url))
