@@ -1,5 +1,13 @@
 import xmlrpc.client
 
+
+url = 'http://172.31.11.13:8069'
+db = 'demo'
+username = 'emilienqr@gmail.com'
+password = '2000'
+company_name = 'Barbak'
+
+
 def connect(url, db, username, password):
    
     try:
@@ -15,12 +23,6 @@ def connect(url, db, username, password):
     except Exception as e:
         print(f"Erreur de connexion : {e}")
         return None
-
-
-url = 'http://localhost:8069'
-db = 'demo'
-username = 'emilienqr@gmail.com'
-password = '2000'
 
 odoo_models, odoo_connection = connect(url, db, username, password)
 if odoo_connection and odoo_models:
@@ -62,12 +64,6 @@ def Company(models, db, uid, password, company_name):
         return None
 
 # Utilisation de la fonction Company() pour récupérer l'identifiant d'une entreprise spécifique
-url = 'http://localhost:8069'
-db = 'demo'
-username = 'emilienqr@gmail.com'
-password = '2000'
-company_name = 'Barbak'
-
 odoo_models, odoo_connection = connect(url, db, username, password)
 if odoo_models and odoo_connection:
     print("Connexion réussie à Odoo")
