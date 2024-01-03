@@ -60,7 +60,7 @@ def creer_fenetre_connexion():
 
     #Logo et titre de la fenetre
     fenetre_connexion.title("Barbak SARL")
-    fenetre_connexion.iconbitmap(Path("Viande.ico"))
+    #fenetre_connexion.iconbitmap(Path("Viande.ico"))
 
     fenetre_connexion.mainloop()
 
