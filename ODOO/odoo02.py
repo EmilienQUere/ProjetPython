@@ -1,12 +1,7 @@
 import xmlrpc.client
 
-<<<<<<< HEAD
-# Informations de connexion Odoo
-url = '10.0.2.15:8069'  # Remplacez par l'URL de votre instance Odoo
-=======
 # Informations de connexion Odoo à distance
 url = 'http://172.31.11.13:8069'  # Remplacez par l'adresse IP ou le nom de domaine de votre instance Odoo
->>>>>>> fa194d2df270954f0e7ef54f31e59287d4de1084
 db = 'demo'
 username = 'emilienqr@gmail.com'
 password = '2000'
