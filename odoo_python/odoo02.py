@@ -1,6 +1,6 @@
 import xmlrpc.client
 
-def Connect(ip='localhost', port=8069, password='2000'):
+def Connect(ip='10.0.2.15', port=8069, password='2000'):
     # Informations de connexion à Odoo
     url = 'http://{}:{}/'.format(ip, port)
     db = 'demo'  # Utilisation de la base de données demo
