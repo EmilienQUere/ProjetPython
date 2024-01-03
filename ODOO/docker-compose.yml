@@ -1,0 +1,4 @@
+docker configs:
+version: '2'
+Odoo: 15
+postgresql: 13
