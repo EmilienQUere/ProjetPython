@@ -3,7 +3,8 @@ import xmlrpc.client
 from tkinter import ttk, messagebox
 from pathlib import Path
 from page_admin import AppAdmin as visuAdmin
-
+from page_logistique import AppLog as visuLog
+from page_production import AppProd as visuprod
 
 # Informations sur les utilisateurs
 utilisateurs = {
@@ -23,7 +24,7 @@ def main():
 def creer_fenetre_connexion():
     global fenetre_connexion
     fenetre_connexion = tk.Tk()
-    fenetre_connexion.title("Page de connexion")
+    fenetre_connexion.title("Barbak SARL")
 
     # Modification de la police
     police = ("Helvetica", 12)
@@ -65,10 +66,6 @@ def creer_fenetre_connexion():
     # Centrer la fenêtre
     centrer_fenetre(fenetre_connexion)
 
-    #Logo et titre de la fenetre
-    fenetre_connexion.title("Barbak SARL")
-    #fenetre_connexion.iconbitmap(Path("Viande.ico"))
-
     fenetre_connexion.mainloop()
 
 #======================================================================================================================================================================
@@ -84,6 +81,23 @@ def configurer_styles():
 
     # Style pour la liste déroulante (Combobox)
     style.configure("TCombobox", padding=(5, 3), font=("Helvetica", 12), background="#f0f0f0")
+    
+#======================================================================================================================================================================
+
+def verifier_connexion():
+    global nom_utilisateur
+    nom_utilisateur = nom_utilisateur_var.get()
+    mot_de_passe = entry_mot_de_passe.get()
+    
+    connect(nom_utilisateur, mot_de_passe)
+
+    odoo_models, odoo_connection = connect(nom_utilisateur, mot_de_passe)
+    if odoo_connection and odoo_models:
+            print("Connexion réussie à Odoo")
+            ouvrir_page_utilisateur()
+    else : 
+            print ("echec de connexion à odoo")
+            messagebox.showerror("Erreur de connexion", "Nom d'utilisateur ou mot de passe incorrect.")
 
 #======================================================================================================================================================================
 
@@ -101,39 +115,29 @@ def connect(nom_utilisateur, mot_de_passe):
     except Exception as e:
         print(f"Erreur de connexion : {e}")
         return None, None
-    
-
-#======================================================================================================================================================================
-
-def verifier_connexion():
-    nom_utilisateur = nom_utilisateur_var.get()
-    mot_de_passe = entry_mot_de_passe.get()
-
-    connect(nom_utilisateur, mot_de_passe)
-
-    odoo_models, odoo_connection = connect(nom_utilisateur, mot_de_passe)
-    if odoo_connection and odoo_models:
-            print("Connexion réussie à Odoo")
-            ouvrir_page_utilisateur()
-    else : 
-            print ("echec de connexion à odoo")
-            messagebox.showerror("Erreur de connexion", "Nom d'utilisateur ou mot de passe incorrect.")
 
 #======================================================================================================================================================================
 
 def ouvrir_page_utilisateur():
+
     fenetre_connexion.destroy()  # Fermer la fenêtre de connexion actuelle
-    if nom_utilisateur_var == "administarteur":
-        fenetre_existante = visuAdmin()  # Ouvrir une nouvelle page administrateur
-        fenetre_existante.mainloop()
 
-    elif nom_utilisateur_var == "logistique":
-        fenetre_existante = visuAdmin()  # Ouvrir une nouvelle page logistique
-        fenetre_existante.mainloop()
+# Ouvrir une nouvelle page administrateur
 
-    elif nom_utilisateur_var == "production":
-        fenetre_existante = visuAdmin()  # Ouvrir une nouvelle page production
-        fenetre_existante.mainloop()
+    if nom_utilisateur == "administarteur":
+        fenetre_existante = visuAdmin()  
+
+# Ouvrir une nouvelle page logistique
+        
+    elif nom_utilisateur == "logistique":
+        fenetre_existante = visuLog()  
+
+# Ouvrir une nouvelle page production
+        
+    elif nom_utilisateur == "production":
+        fenetre_existante = visuprod()  
+    
+    fenetre_existante.mainloop()
 
 #======================================================================================================================================================================
 
@@ -160,4 +164,4 @@ def centrer_fenetre(fenetre):
 
 # Fonction principale pour lancer l'application
 if __name__ == "__main__":
-    main()
+    creer_fenetre_connexion()
