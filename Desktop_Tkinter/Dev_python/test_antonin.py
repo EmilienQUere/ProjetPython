@@ -1,8 +1,8 @@
 from pathlib import Path
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 from PIL import Image, ImageTk
-from tkinter import messagebox
+from tkinter.simpledialog import askinteger
 
 # Set the background color using RGB values for same backgroung a the picture
 rgb_background = (52,73,74) 
@@ -23,6 +23,7 @@ class AppProd(tk.Tk):
         self.minsize(100, 100)
         self.maxsize(self.winfo_screenwidth(), self.winfo_screenheight())
         self.attributes('-alpha', 0.9)  # window transparency
+        self.configure(bg="white")
 
         # Set the window icon
         self.set_icon()
@@ -53,10 +54,8 @@ class AppProd(tk.Tk):
 
         if self.img:
             # Place the image BARBAK at specific coordinates (x, y)
-            x_position = 1680
-            y_position = 10
             self.image = ttk.Label(self, image=self.img)
-            self.image.place(x=x_position, y=y_position)
+            self.image.place(x=1680, y=10)
 
             # Text PRODUCTION
             x_message_position = 1681
@@ -70,10 +69,31 @@ class AppProd(tk.Tk):
 
             exit_button = ttk.Button(self, text="Déconnexion", command=self.exit_page, style="Déconnexion.TButton")
             exit_button.place(x=1680, y=800)
+
+            # Tableau des OF's
+            columns = ("Produit", "Numéro", "Date", "Quantité à produire")
+            self.tree = ttk.Treeview(self, columns=columns, show="headings", selectmode="browse")
+ 
+            style = ttk.Style(self)
+            style.configure("Treeview.Heading", font=("Courier", 12), background=background_color, foreground="white")
+            style.configure("Treeview", font=("Courier", 10), background="lightGrey")
+
+            for col in columns:
+                self.tree.heading(col, text=col)
+                self.tree.column(col, width=300, anchor="center",)
+                self.tree.place(x=100, y=50)
+
+            # Ajout de quelques données fictives pour l'exemple
+            data = [
+                ("Produit1", "OF001", "2022-01-10", 100),
+                ("Produit2", "OF002", "2022-01-15", 200),
+                ("Produit3", "OF003", "2022-01-20", 150),
+                ]
+
+            for row in data:
+                self.tree.insert("", "end", values=row)
             
-    def exit_page(self):
-            exit_button = ttk.Button(self, text="Déconnexion", command=self.exit_page, style="Déconnexion.TButton")
-            exit_button.place(x=1680, y=800)
+            self.tree.bind("<ButtonRelease-1>", self.modify_quantity)
 
     def exit_page(self):
         """ Exit the page """
@@ -83,7 +103,32 @@ class AppProd(tk.Tk):
             icon="warning")
         if MsgBox == "yes":
             self.destroy()
-        
+    
+    def modify_quantity(self, event):
+    # Obtenir l'élément sélectionné
+        item = self.tree.selection()
+        print("true")
+        if item:
+                # Récupérer la région de l'élément sélectionné
+            column_id = self.tree.identify_column(event.x)
+            print(column_id)
+
+            # Obtenir l'indice de la colonne à partir de l'identifiant de colonne
+            if column_id:
+                column_index = self.tree["columns"].index(column_id)
+                print(self.tree["columns"])
+            
+                # Obtenir la valeur de la cellule cliquée
+                value = self.tree.item(item, "values")[column_index]
+                print(value)
+
+
+                # Demander à l'utilisateur de modifier la quantité
+                #new_quantity = askinteger("Modifier Quantité", f"Modifiez la quantité pour {value} :", initialvalue=int(value))
+                #if new_quantity is not None:
+                    # Mettre à jour la valeur dans le tableau
+                    #self.tree.item(item, values=(self.tree.item(item, 'values')[:3] + (new_quantity,)))
+
 
 if __name__ == "__main__":
     myApp = AppProd()
