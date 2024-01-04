@@ -95,6 +95,5 @@ def SaveProductImage(models, db, uid, password, product_ID, image_name):
         print(f"Erreur lors de la sauvegarde de l'image du produit : {e}")
         return False
     
-import base64
 
 
