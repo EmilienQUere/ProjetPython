@@ -8,7 +8,7 @@ from tkinter import messagebox
 rgb_background = (52,73,74) 
 background_color = "#{:02x}{:02x}{:02x}".format(*rgb_background)
 
-class App(tk.Tk):
+class AppProd(tk.Tk):
     """ Application GUI in Tkinter"""
     def __init__(self):
         """ Application constructor (inheritance from Tk object)"""
@@ -70,6 +70,10 @@ class App(tk.Tk):
 
             exit_button = ttk.Button(self, text="Déconnexion", command=self.exit_page, style="Déconnexion.TButton")
             exit_button.place(x=1680, y=800)
+            
+    def exit_page(self):
+            exit_button = ttk.Button(self, text="Déconnexion", command=self.exit_page, style="Déconnexion.TButton")
+            exit_button.place(x=1680, y=800)
 
     def exit_page(self):
         """ Exit the page """
@@ -82,5 +86,5 @@ class App(tk.Tk):
         
 
 if __name__ == "__main__":
-    myApp = App()
+    myApp = AppProd()
     myApp.mainloop()
