@@ -11,7 +11,7 @@ product_price = 80.0
 intern_reference = '155'
 article_category = 3  # Remplacez par l'ID de la catégorie de l'article
 article_type = 'product'  # Remplacez par le type d'article approprié ('product' ou 'service')
-image_path = '/home/user/Bureau/ProjetPython/Joue de porc2.png'  # Remplacez par le chemin absolu de l'image
+image_path = '/home/user/Bureau/ProjetPython/ProjetPython/Joue de porc2.png'  # Remplacez par le chemin absolu de l'image
 can_be_sell = True
 can_be_buy = False
 
