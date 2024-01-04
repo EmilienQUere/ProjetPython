@@ -1,14 +1,17 @@
 from pathlib import Path
 import tkinter as tk
 from tkinter import ttk
-from tkinter import messagebox
 from PIL import Image, ImageTk
+from tkinter import messagebox
 
+# Set the background color using RGB values for same backgroung a the picture
+rgb_background = (52,73,74) 
+background_color = "#{:02x}{:02x}{:02x}".format(*rgb_background)
 
 class App(tk.Tk):
     """ Application GUI in Tkinter"""
     def __init__(self):
-        """ Application constructor (heritage=Tk object)"""
+        """ Application constructor (inheritance from Tk object)"""
         super().__init__()
         self.screen_h = self.winfo_screenwidth()
         self.screen_v = self.winfo_screenheight()
@@ -21,62 +24,62 @@ class App(tk.Tk):
         self.maxsize(self.winfo_screenwidth(), self.winfo_screenheight())
         self.attributes('-alpha', 0.9)  # window transparency
 
-        #### ICONE WINDOWS APPLI ###
+        # Set the window icon
+        self.set_icon()
+        self.title("Barbak")
+        self.init_widgets()
+
+    def set_icon(self):
+        """ Set the window icon """
+        icon_path = Path("/home/user/Bureau/Projet Python/BARBAK.png")
         try:
-            
-            icon_path = Path("/home/user/Images/BARBAK.png")
             icon_img = Image.open(icon_path)
             icon_img = icon_img.convert("RGBA")
             self.icon_img = ImageTk.PhotoImage(icon_img)
             self.tk.call('wm', 'iconphoto', self._w, self.icon_img)
-
-            self.title("Barbak")
-            self.initWidget()
-
         except Exception as e:
             print(f"Error setting window icon: {e}")
 
-    def initWidget(self):
+    def init_widgets(self):
         """ Init all widgets of the main window """
+        # Load the image using Pillow
+        image_path = "/home/user/Bureau/Projet Python/BARBAK.png"
+        try:
+            pil_image = Image.open(image_path)
+            self.img = ImageTk.PhotoImage(pil_image)
+        except Exception as e:
+            print(f"Error loading image: {e}")
+            self.img = None
 
-        self.img = tk.PhotoImage(file=Path("/home/user/Images/BARBAK.png"))
-        print("Main image loaded successfully")      
+        if self.img:
+            # Place the image BARBAK at specific coordinates (x, y)
+            x_position = 1680
+            y_position = 10
+            self.image = ttk.Label(self, image=self.img)
+            self.image.place(x=x_position, y=y_position)
 
-        self.image = ttk.Label(self, image=self.img, text='UIMM', compound='top')
-        self.image.pack()
+            # Text PRODUCTION
+            x_message_position = 1681
+            y_message_position = 250
+            self.message = ttk.Label(self, text="PRODUCTION", font=("Courier", 20), foreground="White", background=background_color, padding=[32,20])   
+            self.message.place(x=x_message_position, y=y_message_position)
 
-        self.message = ttk.Label(self, text="Hello, MSIR5!", font=("Courier", 18), foreground="White", background="Blue")
-        self.message.pack()
+            # Bouton Déconnexion
+            exit_style = ttk.Style()
+            exit_style.configure("Déconnexion.TButton", font=("Courier", 20), foreground="white", background=background_color, padding=[25, 15])
 
-        self.btn1 = ttk.Button(self, text='Production', command=self.onBtn1Click)
-        self.btn1.pack()
+            exit_button = ttk.Button(self, text="Déconnexion", command=self.exit_page, style="Déconnexion.TButton")
+            exit_button.place(x=1680, y=800)
 
-        self.btn2 = ttk.Button(self, text='Bom', command=self.onBtn2Click)
-        self.btn2.bind('<Return>', self.onBtn2Click)  # need event arg
-        self.btn2.focus()
-        self.btn2.pack()
-
-        self.quit_icon = tk.PhotoImage(file=Path("image/Quit.png"))
-        self.btnQuit = ttk.Button(self, text='Exit',
-        image=self.quit_icon, command=self.onBtnQuitClick)
-        self.btnQuit.pack()
-        
-    def onBtn1Click(self):
-        """ Callback Btn1 pressed """
-        self.message['text'] = "mrp.production"
-
-    def onBtn2Click(self, event=None):
-        """ Callback Btn2 pressed """
-        self.message.config(text="mrp.bom")
-    
-    def onBtnQuitClick(self):
-        """ Callback Btn3 pressed """
+    def exit_page(self):
+        """ Exit the page """
         MsgBox = messagebox.askquestion (
-        title='Quitter Application',
-        message='Etes vous sur de vouloir quitter ?',
-        icon='warning')
-        if MsgBox == 'yes':
-            self.quit()
+            title="Déconnection de l'application", 
+            message="Etes vous sûre de vouloir vous déconnecter ? ",
+            icon="warning")
+        if MsgBox == "yes":
+            self.destroy()
+        
 
 if __name__ == "__main__":
     myApp = App()
