@@ -2,7 +2,9 @@ import tkinter as tk
 import xmlrpc.client
 from tkinter import ttk, messagebox
 from pathlib import Path
-from test_antonin import AppProd as visuprod
+from page_admin import AppAdmin as visuAdmin
+
+
 # Informations sur les utilisateurs
 utilisateurs = {
     "administrateur",
@@ -121,43 +123,17 @@ def verifier_connexion():
 
 def ouvrir_page_utilisateur():
     fenetre_connexion.destroy()  # Fermer la fenêtre de connexion actuelle
-    fenetre_utilisateur = tk.Tk()  # Créer une nouvelle fenêtre pour la page de l'utilisateur
-    fenetre_utilisateur.title()
+    if nom_utilisateur_var == "administarteur":
+        fenetre_existante = visuAdmin()  # Ouvrir une nouvelle page administrateur
+        fenetre_existante.mainloop()
 
-  # Dimenssionnement de la fenetre
-    fenetre_utilisateur.screen_h = fenetre_utilisateur.winfo_screenwidth()
-    fenetre_utilisateur.screen_v = fenetre_utilisateur.winfo_screenheight()
-    fenetre_utilisateur.screen_x = 0
-    fenetre_utilisateur.screen_y = 0
-    geometry = str(fenetre_utilisateur.screen_h)+"x"+str(fenetre_utilisateur.screen_v)+"+"+str(fenetre_utilisateur.screen_x)+"+"+str(fenetre_utilisateur.screen_y)
-    fenetre_utilisateur.geometry(geometry)
-    fenetre_utilisateur.resizable(True, True) # (width, heigth)
-    fenetre_utilisateur.minsize(100, 100)
-    fenetre_utilisateur.maxsize(fenetre_utilisateur.winfo_screenwidth(), fenetre_utilisateur.winfo_screenheight())
-    fenetre_utilisateur.attributes('-alpha', 1.0) # window transparency
+    elif nom_utilisateur_var == "logistique":
+        fenetre_existante = visuAdmin()  # Ouvrir une nouvelle page logistique
+        fenetre_existante.mainloop()
 
-    # Style personnalisé
-    style = ttk.Style()
-    style.configure("TFrame", background="#ececec")
-    style.configure("TLabel", background="#ececec", font=("Helvetica", 12))
-    style.configure("TButton", background="#4CAF50", foreground="white", font=("Helvetica", 12))
-    style.configure("TCheckbutton", background="#ececec", font=("Helvetica", 12))
-
-    # Cadre principal
-    cadre_principal = ttk.Frame(fenetre_utilisateur, padding="20", style="TFrame")
-    cadre_principal.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
-
-    label_bienvenue = ttk.Label(cadre_principal, text=f"Bienvenue sur !", style="TLabel")
-    label_bienvenue.grid(row=10, column=0, pady=20)
-
-    # Bouton de déconnexion
-    bouton_deconnexion = ttk.Button(cadre_principal, text="Déconnexion", command=lambda: deconnexion(fenetre_utilisateur), style="TButton")
-    bouton_deconnexion.grid(row=0, column=0, pady=10, sticky="w")
-
-    # Configuration du style pour le cadre principal
-    style.configure("TFrame", background="#ececec")
-  
-    fenetre_utilisateur.mainloop()
+    elif nom_utilisateur_var == "production":
+        fenetre_existante = visuAdmin()  # Ouvrir une nouvelle page production
+        fenetre_existante.mainloop()
 
 #======================================================================================================================================================================
 
@@ -179,8 +155,6 @@ def centrer_fenetre(fenetre):
     y_position = (hauteur_ecran - hauteur_fenetre) // 2
 
     fenetre.geometry(f"+{x_position}+{y_position}")
-
-
 
 #======================================================================================================================================================================
 
