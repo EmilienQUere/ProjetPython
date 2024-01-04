@@ -21,28 +21,57 @@ class AppAdmin(tk.Tk):
         self.maxsize(self.winfo_screenwidth(), self.winfo_screenheight())
         self.attributes('-alpha', 0.9)  # window transparency
 
-    def exit_page(self):
-        """ Exit the page """
-        MsgBox = messagebox.askquestion(
-            title="Déconnection de l'application",
-            message="Etes vous sûre de vouloir vous déconnecter ? ",
-            icon="warning")
+def creer_fenetre_utilisateur():
+    global fenetre_utilisateur
+    fenetre_utilisateur = tk.Tk()
+    fenetre_utilisateur.title("Page Admin")
 
-        if MsgBox == "yes":
-           self.destroy()
-           self.ouvrir_fenetre_existante()
-           
+    # Modification de la police
+    police = ("Helvetica", 12)
 
+    # Cadre principal
+    cadre_principal = ttk.Frame(fenetre_utilisateur, padding="20", style="TFrame")
+    cadre_principal.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
 
-    def onBtnLogin(self):
-        """ Callback Btn Login pressed """
-        messagebox.showinfo (
-        title='Login',
-    message=f'Bienvenue {self.user.get()}')
+    # Labels et entrées
+    ttk.Label(cadre_principal, text="Bienvenue sur la page Production", font=police).grid(row=0, column=0, padx=(10, 5), pady=5, sticky="E")
 
-    def ouvrir_fenetre_existante(self):
-        fenetre_existante = visuprod()
-        fenetre_existante.mainloop()
+    # Configuration du style
+    configurer_styles()
+
+    # Configurer la gestion de la redimension de la fenêtre
+    fenetre_utilisateur.grid_columnconfigure(0, weight=1)
+    fenetre_utilisateur.grid_rowconfigure(0, weight=1)
+
+    # Centrer la fenêtre
+    centrer_fenetre(fenetre_utilisateur)
+
+    fenetre_utilisateur.mainloop()
+
+def configurer_styles():
+    style = ttk.Style()
+
+    # Style pour l'entrée (Entry)
+    style.configure("TEntry", padding=(5, 5), relief="flat", background="#f0f0f0")
+
+    # Style pour le bouton (Button)
+    style.configure("TButton", padding=(10, 5), font=("Helvetica", 12, "bold"), foreground="white", background="#4CAF50")
+
+    # Style pour la liste déroulante (Combobox)
+    style.configure("TCombobox", padding=(5, 3), font=("Helvetica", 12), background="#f0f0f0")
+
+def centrer_fenetre(fenetre):
+    fenetre.update_idletasks()
+    largeur_ecran = fenetre.winfo_screenwidth()
+    hauteur_ecran = fenetre.winfo_screenheight()
+
+    largeur_fenetre = fenetre.winfo_reqwidth()
+    hauteur_fenetre = fenetre.winfo_reqheight()
+
+    x_position = (largeur_ecran - largeur_fenetre) // 2
+    y_position = (hauteur_ecran - hauteur_fenetre) // 2
+
+    fenetre.geometry(f"+{x_position}+{y_position}")
 
 if __name__ == "__main__":
     myApp = AppAdmin()
