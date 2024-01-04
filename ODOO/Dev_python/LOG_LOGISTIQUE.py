@@ -16,7 +16,7 @@ def connect(url, db, username, password):
         return None, None
 
 
-url = 'http://localhost:8069'
+url = 'http://172.31.11.13:8069'
 db = 'demo'
 username = 'logistique'
 password = '2000'
