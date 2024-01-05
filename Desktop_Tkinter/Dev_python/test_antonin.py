@@ -102,10 +102,7 @@ class AppProd(tk.Tk):
 
             # Demander à l'utilisateur de saisir la nouvelle valeur
             new_value = simpledialog.askinteger("Modifier Valeur", f"Modifier la valeur pour l'OF {numero_of} :", initialvalue=quantite_a_modifier)
-
-            dialog = self.tk.call("tk_getSaveFile", "-dialog", "dialog")
-            self.dialog.place(dialog, 300, 200)
-
+            
             # Mettre à jour la valeur dans le tableau
             if new_value is not None:
                 values = list(self.tree.item(item, 'values'))
