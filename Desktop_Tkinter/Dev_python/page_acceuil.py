@@ -125,25 +125,25 @@ def ouvrir_page_utilisateur():
 # Ouvrir une nouvelle page administrateur
 
     if nom_utilisateur == "administarteur":
-        fenetre_existante = visuAdmin()  
+        fenetre_utilisateur = visuAdmin()  
 
 # Ouvrir une nouvelle page logistique
         
     elif nom_utilisateur == "logistique":
-        fenetre_existante = visuLog()  
+        fenetre_utilisateur = visuLog()  
 
 # Ouvrir une nouvelle page production
         
     elif nom_utilisateur == "production":
-        fenetre_existante = visuprod()  
+        fenetre_utilisateur = visuprod()  
     
-    fenetre_existante.mainloop()
+    fenetre_utilisateur.mainloop()
 
 #======================================================================================================================================================================
 
-def deconnexion(fenetre):
-    fenetre.destroy()  # Fermer la fenêtre actuelle
-    creer_fenetre_connexion()  # Réafficher la fenêtre de connexion
+#def deconnexion(fenetre):
+#    fenetre.destroy()  # Fermer la fenêtre actuelle
+#    creer_fenetre_connexion()  # Réafficher la fenêtre de connexion
 
 #======================================================================================================================================================================
 
