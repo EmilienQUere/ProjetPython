@@ -67,22 +67,25 @@ class AppProd(tk.Tk):
         self.modif_en_cours = False
 
         style_modifier = ttk.Style()
-        style_modifier.configure("Modifier.TButton", font=("Courier", 20), foreground="white", background=background_color, padding=[40, 15])
+        style_modifier.configure("Modifier.TButton", font=("Courier", 20), foreground="white", background=background_color, padding=[39, 15])
 
         bouton_modifier = ttk.Button(self, text="Modifier\nquantité", style="Modifier.TButton", command=self.bouton_modifier_clic)
-        bouton_modifier.place(x=1680, y=500)
+        bouton_modifier.place(x=1680, y=300)
 
         # Tableau des OF's
         colonnes = ("Produit", "Numéro", "Date", "Quantité à produire", "Quantité produite")
         self.tree = ttk.Treeview(self, columns=colonnes, show="headings", selectmode="browse")
 
         style = ttk.Style(self)
-        style.configure("Treeview.Heading", font=("Courier", 12), background=background_color, foreground="white")
-        style.configure("Treeview", font=("Courier", 10), background="lightGrey")
+        style.configure("Treeview.Heading", font=("Courier", 20), background=background_color, foreground="white")
+        style.configure("Treeview", font=("Courier", 15), background="lightGrey", borderwidth=0, highlightthickness=0)
+
+        # Ajuster la hauteur de ligne pour augmenter l'espace entre les lignes
+        style.configure("Treeview.Item", font=("Courier", 15), rowheight=30)  # Ajustez la valeur de rowheight selon vos besoins
 
         for col in colonnes:
             self.tree.heading(col, text=col)
-            self.tree.column(col, width=300, anchor="center")
+            self.tree.column(col, width=310, anchor="center")
 
         #####################################################
         # TODO reprendre les donnee produit via programme emilien 
@@ -143,6 +146,7 @@ class AppProd(tk.Tk):
             style = ttk.Style()
             style.configure("Modifier.TButton", background=background_color)
 
+    # Couleur et retour bouton modification d'OF
     def bouton_modifier_clic(self):
         if self.modif_en_cours == False:
             self.modif_en_cours = True
