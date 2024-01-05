@@ -5,6 +5,7 @@ class AppAdmin(tk.Tk):
     """Application GUI in Tkinter"""
     def __init__(self):
         super().__init__()
+        self = tk.Tk()
 
     def creer_fenetre_utilisateur(self):
         self.title("Page administrateur")
