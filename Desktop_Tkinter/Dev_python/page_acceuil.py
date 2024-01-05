@@ -16,11 +16,6 @@ utilisateurs = {
 
 #======================================================================================================================================================================
 
-def main():
-    creer_fenetre_connexion()
-
-#======================================================================================================================================================================
-
 def creer_fenetre_connexion():
     global fenetre_connexion
     fenetre_connexion = tk.Tk()
@@ -124,18 +119,21 @@ def ouvrir_page_utilisateur():
 
 # Ouvrir une nouvelle page administrateur
 
-    if nom_utilisateur == "administarteur":
-        fenetre_utilisateur = visuAdmin()  
+    if nom_utilisateur == "administrateur":
+        fenetre_utilisateur = visuAdmin()
+        print(nom_utilisateur)  
 
 # Ouvrir une nouvelle page logistique
         
     elif nom_utilisateur == "logistique":
-        fenetre_utilisateur = visuLog()  
+        fenetre_utilisateur = visuLog() 
+        print(nom_utilisateur) 
 
 # Ouvrir une nouvelle page production
         
     elif nom_utilisateur == "production":
-        fenetre_utilisateur = visuprod()  
+        fenetre_utilisateur = visuprod() 
+        print(nom_utilisateur)  
     
     fenetre_utilisateur.mainloop()
 
