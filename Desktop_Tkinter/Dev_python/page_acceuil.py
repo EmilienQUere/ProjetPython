@@ -114,28 +114,12 @@ def connect(nom_utilisateur, mot_de_passe):
 #======================================================================================================================================================================
 
 def ouvrir_page_utilisateur():
-
     fenetre_connexion.destroy()  # Fermer la fenêtre de connexion actuelle
-
-# Ouvrir une nouvelle page administrateur
-
-    if nom_utilisateur == "administrateur":
-        fenetre_utilisateur = visuAdmin()
-        print(nom_utilisateur)  
-
-# Ouvrir une nouvelle page logistique
-        
-    elif nom_utilisateur == "logistique":
-        fenetre_utilisateur = visuLog() 
-        print(nom_utilisateur) 
-
-# Ouvrir une nouvelle page production
-        
-    elif nom_utilisateur == "production":
+    try:
         fenetre_utilisateur = visuprod() 
-        print(nom_utilisateur)  
-    
-    fenetre_utilisateur.mainloop()
+        fenetre_utilisateur.mainloop()
+    except Exception as e:
+        print(f"Erreur lors de l'ouverture de la fenêtre utilisateur : {e}")
 
 #======================================================================================================================================================================
 
