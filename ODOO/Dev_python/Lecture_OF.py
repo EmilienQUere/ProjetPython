@@ -40,7 +40,12 @@ def AffOF(models, db, uid, password):
     except Exception as e:
         print(f"Erreur lors de la lecture des ordres de fabrication : {e}")
 
+<<<<<<< HEAD
 url = 'http://localhost:8069'
+=======
+# Exemple d'utilisation
+url = 'http://172.31.11.13:8069'
+>>>>>>> 79f3c4c0683d6fde2db6250dffe3e3fab4f95bf9
 db = 'demo'
 username = 'emilienqr@gmail.com'
 password = '2000'
