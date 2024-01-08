@@ -112,22 +112,35 @@ def connect(nom_utilisateur, mot_de_passe):
 
 #======================================================================================================================================================================
 
-def ouvrir_page_utilisateur(nom_utilisateur, fenetre_connexion):
-    # Fermer la fenêtre de connexion actuelle
-    fenetre_connexion.destroy()
-    
-    # Ouvrir une nouvelle page administrateur
-    if nom_utilisateur == "production":
-        fenetre_utilisateur = visuprod()
-        fenetre_utilisateur.mainloop()
-    '''
-    # Ouvrir une nouvelle page logistique
+def ouvrir_page_utilisateur(nom_utilisateur):
+
+    fenetre_connexion.destroy()  # Fermer la fenêtre de connexion actuelle
+
+# Ouvrir une nouvelle page administrateur
+
+    if nom_utilisateur == "administrateur":
+        fenetre_utilisateur = visuAdmin()
+        print(nom_utilisateur)  
+
+# Ouvrir une nouvelle page logistique
+        
     elif nom_utilisateur == "logistique":
         fenetre_utilisateur = visuLog() 
-    # Ouvrir une nouvelle page production
-    elif nom_utilisateur == "administrateur":
-        fenetre_utilisateur = visuAdmin()
-    '''
+        print(nom_utilisateur) 
+
+# Ouvrir une nouvelle page production
+        
+    elif nom_utilisateur == "production":
+        fenetre_utilisateur = visuprod() 
+        print(nom_utilisateur)  
+    
+    fenetre_utilisateur.mainloop()
+
+#======================================================================================================================================================================
+
+#def deconnexion(fenetre):
+#    fenetre.destroy()  # Fermer la fenêtre actuelle
+#    creer_fenetre_connexion()  # Réafficher la fenêtre de connexion
 
 #======================================================================================================================================================================
 
