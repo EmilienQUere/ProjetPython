@@ -2,22 +2,23 @@ from pathlib import Path
 import tkinter as tk
 from tkinter import ttk, messagebox, simpledialog
 from PIL import Image, ImageTk
+import sys
+sys.path.append("/home/user/Bureau/Projet Python/ProjetPython/ODOO/Dev_python/Lecture_OF.py")
+from Lecture_OF import*
+
 # Définir la couleur de fond en utilisant les valeurs RGB pour le même fond que l'image
 rgb_background = (52, 73, 74)
 background_color = "#{:02x}{:02x}{:02x}".format(*rgb_background)
 
 class AppProd(tk.Tk):
     """Application GUI en Tkinter"""
+
     def __init__(self):
         """Constructeur de l'application (héritage de l'objet Tk)"""
         super().__init__()
-        self.screen_h = self.winfo_screenwidth()
-        self.screen_v = self.winfo_screenheight()
-        self.screen_x = 0
-        self.screen_y = 0
-        geometry = f"{self.screen_h}x{self.screen_v}+{self.screen_x}+{self.screen_y}"
-        self.geometry(geometry)
-        self.resizable(True, True)  # (largeur, hauteur)
+
+        self.geometry(f"{self.winfo_screenwidth()}x{self.winfo_screenheight()}+0+0")
+        self.resizable(True, True)
         self.minsize(100, 100)
         self.maxsize(self.winfo_screenwidth(), self.winfo_screenheight())
         self.attributes('-alpha', 0.9)  # transparence de la fenêtre
@@ -41,27 +42,56 @@ class AppProd(tk.Tk):
 
     def init_widgets(self):
         """Initialiser tous les widgets de la fenêtre principale"""
-        # ... (code précédent)
+        # Load the image using Pillow
+        image_path = "/home/user/Bureau/Projet Python/BARBAK.png"
+        try:
+            pil_image = Image.open(image_path)
+            self.img = ImageTk.PhotoImage(pil_image)
+        except Exception as e:
+            print(f"Error loading image: {e}")
+            self.img = None
+
+        if self.img:
+            # Place the image BARBAK at specific coordinates (x, y)
+            x_position = 1680
+            y_position = 10
+            self.image = ttk.Label(self, image=self.img)
+            self.image.place(x=x_position, y=y_position)
+
+        # Bouton Déconnexion
+        exit_style = ttk.Style()
+        exit_style.configure("Déconnexion.TButton", font=("Courier", 20), foreground="white", background=background_color, padding=[25, 15])
+
+        exit_button = ttk.Button(self, text="Déconnexion", command=self.quitter_page, style="Déconnexion.TButton")
+        exit_button.place(x=1680, y=800)
 
         # Bouton modifier
-        #style_modifier = ttk.Style()
-        #style_modifier.configure("Modifier.TButton", font=("Courier", 20), foreground="white", background=background_color, padding=[25, 15])
+        self.modif_en_cours = False
 
-        #bouton_modifier = ttk.Button(self, text="Modifier", command=self.clic_bouton_modifier, style="Modifier.TButton")
-        #bouton_modifier.place(x=1680, y=500)
+        style_modifier = ttk.Style()
+        style_modifier.configure("Modifier.TButton", font=("Courier", 20), foreground="white", background=background_color, padding=[39, 15])
+
+        bouton_modifier = ttk.Button(self, text="Modifier\nquantité", style="Modifier.TButton", command=self.bouton_modifier_clic)
+        bouton_modifier.place(x=1680, y=300)
 
         # Tableau des OF's
         colonnes = ("Produit", "Numéro", "Date", "Quantité à produire", "Quantité produite")
         self.tree = ttk.Treeview(self, columns=colonnes, show="headings", selectmode="browse")
 
         style = ttk.Style(self)
-        style.configure("Treeview.Heading", font=("Courier", 12), background=background_color, foreground="white")
-        style.configure("Treeview", font=("Courier", 10), background="lightGrey")
+        style.configure("Treeview.Heading", font=("Courier", 20), background=background_color, foreground="white")
+        style.configure("Treeview", font=("Courier", 15), background="lightGrey", borderwidth=0, highlightthickness=0)
+
+        # Ajuster la hauteur de ligne pour augmenter l'espace entre les lignes
+        style.configure("Treeview.Item", font=("Courier", 15), rowheight=30)  # Ajustez la valeur de rowheight selon vos besoins
 
         for col in colonnes:
             self.tree.heading(col, text=col)
-            self.tree.column(col, width=300, anchor="center",)
-            self.tree.place(x=100, y=50)
+            self.tree.column(col, width=310, anchor="center")
+
+        #####################################################
+        # TODO reprendre les donnee produit via programme emilien 
+        ##################################################### 
 
         # Ajout de quelques données fictives pour l'exemple
         donnees = [
@@ -74,11 +104,12 @@ class AppProd(tk.Tk):
             self.tree.insert("", "end", values=ligne)
 
         self.tree.bind("<ButtonRelease-1>", self.selection_quantite)
+        self.tree.place(x=100, y=50)
 
     def quitter_page(self):
         """Quitter la page"""
-        MsgBox = messagebox.askquestion (
-            title="Déconnexion de l'application", 
+        MsgBox = messagebox.askquestion(
+            title="Déconnexion de l'application",
             message="Êtes-vous sûr de vouloir vous déconnecter ? ",
             icon="warning")
         if MsgBox == "yes":
@@ -88,7 +119,7 @@ class AppProd(tk.Tk):
         # Obtenir l'élément sélectionné
         item = self.tree.selection()
 
-        if item:
+        if item and self.modif_en_cours:
             # Récupérer la région de l'élément sélectionné
             colonne = self.tree.identify_column(event.x)
             id_colonne = self.tree.column(colonne)["id"]
@@ -101,12 +132,35 @@ class AppProd(tk.Tk):
 
             # Demander à l'utilisateur de saisir la nouvelle valeur
             nouvelle_valeur = simpledialog.askinteger("Modifier Valeur", f"Modifier la valeur pour l'OF {numero_of} :", initialvalue=quantite_a_modifier)
-            
+
             # Mettre à jour la valeur dans le tableau
             if nouvelle_valeur is not None:
                 valeurs = list(self.tree.item(item, 'values'))
                 valeurs[indice_colonne] = nouvelle_valeur
                 self.tree.item(item, values=valeurs)
+
+            #####################################################
+            # TODO renvoyer nouvelle valeur via programme emilien 
+            ##################################################### 
+
+            self.modif_en_cours = False
+
+            style = ttk.Style()
+            style.configure("Modifier.TButton", background=background_color)
+
+    # Couleur et retour bouton modification d'OF
+    def bouton_modifier_clic(self):
+        if self.modif_en_cours == False:
+            self.modif_en_cours = True
+            style = ttk.Style()
+            style.configure("Modifier.TButton", background="green")
+            print("True")
+        else : 
+            print("faux")
+            self.modif_en_cours = False
+            style = ttk.Style()
+            style.configure("Modifier.TButton", background=background_color)
+
 
 if __name__ == "__main__":
     monApp = AppProd()
