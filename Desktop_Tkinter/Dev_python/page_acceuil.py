@@ -121,19 +121,16 @@ def ouvrir_page_utilisateur(nom_utilisateur):
 
     if nom_utilisateur == "administrateur":
         fenetre_utilisateur = visuAdmin()
-        print(nom_utilisateur)  
         
 # Ouvrir une nouvelle page logistique
         
     elif nom_utilisateur == "logistique":
         fenetre_utilisateur = visuLog() 
-        print(nom_utilisateur) 
         
 # Ouvrir une nouvelle page production
         
     elif nom_utilisateur == "production":
         fenetre_utilisateur = visuprod() 
-        print(nom_utilisateur) 
     
     fenetre_utilisateur.creer_fenetre_utilisateur()
     fenetre_utilisateur.mainloop()
