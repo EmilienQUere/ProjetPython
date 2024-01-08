@@ -13,6 +13,7 @@ fenetre_connexion = None
 nom_utilisateur_var = None
 entry_mot_de_passe = None
 
+
 #======================================================================================================================================================================
 
 def creer_fenetre_connexion(fenetre_connexion):
@@ -88,14 +89,14 @@ def verifier_connexion():
     odoo_models, odoo_connection = connect(nom_utilisateur, mot_de_passe)
     if odoo_connection and odoo_models:
         print("Connexion réussie à Odoo")
-        ouvrir_page_utilisateur(nom_utilisateur, fenetre_connexion)
+        ouvrir_page_utilisateur(nom_utilisateur)
     else:
         print("Échec de connexion à Odoo")
         messagebox.showerror("Erreur de connexion", "Nom d'utilisateur ou mot de passe incorrect.")
 
 #======================================================================================================================================================================
 
-def connect(nom_utilisateur, mot_de_passe):
+def connect(nom_utilisateur,mot_de_passe):
     try:
         common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format('http://172.31.11.13:8069'))
         uid = common.authenticate('demo', nom_utilisateur, mot_de_passe, {})
@@ -121,19 +122,20 @@ def ouvrir_page_utilisateur(nom_utilisateur):
     if nom_utilisateur == "administrateur":
         fenetre_utilisateur = visuAdmin()
         print(nom_utilisateur)  
-
+        
 # Ouvrir une nouvelle page logistique
         
     elif nom_utilisateur == "logistique":
         fenetre_utilisateur = visuLog() 
         print(nom_utilisateur) 
-
+        
 # Ouvrir une nouvelle page production
         
     elif nom_utilisateur == "production":
         fenetre_utilisateur = visuprod() 
-        print(nom_utilisateur)  
+        print(nom_utilisateur) 
     
+    fenetre_utilisateur.creer_fenetre_utilisateur()
     fenetre_utilisateur.mainloop()
 
 #======================================================================================================================================================================
