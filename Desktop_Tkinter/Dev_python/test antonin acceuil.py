@@ -3,7 +3,7 @@ import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
 from tkinter import messagebox
-from test_antonin import AppProd as visuprod
+from test_page_prod_antonin import AppProd as visuprod
 
 # Set the background color using RGB values for same backgroung a the picture
 rgb_background = (52,73,74) 

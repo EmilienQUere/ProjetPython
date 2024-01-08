@@ -2,7 +2,8 @@ from pathlib import Path
 import tkinter as tk
 from tkinter import ttk, messagebox, simpledialog
 from PIL import Image, ImageTk
-
+import sys
+sys.path.append("/home/user/Bureau/Projet Python/ProjetPython/ODOO/Dev_python/Lecture_OF.py")
 
 # Définir la couleur de fond en utilisant les valeurs RGB pour le même fond que l'image
 rgb_background = (52, 73, 74)
@@ -27,9 +28,9 @@ class AppProd(tk.Tk):
         self.title("Barbak")
         self.init_widgets()
 
-    def set_icon(self ):
+    def set_icon(self):
         """Définir l'icône de la fenêtre"""
-        chemin_icone = Path("/home/user/Bureau/Projet Python/BARBAK.png")  #/home/user/Bureau/Projet Python/BARBAK.png
+        chemin_icone = Path("/home/user/Bureau/Projet Python/BARBAK.png")
         try:
             icone_img = Image.open(chemin_icone)
             icone_img = icone_img.convert("RGBA")
@@ -72,8 +73,8 @@ class AppProd(tk.Tk):
         bouton_modifier = ttk.Button(self, text="Modifier\nquantité", style="Modifier.TButton", command=self.bouton_modifier_clic)
         bouton_modifier.place(x=1680, y=300)
 
-        # Tableau des articles
-        colonnes = ("Nom", "Code", "Prix", "Quantité en stock", "Image")
+        # Tableau des OF's
+        colonnes = ("Produit", "Numéro", "Date", "Quantité à produire", "Quantité produite")
         self.tree = ttk.Treeview(self, columns=colonnes, show="headings", selectmode="browse")
 
         style = ttk.Style(self)
@@ -81,7 +82,7 @@ class AppProd(tk.Tk):
         style.configure("Treeview", font=("Courier", 15), background="lightGrey", borderwidth=0, highlightthickness=0)
 
         # Ajuster la hauteur de ligne pour augmenter l'espace entre les lignes
-        style.configure("Treeview.Item", font=("Courier", 15), rowheight=30) 
+        style.configure("Treeview.Item", font=("Courier", 15), rowheight=30)  # Ajustez la valeur de rowheight selon vos besoins
 
         for col in colonnes:
             self.tree.heading(col, text=col)
@@ -93,9 +94,9 @@ class AppProd(tk.Tk):
 
         # Ajout de quelques données fictives pour l'exemple
         donnees = [
-            ("Poulet", "PD54", "13.3", 100, "image"),
-            ("Saucisse", "DR65", "50.2", 200, "image"),
-            ("Cote de beouf", "GF82", "20.1", 150, "image"),
+            ("Produit1", "OF001", "2022-01-10", 100, 50),
+            ("Produit2", "OF002", "2022-01-15", 200, 100),
+            ("Produit3", "OF003", "2022-01-20", 150, 120),
         ]
 
         for ligne in donnees:
@@ -113,7 +114,6 @@ class AppProd(tk.Tk):
         if MsgBox == "yes":
             self.destroy()
 
-    
     def selection_quantite(self, event):
         # Obtenir l'élément sélectionné
         item = self.tree.selection()
@@ -126,11 +126,11 @@ class AppProd(tk.Tk):
 
             # Obtenir la valeur de la cellule à modifier
             numero_of = self.tree.item(item, "values")[1]
-            quantite_a_modifier = self.tree.item(item, "values")[3]
+            quantite_a_modifier = self.tree.item(item, "values")[4]
             print(numero_of, quantite_a_modifier)
 
             # Demander à l'utilisateur de saisir la nouvelle valeur
-            nouvelle_valeur = simpledialog.askinteger("Modifier Valeur", f"Modifier la quantité de l'article {numero_of} :", initialvalue=quantite_a_modifier)
+            nouvelle_valeur = simpledialog.askinteger("Modifier Valeur", f"Modifier la valeur pour l'OF {numero_of} :", initialvalue=quantite_a_modifier)
 
             # Mettre à jour la valeur dans le tableau
             if nouvelle_valeur is not None:
@@ -143,9 +143,10 @@ class AppProd(tk.Tk):
             ##################################################### 
 
             self.modif_en_cours = False
+
             style = ttk.Style()
             style.configure("Modifier.TButton", background=background_color)
-    
+
     # Couleur et retour bouton modification d'OF
     def bouton_modifier_clic(self):
         if self.modif_en_cours == False:
