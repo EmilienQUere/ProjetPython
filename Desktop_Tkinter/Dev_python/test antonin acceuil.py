@@ -3,7 +3,6 @@ import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
 from tkinter import messagebox
-from test_page_prod_antonin import AppProd as visuprod
 
 # Set the background color using RGB values for same backgroung a the picture
 rgb_background = (52,73,74) 
@@ -72,23 +71,7 @@ class App(tk.Tk):
             exit_button = ttk.Button(self, text="Déconnexion", command=self.exit_page, style="Déconnexion.TButton")
             exit_button.place(x=1680, y=800)
 
-            ######################## DIFFERENT SUR CHAQUE PAGE #################################
-
-            self.user = tk.StringVar()
-            self.pwd = tk.StringVar()
-            self.frmId = ttk.Frame(self)
-            self.frmId.pack()
-            self.lblUser = ttk.Label(self.frmId, text="Username:")
-            self.lblUser.pack()
-            self.entUser = ttk.Entry(self.frmId, textvariable=self.user)
-            self.entUser.pack()
-            self.entUser.focus()
-            self.lblPwd = ttk.Label(self.frmId, text="Password:")
-            self.lblPwd.pack()
-            self.entPwd = ttk.Entry(self.frmId, textvariable=self.pwd, show="*")
-            self.entPwd.pack()
-            self.btnLogin = ttk.Button(self.frmId, text="Login", command=self.onBtnLogin)
-            self.btnLogin.pack()
+        ######################## DIFFERENT SUR CHAQUE PAGE #################################
 
 
     def exit_page(self):
@@ -101,18 +84,12 @@ class App(tk.Tk):
         if MsgBox == "yes":
            self.destroy()
            self.ouvrir_fenetre_existante()
-           
-
 
     def onBtnLogin(self):
         """ Callback Btn Login pressed """
         messagebox.showinfo (
         title='Login',
     message=f'Bienvenue {self.user.get()}')
-
-    def ouvrir_fenetre_existante(self):
-        fenetre_existante = visuprod()
-        fenetre_existante.mainloop()
 
 if __name__ == "__main__":
     myApp = App()

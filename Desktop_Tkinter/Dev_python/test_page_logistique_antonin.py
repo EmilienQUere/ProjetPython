@@ -2,6 +2,7 @@ from pathlib import Path
 import tkinter as tk
 from tkinter import ttk, messagebox, simpledialog
 from PIL import Image, ImageTk
+from test_antonin import Page_Tkinter
 
 
 # Définir la couleur de fond en utilisant les valeurs RGB pour le même fond que l'image
@@ -163,3 +164,4 @@ class AppProd(tk.Tk):
 if __name__ == "__main__":
     monApp = AppProd()
     monApp.mainloop()
+
