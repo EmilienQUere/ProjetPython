@@ -2,7 +2,7 @@ from pathlib import Path
 import tkinter as tk
 from tkinter import ttk, messagebox, simpledialog
 from PIL import Image, ImageTk
-from test_antonin import Page_Tkinter
+
 
 
 # Définir la couleur de fond en utilisant les valeurs RGB pour le même fond que l'image
@@ -15,7 +15,7 @@ class AppProd(tk.Tk):
     def __init__(self):
         """Constructeur de l'application (héritage de l'objet Tk)"""
         super().__init__()
-
+        self.nom = "Antonin"
         self.geometry(f"{self.winfo_screenwidth()}x{self.winfo_screenheight()}+0+0")
         self.resizable(True, True)
         self.minsize(100, 100)
@@ -27,8 +27,9 @@ class AppProd(tk.Tk):
         self.set_icon()
         self.title("Barbak")
         self.init_widgets()
+        self.init_image()
 
-    def set_icon(self ):
+    def set_icon(self):
         """Définir l'icône de la fenêtre"""
         chemin_icone = Path("/home/user/Bureau/Projet Python/BARBAK.png")  #/home/user/Bureau/Projet Python/BARBAK.png
         try:
@@ -39,24 +40,18 @@ class AppProd(tk.Tk):
         except Exception as e:
             print(f"Erreur lors du réglage de l'icône de la fenêtre : {e}")
 
-    def init_widgets(self):
+    def init_image(self):
         """Initialiser tous les widgets de la fenêtre principale"""
         # Load the image using Pillow
         image_path = "/home/user/Bureau/Projet Python/BARBAK.png"
-        try:
-            pil_image = Image.open(image_path)
-            self.img = ImageTk.PhotoImage(pil_image)
-        except Exception as e:
-            print(f"Error loading image: {e}")
-            self.img = None
+        pil_image = Image.open(image_path)
+        self.img = ImageTk.PhotoImage(pil_image)
 
-        if self.img:
-            # Place the image BARBAK at specific coordinates (x, y)
-            x_position = 1680
-            y_position = 10
-            self.image = ttk.Label(self, image=self.img)
-            self.image.place(x=x_position, y=y_position)
+        # Place the image BARBAK at specific coordinates (x, y)
+        self.image = ttk.Label(self, image=self.img)
+        self.image.place(x=1680, y=10)
 
+    def init_widgets(self):
         # Bouton Déconnexion
         exit_style = ttk.Style()
         exit_style.configure("Déconnexion.TButton", font=("Courier", 20), foreground="white", background=background_color, padding=[25, 15])
@@ -71,10 +66,10 @@ class AppProd(tk.Tk):
         style_modifier.configure("Modifier.TButton", font=("Courier", 20), foreground="white", background=background_color, padding=[39, 15])
 
         bouton_modifier = ttk.Button(self, text="Modifier\nquantité", style="Modifier.TButton", command=self.bouton_modifier_clic)
-        bouton_modifier.place(x=1680, y=300)
+        bouton_modifier.place(x=1680, y=600)
 
         # Tableau des articles
-        colonnes = ("Nom", "Code", "Prix", "Quantité en stock", "Image")
+        colonnes = ("Nom", "Code", "Prix", "Quantité en stock")
         self.tree = ttk.Treeview(self, columns=colonnes, show="headings", selectmode="browse")
 
         style = ttk.Style(self)
@@ -94,9 +89,9 @@ class AppProd(tk.Tk):
 
         # Ajout de quelques données fictives pour l'exemple
         donnees = [
-            ("Poulet", "PD54", "13.3", 100, "image"),
-            ("Saucisse", "DR65", "50.2", 200, "image"),
-            ("Cote de beouf", "GF82", "20.1", 150, "image"),
+            ("Poulet", "PD54", "13.3", 100),
+            ("Saucisse", "DR65", "50.2", 200),
+            ("Cote de beouf", "GF82", "20.1", 150),
         ]
 
         for ligne in donnees:
@@ -130,6 +125,10 @@ class AppProd(tk.Tk):
             quantite_a_modifier = self.tree.item(item, "values")[3]
             print(numero_of, quantite_a_modifier)
 
+
+            self.article = ttk.Label(self, text="Article", font=("Courier", 20), foreground="black", background="black", padding=[40,20])   
+            self.article.place(x=0, y=500)
+
             # Demander à l'utilisateur de saisir la nouvelle valeur
             nouvelle_valeur = simpledialog.askinteger("Modifier Valeur", f"Modifier la quantité de l'article {numero_of} :", initialvalue=quantite_a_modifier)
 
@@ -141,7 +140,7 @@ class AppProd(tk.Tk):
 
             #####################################################
             # TODO renvoyer nouvelle valeur via programme emilien 
-            ##################################################### 
+            #####################################################  
 
             self.modif_en_cours = False
             style = ttk.Style()
