@@ -2,8 +2,10 @@ from pathlib import Path
 import tkinter as tk
 from tkinter import ttk, messagebox, Tk, Frame
 from PIL import Image, ImageTk
+import xmlrpc.client
+
    
-bg_color = "#F8F8FF"
+bg_color = "#f1f1f1"
 txt_color = "#34494A"
 
 class App(tk.Tk):
@@ -30,7 +32,7 @@ class App(tk.Tk):
         self.widget_texte()
         self.widget_image()
         self.user()
-        self.mdp()
+        self.mot_de_passe()
         self.bouton_connexion()
         self.bouton_quitter()
 
@@ -56,7 +58,7 @@ class App(tk.Tk):
 
         #Ouvrir image
         mon_image = Image.open("/home/user/Bureau/BARBAK.png")
-        print(mon_image.size)  #taille par défaut de l'image
+        #print(mon_image.size)  #taille par défaut de l'image
 
         #Redimensionner image
         resized_image = mon_image.resize((225,225), Image.ANTIALIAS)
@@ -74,8 +76,9 @@ class App(tk.Tk):
         
         self.user_list = ttk.Combobox(self.log_frame,values=list(utilisateurs), font=("Helvetica", 13),foreground="black", background="white")
         self.user_list.grid(row=0, column=1, pady=2, ipady=2)
+        self.user_list.set(list(utilisateurs)[0])
 
-    def mdp(self):
+    def mot_de_passe(self):
 
         self.mdp = ttk.Label(self.log_frame, text="Mot de passe",font=("Helvetica", 13),foreground=txt_color, background=bg_color)
         self.mdp.grid(row=1, column=0, pady=10, ipadx=5, ipady=5)
@@ -88,7 +91,7 @@ class App(tk.Tk):
         style = ttk.Style()
         style.configure("Connexion.TButton", font=("Helvetica", 20), foreground="white", background="green")
 
-        self.bp_connexion = ttk.Button(self.connexion_frame, text='Connexion', command=self.click_connexion, style="Connexion.TButton")
+        self.bp_connexion = ttk.Button(self.connexion_frame, text='Connexion', command=self.verifier_connexion, style="Connexion.TButton")
         self.bp_connexion.pack()
 
     def bouton_quitter(self):
@@ -102,10 +105,6 @@ class App(tk.Tk):
 ####TODO tester la connexion######
     def click_connexion(self):   
         print("Button connexion")
-        width = self.winfo_width()
-        height = self.winfo_height()
-        print(f"Largeur actuelle : {width}, Hauteur actuelle : {height}")
-
 
     def click_quitter(self):
 
@@ -116,7 +115,40 @@ class App(tk.Tk):
         if MsgBox == 'yes':
             self.quit()
 
+    def connect(self):
+        
+        ip_add = "http://172.31.11.13:8069"
+        self.user_to_test = self.user_list.get()
+        self.mdp_to_test = self.mdp_entry.get()
 
+        try:
+            common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format(ip_add))
+            uid = common.authenticate('demo', self.user_to_test, self.mdp_to_test, {})
+            
+            if uid:
+                models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(ip_add))
+                return models, xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(ip_add))
+            else:
+                print("Connexion échouée : Authentification impossible")
+            return False
+        except Exception as e:
+            print(f"Erreur de connexion : {e}")
+            return False
+
+
+    def verifier_connexion(self):
+        print("Try to verif")
+
+        self.connect()
+
+        odoo_connection = self.connect()
+        if odoo_connection:
+            print("Connexion à Odoo réussie")
+            # ne reste plus que à ouvrir la page asssocié à l'utilisateur        ouvrir_page_utilisateur(nom_utilisateur)
+        else:
+            print("Échec de connexion à Odoo")
+            messagebox.showerror("Erreur de connexion", "Nom d'utilisateur ou mot de passe incorrect.")
+        
 # Boucle principale
 if __name__ == "__main__":
     myApp = App()
