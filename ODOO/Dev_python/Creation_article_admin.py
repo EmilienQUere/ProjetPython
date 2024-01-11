@@ -1,19 +1,7 @@
 import xmlrpc.client
 import base64
 
-url = 'http://localhost:8069'
-db = 'demo'
-username = 'emilienqr@gmail.com'
-password = '2000'
-article_name = 'Tests'
-sell_price = 100.0
-product_price = 80.0
-intern_reference = '155'
-article_category = 3  # Remplacez par l'ID de la catégorie de l'article
-article_type = 'product'  # Remplacez par le type d'article approprié ('product' ou 'service')
-image_path = '/home/user/Bureau/ProjetPython/ProjetPython/Joue de porc2.png'  # Remplacez par le chemin absolu de l'image
-can_be_sell = True
-can_be_buy = False
+#=======================================================================================================================#
 
 def connect(url, db, username, password):
     try:
@@ -31,10 +19,6 @@ def connect(url, db, username, password):
         return None
     
     #Connexion a Odoo via les informations en tête du fichier main
-odoo_models, odoo_connection = connect(url, db, username, password)
-if odoo_connection and odoo_models:
-        print("Connexion réussie à Odoo")
-
 
 def CreateArticle(models, db, uid, password, article_name, sell_price, product_price,
                   intern_reference, article_category, article_type, image_path,
@@ -61,12 +45,27 @@ def CreateArticle(models, db, uid, password, article_name, sell_price, product_p
         print(f"Erreur lors de la création de l'article : {e}")
         return None
 
+#=======================================================================================================================#
+
 # Utilisation de la fonction CreateArticle() pour créer un nouvel article
+if __name__=="__main__":
+    url = 'http://localhost:8069'
+    db = 'demo'
+    username = 'emilienqr@gmail.com'
+    password = '2000'
+    article_name = 'Tests'
+    sell_price = 100.0
+    product_price = 80.0    
+    intern_reference = '155'
+    article_category = 3  # Remplacez par l'ID de la catégorie de l'article
+    article_type = 'product'  # Remplacez par le type d'article approprié ('product' ou 'service')
+    image_path = '/home/user/Bureau/ProjetPython/ProjetPython/Joue de porc2.png'  # Remplacez par le chemin absolu de l'image
+    can_be_sell = True
+    can_be_buy = False
 
-
-odoo_models, odoo_connection = connect(url, db, username, password)
-if odoo_connection and odoo_models:
-    print("Connexion réussie à Odoo")
-    CreateArticle(odoo_connection, db, 2, password, article_name, sell_price, product_price,
+    odoo_models, odoo_connection = connect(url, db, username, password)
+    if odoo_connection and odoo_models:
+        print("Connexion réussie à Odoo")
+        CreateArticle(odoo_connection, db, 2, password, article_name, sell_price, product_price,
                   intern_reference, article_category, article_type, image_path,
                   can_be_sell, can_be_buy)

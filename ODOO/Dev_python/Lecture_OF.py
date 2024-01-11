@@ -1,6 +1,8 @@
 import xmlrpc.client
 from datetime import datetime
 
+#=======================================================================
+
 def connect(url, db, username, password):
     try:
         common = xmlrpc.client.ServerProxy(f"{url}/xmlrpc/2/common")
@@ -40,12 +42,15 @@ def AffOF(models, db, uid, password):
     except Exception as e:
         print(f"Erreur lors de la lecture des ordres de fabrication : {e}")
 
-url = 'http://localhost:8069'
-db = 'demo'
-username = 'emilienqr@gmail.com'
-password = '2000'
+#=======================================================================
 
-odoo_models, odoo_connection = connect(url, db, username, password)
-if odoo_connection and odoo_models:
-    print("Connexion réussie à Odoo")
-    AffOF(odoo_models, db, 2, password)
+if __name__=="__main__":
+    url = 'http://localhost:8069'   
+    db = 'demo'
+    username = 'emilienqr@gmail.com'
+    password = '2000'
+
+    odoo_models, odoo_connection = connect(url, db, username, password)
+    if odoo_connection and odoo_models:
+        print("Connexion réussie à Odoo")
+        AffOF(odoo_models, db, 2, password)

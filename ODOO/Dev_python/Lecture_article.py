@@ -4,6 +4,7 @@ from PIL import Image
 import io
 import base64
 
+#==========================================================================================================================================#
 
 def connect(url, db, username, password):
     try:
@@ -57,13 +58,16 @@ def AffichageArticles(models, db, uid, password):
     except Exception as e:
         print(f"Erreur lors de la récupération et de l'affichage des articles : {e}")
 
-# Utilisation de la fonction AffichageArticles avec le champ 'image_1920'
-url = 'http://localhost:8069'
-db = 'demo'
-username = 'emilienqr@gmail.com'
-password = '2000'
+#==========================================================================================================================================#
 
-odoo_models, odoo_connection = connect(url, db, username, password)
-if odoo_connection and odoo_models:
-    print("Connexion réussie à Odoo")
-    AffichageArticles(odoo_models, db, 2, password)
+# Utilisation de la fonction AffichageArticles avec le champ 'image_1920'
+if __name__=="__main__":
+    url = 'http://localhost:8069'
+    db = 'demo'
+    username = 'emilienqr@gmail.com'
+    password = '2000'
+
+    odoo_models, odoo_connection = connect(url, db, username, password)
+    if odoo_connection and odoo_models:
+        print("Connexion réussie à Odoo")
+        AffichageArticles(odoo_models, db, 2, password)
