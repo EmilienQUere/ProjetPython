@@ -9,7 +9,7 @@ from PIL import Image, ImageTk
 rgb_background = (52, 73, 74)
 background_color = "#{:02x}{:02x}{:02x}".format(*rgb_background)
 
-class AppProd(tk.Tk):
+class AppLog(tk.Tk):
     """Application GUI en Tkinter"""
 
     def __init__(self):
@@ -43,11 +43,7 @@ class AppProd(tk.Tk):
     def init_image(self):
         """Initialiser tous les widgets de la fenêtre principale"""
         # Load the image using Pillow
-<<<<<<< HEAD
         image_path = "Desktop_Tkinter/Image/BARBAK.png" 
-=======
-        image_path = "/home/user/Bureau/Projet Python/BARBAK.png"
->>>>>>> 77c509ecfa3e0425948a8229a5b3fd023b1bf150
         pil_image = Image.open(image_path)
         self.img = ImageTk.PhotoImage(pil_image)
 
@@ -165,6 +161,6 @@ class AppProd(tk.Tk):
 
 
 if __name__ == "__main__":
-    monApp = AppProd()
+    monApp = AppLog()
     monApp.mainloop()
 

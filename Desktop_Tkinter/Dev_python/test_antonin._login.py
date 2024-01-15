@@ -3,15 +3,18 @@ import tkinter as tk
 from tkinter import ttk, messagebox, Tk, Frame
 from PIL import Image, ImageTk
 import xmlrpc.client
-
+from page_admin import AppAdmin as visuAdmin
+from test_page_logistique_antonin import AppLog as visuLog
+from test_page_prod_antonin import AppProd as visuprod
    
 bg_color = "#f1f1f1"
 txt_color = "#34494A"
-
+nom_utilisateur : str
 #
 class App(tk.Tk):
     """ Application GUI in TKinter"""
     def __init__(self):
+        
         """ Application constructor (heritage=Tk object)"""
         super().__init__()
         self.screen_h = 500     #self.winfo_screenwidth()    pour prendre toute la taille de la fenetre
@@ -25,7 +28,7 @@ class App(tk.Tk):
         self.maxsize(self.winfo_screenwidth(), self.winfo_screenheight())
         self.attributes('-alpha', 0.9)
         self.config(bg=bg_color)
-        self.iconphoto(False, tk.PhotoImage(file="/home/user/Bureau/BARBAK.png"))
+        self.iconphoto(False, tk.PhotoImage(file="Desktop_Tkinter/Image/BARBAK.png"))
         self.title("Login Barbak")
 
         """Appel des fonctions"""
@@ -58,7 +61,7 @@ class App(tk.Tk):
     def widget_image(self):
 
         #Ouvrir image
-        mon_image = Image.open("/home/user/Bureau/BARBAK.png")
+        mon_image = Image.open("Desktop_Tkinter/Image/BARBAK.png")
         #print(mon_image.size)  #taille par défaut de l'image
 
         #Redimensionner image
@@ -121,6 +124,7 @@ class App(tk.Tk):
         ip_add = "http://172.31.11.13:8069"
         self.user_to_test = self.user_list.get()
         self.mdp_to_test = self.mdp_entry.get()
+        print(self.user_to_test)
 
         try:
             common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format(ip_add))
@@ -139,17 +143,42 @@ class App(tk.Tk):
 
     def verifier_connexion(self):
         print("Try to verif")
-
+    
         self.connect()
 
         odoo_connection = self.connect()
         if odoo_connection:
             print("Connexion à Odoo réussie")
+            self.ouvrir_page_utilisateur()
             # ne reste plus que à ouvrir la page asssocié à l'utilisateur        ouvrir_page_utilisateur(nom_utilisateur)
         else:
             print("Échec de connexion à Odoo")
             messagebox.showerror("Erreur de connexion", "Nom d'utilisateur ou mot de passe incorrect.")
         
+    def ouvrir_page_utilisateur(self):
+        
+        self.destroy()  # Fermer la fenêtre de connexion actuelle
+        fenetre_utilisateur = None
+        
+    # Ouvrir une nouvelle page administrateur
+
+        if self.user_to_test == "administrateur":
+            fenetre_utilisateur = visuAdmin()
+            
+    # Ouvrir une nouvelle page logistique
+            
+        elif self.user_to_test == "logistique":
+            fenetre_utilisateur = visuLog() 
+            
+    # Ouvrir une nouvelle page production
+            
+        elif self.user_to_test == "production":
+            fenetre_utilisateur = visuprod() 
+
+        if fenetre_utilisateur:
+            fenetre_utilisateur.mainloop()
+
+
 # Boucle principale
 if __name__ == "__main__":
     myApp = App()
