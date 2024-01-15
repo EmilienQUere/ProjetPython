@@ -1,56 +1,30 @@
-import tkinter as tk
-from tkinter import ttk
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+import time
 
-class AppAdmin(tk.Tk):
-    """Application GUI in Tkinter"""
-    def __init__(self):
-        super().__init__()
-        self = tk.Tk()
+# Remplacez ces valeurs par les informations de connexion appropriées
+username = "administrateur"
+password = "2000"
+url = "https://example.com"  # Remplacez par l'URL du site web
 
-    def creer_fenetre_utilisateur(self):
-        self.title("Page administrateur")
+# Utilisation de Selenium pour automatiser le navigateur Firefox
+driver = webdriver.Firefox()  # Assurez-vous que geckodriver est dans le PATH
+driver.get(url)
 
-        # Modification de la police
-        police = ("Helvetica", 12)
+# Attendre que la page se charge (ajuster le temps d'attente si nécessaire)
+time.sleep(2)
 
-        # Cadre principal
-        cadre_principal = ttk.Frame(self, padding="20", style="TFrame")
-        cadre_principal.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+# Trouver les champs de saisie du nom d'utilisateur et du mot de passe
+username_field = driver.find_element_by_name("username")  # Remplacez par le nom réel de l'élément HTML
+password_field = driver.find_element_by_name("password")  # Remplacez par le nom réel de l'élément HTML
 
-        # Labels et entrées
-        ttk.Label(cadre_principal, text="Bienvenue sur la page adminictration", font=police).grid(row=0, column=0, padx=(10, 5), pady=5, sticky="E")
+# Saisir les informations de connexion
+username_field.send_keys(username)
+password_field.send_keys(password)
 
-        # Configuration du style
-        self.configurer_styles()
+# Soumettre le formulaire
+password_field.send_keys(Keys.RETURN)
 
-        # Configurer la gestion de la redimension de la fenêtre
-        self.grid_columnconfigure(0, weight=1)
-        self.grid_rowconfigure(0, weight=1)
+# Attendre que la connexion soit effectuée (ajuster le temps d'attente si nécessaire)
+time.sleep(5)
 
-        # Centrer la fenêtre
-        self.centrer_fenetre()
-
-    def configurer_styles(self):
-        style = ttk.Style()
-        # Style pour l'entrée (Entry)
-        style.configure("TEntry", padding=(5, 5), relief="flat", background="#f0f0f0")
-
-    def centrer_fenetre(self):
-        self.update_idletasks()
-        largeur_ecran = self.winfo_screenwidth()
-        hauteur_ecran = self.winfo_screenheight()
-
-        largeur_fenetre = self.winfo_reqwidth()
-        hauteur_fenetre = self.winfo_reqheight()
-
-        x_position = (largeur_ecran - largeur_fenetre) // 2
-        y_position = (hauteur_ecran - hauteur_fenetre) // 2
-
-        self.geometry(f"+{x_position}+{y_position}")
-
-# ================================================================================================
-
-if __name__ == "__main__":
-    myApp = AppAdmin()  # Instance of AppLog
-    myApp.creer_fenetre_utilisateur()  # Call the method to create the window
-    myApp.mainloop()  # Call mainloop once

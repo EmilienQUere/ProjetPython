@@ -2,9 +2,7 @@ from pathlib import Path
 import tkinter as tk
 from tkinter import ttk, messagebox, simpledialog
 from PIL import Image, ImageTk
-from datetime import datetime
 import xmlrpc.client
-
 
 # Définir la couleur de fond en utilisant les valeurs RGB pour le même fond que l'image
 rgb_background = (52, 73, 74)
@@ -52,7 +50,7 @@ class AppLog(tk.Tk):
 
         # Place the image BARBAK at specific coordinates (x, y)
         self.image = ttk.Label(self, image=self.img)
-        self.image.place(x=1680, y=10)
+        self.image.place(x=10, y=650)
 
     def init_widgets(self):
         # Bouton Déconnexion
@@ -69,7 +67,7 @@ class AppLog(tk.Tk):
         style_modifier.configure("Modifier.TButton", font=("Courier", 20), foreground="white", background=background_color, padding=[39, 15])
 
         bouton_modifier = ttk.Button(self, text="Modifier\nquantité", style="Modifier.TButton", command=self.bouton_modifier_clic)
-        bouton_modifier.place(x=1680, y=600)
+        bouton_modifier.place(x=1680, y=650)
 
         # Tableau des articles
         colonnes = ("Nom", "Code", "Prix", "Quantité en stock")
@@ -97,7 +95,7 @@ class AppLog(tk.Tk):
             self.tree.insert("", "end", values=ligne)
 
         self.tree.bind("<ButtonRelease-1>", self.selection_quantite)
-        self.tree.place(x=100, y=50)
+        self.tree.place(x=100, y=70)
 
     def quitter_page(self):
         """Quitter la page"""
@@ -194,7 +192,6 @@ class AppLog(tk.Tk):
             self.modif_en_cours = False
             style = ttk.Style()
             style.configure("Modifier.TButton", background=background_color)
-
 
 if __name__ == "__main__":
     monApp = AppLog()
