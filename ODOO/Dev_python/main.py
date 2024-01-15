@@ -3,7 +3,7 @@ import TESTS_ODOO
 #Déclaration des variables générales
 url = 'http://172.31.11.13:8069' # Nom de l'hébergeur Odoo
 db = 'demo' # Nom de la base de données
-username = 'emilienqr@gmail.com' # Nom d'utilisateur du login
+username = 'administrateur' # Nom d'utilisateur du login
 password = '2000' # Mot de passe du login 
 company_name = 'Barbak' # Nom de l'entreprise pour visualisation des détails
 product_name = 'Lardons' # Nom du produit pour visualisation des détails

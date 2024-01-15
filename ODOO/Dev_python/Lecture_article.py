@@ -64,7 +64,7 @@ def AffichageArticles(models, db, uid, password):
 if __name__=="__main__":
     url = 'http://localhost:8069'
     db = 'demo'
-    username = 'emilienqr@gmail.com'
+    username = 'administrateur'
     password = '2000'
 
     odoo_models, odoo_connection = connect(url, db, username, password)

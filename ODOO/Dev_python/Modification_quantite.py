@@ -19,11 +19,7 @@ def update_stock(self):
         article_default_code = self.entry_ref.get()
         new_quantity = max(0, int(self.entry_quantity.get()))
  
-        # Connexion à Odoo
-        url = "http://localhost:8069"
-        db = "demo"
-        username = "emilienqr@gmail.com"
-        password = "2000"
+        
  
         common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format(url))
         uid = common.authenticate(db, username, password, {})
@@ -38,16 +34,13 @@ def update_stock(self):
                 [('product_id', '=', article_id[0])]
             ])
  
-            if stock_entries:
-                # Mettre à jour la quantité en remplaçant par la nouvelle quantité
-                new_stock_quantity = new_quantity
- 
-                # Mettre à jour la stock.quant associée à l'article
-                models.execute_kw(db, uid, password, 'stock.quant', 'write', [stock_entries[0]['id'], {'quantity': new_stock_quantity}])
-                print("Quantité en stock mise à jour avec succès.")
- 
-    
-            else:
-                print("Aucune entrée stock.quant trouvée pour l'article.")
-        else:
-            print("Article non trouvé.")
+            
+
+if __name__=="__main__":
+    # Connexion à Odoo
+        url = "http://localhost:8069"
+        db = "demo"
+        username = "administrateur"
+        password = "2000"
+
+        

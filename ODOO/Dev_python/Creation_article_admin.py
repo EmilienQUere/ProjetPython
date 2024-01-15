@@ -51,7 +51,7 @@ def CreateArticle(models, db, uid, password, article_name, sell_price, product_p
 if __name__=="__main__":
     url = 'http://localhost:8069'
     db = 'demo'
-    username = 'emilienqr@gmail.com'
+    username = 'administrateur'
     password = '2000'
     article_name = 'Tests'
     sell_price = 100.0
