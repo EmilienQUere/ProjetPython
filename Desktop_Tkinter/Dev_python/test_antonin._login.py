@@ -3,7 +3,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox, Tk, Frame
 from PIL import Image, ImageTk
 import xmlrpc.client
-from page_admin import AppAdmin as visuAdmin
+##from page_admin import AppAdmin as visuAdmin
 from test_page_logistique_antonin import AppLog as visuLog
 from test_page_prod_antonin import AppProd as visuprod
    
