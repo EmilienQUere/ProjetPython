@@ -25,7 +25,7 @@ class App(tk.Tk):
         self.maxsize(self.winfo_screenwidth(), self.winfo_screenheight())
         self.attributes('-alpha', 0.9)
         self.config(bg=bg_color)
-        self.iconphoto(False, tk.PhotoImage(file="Desktop_Tkinter/Image/BARBAK.png"))
+        self.iconphoto(False, tk.PhotoImage(file="/home/user/Bureau/BARBAK.png"))
         self.title("Login Barbak")
 
         """Appel des fonctions"""
@@ -58,7 +58,7 @@ class App(tk.Tk):
     def widget_image(self):
 
         #Ouvrir image
-        mon_image = Image.open("Desktop_Tkinter/Image/BARBAK.png")
+        mon_image = Image.open("/home/user/Bureau/BARBAK.png")
         #print(mon_image.size)  #taille par défaut de l'image
 
         #Redimensionner image
