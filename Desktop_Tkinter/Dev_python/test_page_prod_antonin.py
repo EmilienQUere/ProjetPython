@@ -55,8 +55,8 @@ class AppProd(tk.Tk):
 
         if self.img:
             # Place the image BARBAK at specific coordinates (x, y)
-            x_position = 1680
-            y_position = 10
+            x_position = 10
+            y_position = 650
             self.image = ttk.Label(self, image=self.img)
             self.image.place(x=x_position, y=y_position)
 
@@ -74,7 +74,7 @@ class AppProd(tk.Tk):
         style_modifier.configure("Modifier.TButton", font=("Courier", 20), foreground="white", background=background_color, padding=[39, 15])
 
         bouton_modifier = ttk.Button(self, text="Modifier\nquantité", style="Modifier.TButton", command=self.bouton_modifier_clic)
-        bouton_modifier.place(x=1680, y=300)
+        bouton_modifier.place(x=1680, y=650)
 
         # Tableau des OF's
         colonnes = ("Produit", "OF", "Date", "Quantité à produire", "Quantité produite", "Etat")
@@ -97,7 +97,7 @@ class AppProd(tk.Tk):
             self.tree.insert("", "end", values=ligne)
 
         self.tree.bind("<ButtonRelease-1>", self.selection_quantite)
-        self.tree.place(x=100, y=50)
+        self.tree.place(x=40, y=70)
 
     def quitter_page(self):
         """Quitter la page"""
@@ -181,7 +181,6 @@ class AppProd(tk.Tk):
             style = ttk.Style()
             style.configure("Modifier.TButton", background=background_color)
 
-
     # Couleur et retour bouton modification d'OF
     def bouton_modifier_clic(self):
         if self.modif_en_cours == False:
@@ -208,7 +207,7 @@ class AppProd(tk.Tk):
                 print(f"La modification de la quantité produite dans l'ordre de fabrication avec l'ID {order_id} a échoué.")
         except Exception as e:
             print(f"Erreur lors de la modification de la quantité produite : {e}")
-    
+
 
 if __name__ == "__main__":
     monApp = AppProd()
