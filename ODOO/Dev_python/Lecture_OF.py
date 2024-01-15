@@ -1,8 +1,6 @@
 import xmlrpc.client
 from datetime import datetime
 
-#=======================================================================
-
 def connect(url, db, username, password):
     try:
         common = xmlrpc.client.ServerProxy(f"{url}/xmlrpc/2/common")
@@ -18,11 +16,10 @@ def connect(url, db, username, password):
         print(f"Erreur de connexion : {e}")
         return None
 
-def AffOF(models, db, uid, password):
+def AffOF(models, db):
     try:
-        # Récupérer les OF non terminés et non annulés
         of_records = models.execute_kw(
-            db, uid, password, 'mrp.production', 'search_read',
+            db, 2, password, 'mrp.production', 'search_read',
             [[('state', 'not in', ['done', 'cancel'])]],
             {'fields': ['product_id', 'name', 'product_qty', 'date_planned_start', 'company_id', 'state']}
         )
@@ -42,10 +39,8 @@ def AffOF(models, db, uid, password):
     except Exception as e:
         print(f"Erreur lors de la lecture des ordres de fabrication : {e}")
 
-#=======================================================================
-
-if __name__=="__main__":
-    url = 'http://localhost:8069'   
+if __name__ == "__main__":
+    url = 'http://172.31.11.13:8069'   
     db = 'demo'
     username = 'administrateur'
     password = '2000'
@@ -53,4 +48,5 @@ if __name__=="__main__":
     odoo_models, odoo_connection = connect(url, db, username, password)
     if odoo_connection and odoo_models:
         print("Connexion réussie à Odoo")
-        AffOF(odoo_models, db, 2, password)
+        print(odoo_models)
+        AffOF(odoo_models, db)
