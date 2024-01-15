@@ -27,14 +27,15 @@ def AffichageArticles(models, db, uid, password):
         article_records = models.execute_kw(
             db, uid, password, 'product.product', 'search_read',
             [[]],
-            {'fields': ['name', 'id', 'list_price', 'standard_price', 'categ_id', 'image_1920']}
+            {'fields': ['name', 'default_code', 'list_price', 'standard_price', 'categ_id', 'image_1920']}
         )
 
         for article in article_records:
             article_nom = article.get('name')
-            article_ID = article.get('id')
+            #article_ID = article.get('id')
             Prix_vente = article.get('list_price')
             Cout = article.get('standard_price')
+            article_code = article.get('default_code')
             categorie_article = article.get('categ_id')[1] if article.get('categ_id') else ''
 
             # Récupérer les données de l'image de l'article
@@ -45,14 +46,14 @@ def AffichageArticles(models, db, uid, password):
                 img = Image.open(image_stream)
                 
                 # Afficher les détails de l'article avec l'image
-                print(f"Nom: {article_nom}, ID: {article_ID}, Prix de vente: {Prix_vente}, "
+                print(f"Nom: {article_nom}, ID: {article_code}, Prix de vente: {Prix_vente}, "
                       f"Coût: {Cout}, Catégorie: {categorie_article}")
                 
                 # Afficher l'image
                 img.show()
             else:
                 # Afficher les détails de l'article sans image
-                print(f"Nom: {article_nom}, ID: {article_ID}, Prix de vente: {Prix_vente}, "
+                print(f"Nom: {article_nom}, ID: {article_code}, Prix de vente: {Prix_vente}, "
                       f"Coût: {Cout}, Catégorie: {categorie_article} - Aucune image")
 
     except Exception as e:
@@ -62,9 +63,9 @@ def AffichageArticles(models, db, uid, password):
 
 # Utilisation de la fonction AffichageArticles avec le champ 'image_1920'
 if __name__=="__main__":
-    url = 'http://localhost:8069'
+    url = 'http://172.31.11.13:8069'
     db = 'demo'
-    username = 'emilienqr@gmail.com'
+    username = 'administrateur'
     password = '2000'
 
     odoo_models, odoo_connection = connect(url, db, username, password)
