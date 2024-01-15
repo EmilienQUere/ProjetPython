@@ -9,7 +9,7 @@ from test_page_prod_antonin import AppProd as visuprod
    
 bg_color = "#f1f1f1"
 txt_color = "#34494A"
-nom_utilisateur : str
+
 #
 class App(tk.Tk):
     """ Application GUI in TKinter"""
