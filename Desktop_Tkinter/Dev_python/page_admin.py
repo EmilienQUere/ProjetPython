@@ -2,29 +2,29 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
 
-# Remplacez ces valeurs par les informations de connexion appropriées
-username = "administrateur"
-password = "2000"
-url = "https://example.com"  # Remplacez par l'URL du site web
+# Chemin vers le driver Chrome. Assurez-vous que le driver est téléchargé et le chemin correctement spécifié.
+chrome_driver_path = '/chemin/vers/chromedriver'
 
-# Utilisation de Selenium pour automatiser le navigateur Firefox
-driver = webdriver.Firefox()  # Assurez-vous que geckodriver est dans le PATH
-driver.get(url)
+# Créer une instance du navigateur Chrome
+driver = webdriver.Firefox(executable_path=chrome_driver_path)
 
-# Attendre que la page se charge (ajuster le temps d'attente si nécessaire)
-time.sleep(2)
+# Ouvrir la page de connexion
+driver.get('URL_de_la_page_de_connexion')
 
-# Trouver les champs de saisie du nom d'utilisateur et du mot de passe
-username_field = driver.find_element_by_name("username")  # Remplacez par le nom réel de l'élément HTML
-password_field = driver.find_element_by_name("password")  # Remplacez par le nom réel de l'élément HTML
+# Remplir le formulaire de connexion
+username_field = driver.find_element_by_name('nom_utilisateur')
+password_field = driver.find_element_by_name('mot_de_passe')
 
-# Saisir les informations de connexion
-username_field.send_keys(username)
-password_field.send_keys(password)
+username_field.send_keys('votre_nom_utilisateur')
+password_field.send_keys('votre_mot_de_passe')
 
-# Soumettre le formulaire
+# Soumettre le formulaire en appuyant sur la touche "Entrée"
 password_field.send_keys(Keys.RETURN)
 
-# Attendre que la connexion soit effectuée (ajuster le temps d'attente si nécessaire)
+# Attente pour s'assurer que la page a le temps de se charger (ajustez selon vos besoins)
 time.sleep(5)
 
+# Votre code ici - vous êtes maintenant connecté et pouvez interagir avec la page.
+
+# Fermer le navigateur à la fin du script
+driver.quit()
