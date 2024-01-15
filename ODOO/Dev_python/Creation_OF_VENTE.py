@@ -57,24 +57,3 @@ if __name__ == "__main__":
         create_manufacturing_order(odoo_models, uid, password, article_id, quantity, date, society)
     else:
         print("La connexion à Odoo a échoué.")
-
-def get_product_uom_id(models, uid, password, product_id):
-    try:
-        product = models.execute_kw(
-            db, uid, password,
-            'product.product', 'read',
-            [product_id],
-            {'fields': ['product_uom_id']}
-        )
-        return product[0]['product_uom_id'][0] if product and product[0].get('product_uom_id') else None
-    except Exception as e:
-        print(f"Erreur lors de la récupération de l'unité de mesure du produit : {e}")
-        return None
-
-# Appel de la fonction pour obtenir l'ID de l'unité de mesure
-product_uom_id = get_product_uom_id(odoo_models, uid, password, article_id)
-if product_uom_id:
-    # Utilisation de l'ID de l'unité de mesure pour créer l'ordre de fabrication
-    create_manufacturing_order(odoo_models, uid, password, article_id, quantity, date, society, product_uom_id)
-else:
-    print("Impossible de récupérer l'ID de l'unité de mesure du produit.")

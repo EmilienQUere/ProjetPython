@@ -30,7 +30,7 @@ class AppProd(tk.Tk):
 
     def set_icon(self):
         """Définir l'icône de la fenêtre"""
-        chemin_icone = Path("/home/user/Bureau/Projet Python/BARBAK.png")
+        chemin_icone = Path("Desktop_Tkinter/Image/BARBAK.png")
         try:
             icone_img = Image.open(chemin_icone)
             icone_img = icone_img.convert("RGBA")
@@ -42,7 +42,7 @@ class AppProd(tk.Tk):
     def init_widgets(self):
         """Initialiser tous les widgets de la fenêtre principale"""
         # Load the image using Pillow
-        image_path = "/home/user/Bureau/Projet Python/BARBAK.png"
+        image_path = "Desktop_Tkinter/Image/BARBAK.png"
         try:
             pil_image = Image.open(image_path)
             self.img = ImageTk.PhotoImage(pil_image)
