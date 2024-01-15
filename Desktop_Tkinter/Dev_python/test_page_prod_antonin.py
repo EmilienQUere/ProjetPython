@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox, simpledialog
 from PIL import Image, ImageTk
 import sys
+from datetime import datetime
 sys.path.append("/home/user/Bureau/Projet Python/ProjetPython/ODOO/Dev_python/Lecture_OF.py")
 
 # Définir la couleur de fond en utilisant les valeurs RGB pour le même fond que l'image

@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-class AppLog(tk.Tk):
+class AppLogi(tk.Tk):
     """Application GUI in Tkinter"""
     def __init__(self):
         super().__init__()
@@ -50,6 +50,6 @@ class AppLog(tk.Tk):
 # ================================================================================================
 
 if __name__ == "__main__":
-    myApp = AppLog()  # Instance of AppLog
+    myApp = AppLogi()  # Instance of AppLog
     myApp.creer_fenetre_utilisateur()  # Call the method to create the window
     myApp.mainloop()  # Call mainloop once
