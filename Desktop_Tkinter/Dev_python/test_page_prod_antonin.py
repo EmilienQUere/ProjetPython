@@ -2,12 +2,13 @@ from pathlib import Path
 import tkinter as tk
 from tkinter import ttk, messagebox, simpledialog
 from PIL import Image, ImageTk
-import sys
-sys.path.append("/home/user/Bureau/Projet Python/ProjetPython/ODOO/Dev_python/Lecture_OF.py")
+from datetime import datetime
+import xmlrpc.client
 
 # Définir la couleur de fond en utilisant les valeurs RGB pour le même fond que l'image
 rgb_background = (52, 73, 74)
 background_color = "#{:02x}{:02x}{:02x}".format(*rgb_background)
+
 
 class AppProd(tk.Tk):
     """Application GUI en Tkinter"""
@@ -25,9 +26,11 @@ class AppProd(tk.Tk):
 
         # Définir l'icône de la fenêtre
         self.set_icon()
-        self.title("Barbak")
+        self.title("Production Barbak") 
         self.init_widgets()
-
+        self.AffOF()
+        self.after(5000, self.actualiser_tableau) 
+        
     def set_icon(self):
         """Définir l'icône de la fenêtre"""
         chemin_icone = Path("Desktop_Tkinter/Image/BARBAK.png")
@@ -74,7 +77,7 @@ class AppProd(tk.Tk):
         bouton_modifier.place(x=1680, y=300)
 
         # Tableau des OF's
-        colonnes = ("Produit", "Numéro", "Date", "Quantité à produire", "Quantité produite")
+        colonnes = ("Produit", "OF", "Date", "Quantité à produire", "Quantité produite", "Etat")
         self.tree = ttk.Treeview(self, columns=colonnes, show="headings", selectmode="browse")
 
         style = ttk.Style(self)
@@ -88,16 +91,7 @@ class AppProd(tk.Tk):
             self.tree.heading(col, text=col)
             self.tree.column(col, width=310, anchor="center")
 
-        #####################################################
-        # TODO reprendre les donnee produit via programme emilien 
-        ##################################################### 
-
-        # Ajout de quelques données fictives pour l'exemple
-        donnees = [
-            ("Produit1", "OF001", "2022-01-10", 100, 50),
-            ("Produit2", "OF002", "2022-01-15", 200, 100),
-            ("Produit3", "OF003", "2022-01-20", 150, 120),
-        ]
+        donnees = []
 
         for ligne in donnees:
             self.tree.insert("", "end", values=ligne)
@@ -114,27 +108,45 @@ class AppProd(tk.Tk):
         if MsgBox == "yes":
             self.destroy()
 
-    def AffOF(models, db, uid, password):
+    def actualiser_tableau(self):
+        """Actualiser le tableau avec les données les plus récentes."""
+        self.AffOF()
+        self.after(5000, self.actualiser_tableau)
+
+    def update_table(self, data):
+        """Mettre à jour le contenu du tableau avec les nouvelles données."""
+        self.tree.delete(*self.tree.get_children())  # Effacer toutes les lignes actuelles
+
+        for ligne in data:
+            self.tree.insert("", "end", values=ligne)
+
+    def AffOF(self):
+        self.id_of_mapping = {}
         try:
             # Récupérer les OF non terminés et non annulés
-            of_records = models.execute_kw(
-                db, uid, password, 'mrp.production', 'search_read',
+            self.of_records = xmlrpc.client.ServerProxy(f"{'http://172.31.11.13:8069'}/xmlrpc/2/object").execute_kw(
+                'demo', 2, '2000', 'mrp.production', 'search_read',
                 [[('state', 'not in', ['done', 'cancel'])]],
-                {'fields': ['product_id', 'name', 'product_qty', 'date_planned_start', 'company_id', 'state']}
+                {'fields': ['product_id', 'name', 'product_qty', 'date_planned_start', 'qty_producing', 'state']}
             )
-            
-            for of in of_records:
+
+            # Collecter les données pour mettre à jour le tableau
+            table_data = []
+            for of in self.of_records:
                 article_name = of.get('product_id')[1] if of.get('product_id') else ''
                 OF_ID = of.get('id')
                 OF_Name = of.get('name')
                 Quantity = of.get('product_qty')
-                quantity_produced = of.get('quantity_produces', 0)
+                quantity_produced = of.get('qty_producing')
                 date = datetime.strptime(of.get('date_planned_start'), '%Y-%m-%d %H:%M:%S').strftime('%d/%m/%y %H:%M:%S')
-                Society = of.get('company_id')[1] if of.get('company_id') else ''
                 etat_OF = of.get('state')
-                
-                print(f"Article: {article_name}, OF ID: {OF_ID}, OF Name: {OF_Name}, Quantity: {Quantity}, "
-                    f"Produced Quantity: {quantity_produced}, Date: {date}, Society: {Society}, Etat: {etat_OF}")
+
+                table_data.append((article_name, OF_Name, date, Quantity, quantity_produced,etat_OF))   
+                self.id_of_mapping[OF_Name] = OF_ID
+
+            # Mettre à jour le tableau avec les nouvelles données
+            self.update_table(table_data)
+
         except Exception as e:
             print(f"Erreur lors de la lecture des ordres de fabrication : {e}")
 
@@ -149,27 +161,26 @@ class AppProd(tk.Tk):
             indice_colonne = self.tree["columns"].index(id_colonne)
 
             # Obtenir la valeur de la cellule à modifier
-            numero_of = self.tree.item(item, "values")[1]
-            quantite_a_modifier = self.tree.item(item, "values")[4]
-            print(numero_of, quantite_a_modifier)
+            values = self.tree.item(item, "values")
 
-            # Demander à l'utilisateur de saisir la nouvelle valeur
-            nouvelle_valeur = simpledialog.askinteger("Modifier Valeur", f"Modifier la valeur pour l'OF {numero_of} :", initialvalue=quantite_a_modifier)
+            if values:
+                # Vérifier si la valeur que vous essayez d'obtenir existe
+                OF_Name = values[1]
 
-            # Mettre à jour la valeur dans le tableau
-            if nouvelle_valeur is not None:
-                valeurs = list(self.tree.item(item, 'values'))
-                valeurs[indice_colonne] = nouvelle_valeur
-                self.tree.item(item, values=valeurs)
+                # Demander à l'utilisateur de saisir la nouvelle valeur
+                nouvelle_valeur = simpledialog.askinteger("Modifier Valeur", f"Modifier la valeur pour l'OF {OF_Name} :", initialvalue=values[4])
 
-            #####################################################
-            # TODO renvoyer nouvelle valeur via programme emilien 
-            ##################################################### 
+                # Obtenir l'ID à partir du dictionnaire
+                order_id_to_modify = self.id_of_mapping.get(OF_Name) 
+
+                self.modif_qty(order_id_to_modify, nouvelle_valeur)
+                print("ID OF",order_id_to_modify,"new value", nouvelle_valeur)
 
             self.modif_en_cours = False
 
             style = ttk.Style()
             style.configure("Modifier.TButton", background=background_color)
+
 
     # Couleur et retour bouton modification d'OF
     def bouton_modifier_clic(self):
@@ -183,7 +194,21 @@ class AppProd(tk.Tk):
             self.modif_en_cours = False
             style = ttk.Style()
             style.configure("Modifier.TButton", background=background_color)
-
+    
+    # Fonction pour modifier la quantité produite dans un ordre de fabrication
+    def modif_qty(self, order_id, new_quantity):
+        try:
+            result = xmlrpc.client.ServerProxy(f"{'http://172.31.11.13:8069'}/xmlrpc/2/object").execute_kw(
+                'demo', 2, '2000', 'mrp.production', 'write',
+                [[order_id], {'qty_producing': new_quantity}]
+            )
+            if result:
+                print(f"Quantité produite dans l'ordre de fabrication avec l'ID {order_id} modifiée avec succès.")
+            else:
+                print(f"La modification de la quantité produite dans l'ordre de fabrication avec l'ID {order_id} a échoué.")
+        except Exception as e:
+            print(f"Erreur lors de la modification de la quantité produite : {e}")
+    
 
 if __name__ == "__main__":
     monApp = AppProd()

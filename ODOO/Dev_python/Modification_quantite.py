@@ -16,13 +16,12 @@ def connect(url, db, username, password):
         return None
 
 def update_stock(self):
-        article_default_code = self.entry_ref.get()
-        new_quantity = max(0, int(self.entry_quantity.get()))
- 
+        article_default_code = "[J87]"
+        new_quantity = 5
         # Connexion à Odoo
-        url = "http://localhost:8069"
+        url = "http://172.31.11.13:8069"
         db = "demo"
-        username = "emilienqr@gmail.com"
+        username = "administrateur"
         password = "2000"
  
         common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format(url))
