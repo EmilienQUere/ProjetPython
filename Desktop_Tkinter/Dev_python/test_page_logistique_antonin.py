@@ -200,7 +200,6 @@ class AppLog(tk.Tk):
             style = ttk.Style()
             style.configure("Modifier.TButton", background=background_color)
 
-<<<<<<< HEAD
     def modif_qty(self, order_id, new_quantity):
         try:
             result = xmlrpc.client.ServerProxy(f"{'http://172.31.11.13:8069'}/xmlrpc/2/object").execute_kw(
@@ -214,8 +213,6 @@ class AppLog(tk.Tk):
         except Exception as e:
             print(f"Erreur lors de la modification de la quantité dans le stock : {e}")
 
-=======
->>>>>>> d7d4d868bc3222a123705113ae437091c9f33f3a
 if __name__ == "__main__":
     monApp = AppLog()
     monApp.mainloop()
