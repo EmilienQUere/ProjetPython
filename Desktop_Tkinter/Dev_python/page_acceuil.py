@@ -99,7 +99,7 @@ def verifier_connexion():
 def connect(nom_utilisateur,mot_de_passe):
     try:
         common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format('http://172.31.11.13:8069'))
-        uid = common.authenticate('demo', nom_utilisateur, mot_de_passe, {})
+        uid = common.authenticate('demo2', nom_utilisateur, mot_de_passe, {})
         
         if uid:
             models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format('http://172.31.11.13:8069'))
