@@ -2,14 +2,6 @@ from pathlib import Path
 import tkinter as tk
 from tkinter import ttk, messagebox, simpledialog
 from PIL import Image, ImageTk
-<<<<<<< HEAD
-from datetime import datetime
-import xmlrpc.client
-=======
-import sys
-from datetime import datetime
-sys.path.append("/home/user/Bureau/Projet Python/ProjetPython/ODOO/Dev_python/Lecture_OF.py")
->>>>>>> 5f899ebcf009845eddef26bbbca8c9c9148421e2
 
 # Définir la couleur de fond en utilisant les valeurs RGB pour le même fond que l'image
 rgb_background = (52, 73, 74)
