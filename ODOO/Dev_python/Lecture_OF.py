@@ -18,7 +18,7 @@ def connect(url, db, username, password):
         print(f"Erreur de connexion : {e}")
         return None
 
-def AffOF(models, db, uid, password):
+"""def AffOF(models, db, uid, password):
     try:
         # Récupérer les OF non terminés et non annulés
         of_records = models.execute_kw(
@@ -40,7 +40,7 @@ def AffOF(models, db, uid, password):
             print(f"Article: {article_name}, OF ID: {OF_ID}, OF Name: {OF_Name}, Quantity: {Quantity}, "
                   f"Produced Quantity: {quantity_produced}, Date: {date}, Society: {Society}, Etat: {etat_OF}")
     except Exception as e:
-        print(f"Erreur lors de la lecture des ordres de fabrication : {e}")
+        print(f"Erreur lors de la lecture des ordres de fabrication : {e}")"""
 
 #=======================================================================
 

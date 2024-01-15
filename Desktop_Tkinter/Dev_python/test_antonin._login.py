@@ -8,6 +8,7 @@ import xmlrpc.client
 bg_color = "#f1f1f1"
 txt_color = "#34494A"
 
+#
 class App(tk.Tk):
     """ Application GUI in TKinter"""
     def __init__(self):

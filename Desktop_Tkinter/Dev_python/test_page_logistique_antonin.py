@@ -43,7 +43,7 @@ class AppProd(tk.Tk):
     def init_image(self):
         """Initialiser tous les widgets de la fenêtre principale"""
         # Load the image using Pillow
-        image_path = "Desktop_Tkinter/Image/BARBAK.png"
+        image_path = "Desktop_Tkinter/Image/BARBAK.png" 
         pil_image = Image.open(image_path)
         self.img = ImageTk.PhotoImage(pil_image)
 
