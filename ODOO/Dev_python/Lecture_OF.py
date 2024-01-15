@@ -42,7 +42,6 @@ def AffOF(models, db, uid, password):
     except Exception as e:
         print(f"Erreur lors de la lecture des ordres de fabrication : {e}")
 
-<<<<<<< HEAD
 #=======================================================================
 
 if __name__=="__main__":
@@ -50,12 +49,6 @@ if __name__=="__main__":
     db = 'demo'
     username = 'emilienqr@gmail.com'
     password = '2000'
-=======
-url = 'http://172.31.11.13:8069'
-db = 'demo'
-username = 'emilienqr@gmail.com'
-password = '2000'
->>>>>>> c5724f97ab67c5a9a48c3d0977bb7f8ed883bad4
 
     odoo_models, odoo_connection = connect(url, db, username, password)
     if odoo_connection and odoo_models:
