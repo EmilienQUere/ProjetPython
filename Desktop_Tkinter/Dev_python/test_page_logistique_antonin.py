@@ -2,11 +2,8 @@ import tkinter as tk
 from tkinter import ttk, messagebox, simpledialog
 from PIL import Image, ImageTk
 import xmlrpc.client
-<<<<<<< HEAD
 import io
 import base64
-=======
->>>>>>> d7d4d868bc3222a123705113ae437091c9f33f3a
 
 # Définir la couleur de fond en utilisant les valeurs RGB pour le même fond que l'image
 rgb_background = (52, 73, 74)
