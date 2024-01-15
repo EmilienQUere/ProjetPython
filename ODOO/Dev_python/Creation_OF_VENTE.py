@@ -77,7 +77,7 @@ def create_manufacturing_order(models, uid, product_name, quantity, date, societ
 # Paramètres pour la création de l'ordre de fabrication
 if __name__ == "__main__":
     url = 'http://localhost:8069'
-    db = 'demo'
+    db = 'demo2'
     username = 'administrateur'
     password = '2000'
     product_name = 'Joue de porc'  # Remplacez par le nom du produit à produire

@@ -26,7 +26,7 @@ def update_stock(self):
         new_quantity = 5
         # Connexion à Odoo
         url = "http://172.31.11.13:8069"
-        db = "demo"
+        db = "demo2"
         username = "administrateur"
         password = "2000"
 >>>>>>> 951ddd157c107795d9e4e45ddea45ce2b14cf19f
@@ -49,7 +49,7 @@ def update_stock(self):
 if __name__=="__main__":
     # Connexion à Odoo
         url = "http://localhost:8069"
-        db = "demo"
+        db = "demo2"
         username = "administrateur"
         password = "2000"
 

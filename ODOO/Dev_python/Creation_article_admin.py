@@ -50,7 +50,7 @@ def CreateArticle(models, db, uid, password, article_name, sell_price, product_p
 # Utilisation de la fonction CreateArticle() pour créer un nouvel article
 if __name__=="__main__":
     url = 'http://localhost:8069'
-    db = 'demo'
+    db = 'demo2'
     username = 'administrateur'
     password = '2000'
     article_name = 'Tests'
