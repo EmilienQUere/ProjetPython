@@ -68,8 +68,6 @@ class AppProd(tk.Tk):
         exit_button.place(x=1680, y=800)
 
         # Bouton modifier
-        self.modif_en_cours = False
-
         style_modifier = ttk.Style()
         style_modifier.configure("Modifier.TButton", font=("Courier", 20), foreground="white", background=background_color, padding=[39, 15])
 
