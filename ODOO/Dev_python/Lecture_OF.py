@@ -41,7 +41,7 @@ def AffOF(models, db):
 
 if __name__ == "__main__":
     url = 'http://172.31.11.13:8069'   
-    db = 'demo'
+    db = 'demo2'
     username = 'administrateur'
     password = '2000'
 

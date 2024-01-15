@@ -128,7 +128,7 @@ class App(tk.Tk):
 
         try:
             common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format(ip_add))
-            uid = common.authenticate('demo', self.user_to_test, self.mdp_to_test, {})
+            uid = common.authenticate('demo2', self.user_to_test, self.mdp_to_test, {})
             
             if uid:
                 models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(ip_add))

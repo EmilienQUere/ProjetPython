@@ -125,7 +125,7 @@ class AppProd(tk.Tk):
         try:
             # Récupérer les OF non terminés et non annulés
             self.of_records = xmlrpc.client.ServerProxy(f"{'http://172.31.11.13:8069'}/xmlrpc/2/object").execute_kw(
-                'demo', 2, '2000', 'mrp.production', 'search_read',
+                'demo2', 2, '2000', 'mrp.production', 'search_read',
                 [[('state', 'not in', ['done', 'cancel'])]],
                 {'fields': ['product_id', 'name', 'product_qty', 'date_planned_start', 'qty_producing', 'state']}
             )
@@ -198,7 +198,7 @@ class AppProd(tk.Tk):
     def modif_qty(self, order_id, new_quantity):
         try:
             result = xmlrpc.client.ServerProxy(f"{'http://172.31.11.13:8069'}/xmlrpc/2/object").execute_kw(
-                'demo', 2, '2000', 'mrp.production', 'write',
+                'demo2', 2, '2000', 'mrp.production', 'write',
                 [[order_id], {'qty_producing': new_quantity}]
             )
             if result:
