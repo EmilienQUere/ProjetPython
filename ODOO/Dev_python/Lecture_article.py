@@ -50,7 +50,7 @@ def AffichageArticles(models, db, uid, password):
                       f"Coût: {Cout}, Catégorie: {categorie_article}")
                 
                 # Afficher l'image
-                img.show()
+                #img.show()
             else:
                 # Afficher les détails de l'article sans image
                 print(f"Nom: {article_nom}, ID: {article_code}, Prix de vente: {Prix_vente}, "

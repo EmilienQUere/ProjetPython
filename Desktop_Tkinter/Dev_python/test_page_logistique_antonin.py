@@ -2,7 +2,8 @@ from pathlib import Path
 import tkinter as tk
 from tkinter import ttk, messagebox, simpledialog
 from PIL import Image, ImageTk
-
+from datetime import datetime
+import xmlrpc.client
 
 
 # Définir la couleur de fond en utilisant les valeurs RGB pour le même fond que l'image
@@ -28,6 +29,8 @@ class AppLog(tk.Tk):
         self.title("Barbak")
         self.init_widgets()
         self.init_image()
+        self.AffichageArticles()
+        self.after(5000, self.actualiser_tableau) #temps en ms
 
     def set_icon(self):
         """Définir l'icône de la fenêtre"""
@@ -88,11 +91,7 @@ class AppLog(tk.Tk):
         ##################################################### 
 
         # Ajout de quelques données fictives pour l'exemple
-        donnees = [
-            ("Poulet", "PD54", "13.3", 100),
-            ("Saucisse", "DR65", "50.2", 200),
-            ("Cote de beouf", "GF82", "20.1", 150),
-        ]
+        donnees = []
 
         for ligne in donnees:
             self.tree.insert("", "end", values=ligne)
@@ -109,7 +108,44 @@ class AppLog(tk.Tk):
         if MsgBox == "yes":
             self.destroy()
 
-    
+    def actualiser_tableau(self):
+        """Actualiser le tableau avec les données les plus récentes."""
+        self.AffichageArticles()
+        self.after(500, self.actualiser_tableau)
+
+    def update_table(self, data):
+        """Mettre à jour le contenu du tableau avec les nouvelles données."""
+        self.tree.delete(*self.tree.get_children())  # Effacer toutes les lignes actuelles
+
+        for ligne in data:
+            self.tree.insert("", "end", values=ligne)
+
+    def AffichageArticles(self):
+        try:
+            # Récupérer les articles
+            self.article_records = xmlrpc.client.ServerProxy(f"{'http://172.31.11.13:8069'}/xmlrpc/2/object").execute_kw(
+                'demo', 2, '2000', 'product.product', 'search_read',
+                [[]],
+                {'fields': ['name', 'default_code', 'list_price', 'qty_available', 'image_1920']})
+
+            # Collecter les données pour mettre à jour le tableau
+            table_data = []
+            for article in self.article_records:
+                article_nom = article.get('name')
+                Prix_vente = article.get('list_price')
+                Cout = article.get('qty_available')
+                article_code = article.get('default_code')
+                categorie_article = article.get('categ_id')[1] if article.get('categ_id') else ''
+                
+                table_data.append((article_nom, article_code, Prix_vente, Cout))
+
+            # Mettre à jour le tableau avec les nouvelles données
+            self.update_table(table_data)
+
+        except Exception as e:
+            print(f"Erreur lors de la récupération et de l'affichage des articles : {e}")
+
+
     def selection_quantite(self, event):
         # Obtenir l'élément sélectionné
         item = self.tree.selection()

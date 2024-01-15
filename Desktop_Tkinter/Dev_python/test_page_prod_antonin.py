@@ -111,7 +111,7 @@ class AppProd(tk.Tk):
     def actualiser_tableau(self):
         """Actualiser le tableau avec les données les plus récentes."""
         self.AffOF()
-        self.after(5000, self.actualiser_tableau)
+        self.after(500, self.actualiser_tableau)
 
     def update_table(self, data):
         """Mettre à jour le contenu du tableau avec les nouvelles données."""
