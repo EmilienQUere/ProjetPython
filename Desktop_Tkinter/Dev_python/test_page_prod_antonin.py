@@ -5,192 +5,160 @@ from PIL import Image, ImageTk
 from datetime import datetime
 import xmlrpc.client
 
-# Définir la couleur de fond en utilisant les valeurs RGB pour le même fond que l'image
-rgb_background = (52, 73, 74)
-background_color = "#{:02x}{:02x}{:02x}".format(*rgb_background)
-
+COULEUR_DE_FOND = "#{:02x}{:02x}{:02x}".format(52, 73, 74)
 
 class AppProd(tk.Tk):
     """Application GUI en Tkinter"""
 
     def __init__(self):
-        """Constructeur de l'application (héritage de l'objet Tk)"""
         super().__init__()
 
+        self.configurer_fenetre()
+        self.title("Production Barbak")
+        self.initialiser_widgets()
+        self.afficher_OF()
+        self.after(5000, self.actualiser_tableau)
+
+    def configurer_fenetre(self):
         self.geometry(f"{self.winfo_screenwidth()}x{self.winfo_screenheight()}+0+0")
         self.resizable(True, True)
-        self.minsize(100, 100)
+        self.minsize(self.winfo_screenwidth(), self.winfo_screenheight())
         self.maxsize(self.winfo_screenwidth(), self.winfo_screenheight())
-        self.attributes('-alpha', 0.9)  # transparence de la fenêtre
+        self.attributes('-alpha', 0.9)
         self.configure(bg="white")
+        self.iconphoto(False, tk.PhotoImage(file="Desktop_Tkinter/Image/BARBAK.png"))
 
-        # Définir l'icône de la fenêtre
-        self.set_icon()
-        self.title("Production Barbak") 
-        self.init_widgets()
-        self.AffOF()
-        self.after(5000, self.actualiser_tableau) 
-        
-    def set_icon(self):
-        """Définir l'icône de la fenêtre"""
-        chemin_icone = Path("Desktop_Tkinter/Image/BARBAK.png")
+    def initialiser_widgets(self):
+        self.charger_image()
+        self.initialiser_bouton_deconnexion()
+        self.initialiser_bouton_modifier()
+        self.initialiser_tableau()
+
+    def charger_image(self):
+        chemin_image = "Desktop_Tkinter/Image/BARBAK.png"
         try:
-            icone_img = Image.open(chemin_icone)
-            icone_img = icone_img.convert("RGBA")
-            self.icone_img = ImageTk.PhotoImage(icone_img)
-            self.tk.call('wm', 'iconphoto', self._w, self.icone_img)
+            pil_image = Image.open(chemin_image)
+            self.image = ImageTk.PhotoImage(pil_image)
         except Exception as e:
-            print(f"Erreur lors du réglage de l'icône de la fenêtre : {e}")
+            print(f"Erreur lors du chargement de l'image : {e}")
+            self.image = None
 
-    def init_widgets(self):
-        """Initialiser tous les widgets de la fenêtre principale"""
-        # Load the image using Pillow
-        image_path = "Desktop_Tkinter/Image/BARBAK.png"
-        try:
-            pil_image = Image.open(image_path)
-            self.img = ImageTk.PhotoImage(pil_image)
-        except Exception as e:
-            print(f"Error loading image: {e}")
-            self.img = None
+        if self.image:
+            x_position, y_position = 10, 650
+            self.image_label = ttk.Label(self, image=self.image)
+            self.image_label.place(x=x_position, y=y_position)
 
-        if self.img:
-            # Place the image BARBAK at specific coordinates (x, y)
-            x_position = 10
-            y_position = 650
-            self.image = ttk.Label(self, image=self.img)
-            self.image.place(x=x_position, y=y_position)
+    def initialiser_bouton_deconnexion(self):
+        style_deconnexion = ttk.Style()
+        style_deconnexion.configure("Deconnexion.TButton", font=("Courier", 20), foreground="white", background=COULEUR_DE_FOND, padding=[25, 15])
 
-        # Bouton Déconnexion
-        exit_style = ttk.Style()
-        exit_style.configure("Déconnexion.TButton", font=("Courier", 20), foreground="white", background=background_color, padding=[25, 15])
+        bouton_deconnexion = ttk.Button(self, text="Déconnexion", command=self.quitter_page, style="Deconnexion.TButton")
+        bouton_deconnexion.place(x=1680, y=800)
 
-        exit_button = ttk.Button(self, text="Déconnexion", command=self.quitter_page, style="Déconnexion.TButton")
-        exit_button.place(x=1680, y=800)
+    def initialiser_bouton_modifier(self):
+        self.modif_en_cours = False
 
-        # Bouton modifier
         style_modifier = ttk.Style()
-        style_modifier.configure("Modifier.TButton", font=("Courier", 20), foreground="white", background=background_color, padding=[39, 15])
+        style_modifier.configure("Modifier.TButton", font=("Courier", 20), foreground="white", background=COULEUR_DE_FOND, padding=[39, 15])
 
         bouton_modifier = ttk.Button(self, text="Modifier\nquantité", style="Modifier.TButton", command=self.bouton_modifier_clic)
         bouton_modifier.place(x=1680, y=650)
 
-        # Tableau des OF's
+    def initialiser_tableau(self):
         colonnes = ("Produit", "OF", "Date", "Quantité à produire", "Quantité produite", "Etat")
-        self.tree = ttk.Treeview(self, columns=colonnes, show="headings", selectmode="browse")
+        self.tableau = ttk.Treeview(self, columns=colonnes, show="headings", selectmode="browse")
 
+        self.configurer_styles_tableau(colonnes)
+        self.tableau.bind("<ButtonRelease-1>", lambda event: self.selection_quantite(event))
+        self.tableau.place(x=40, y=70)
+
+    def configurer_styles_tableau(self, colonnes):
         style = ttk.Style(self)
-        style.configure("Treeview.Heading", font=("Courier", 20), background=background_color, foreground="white")
+        style.configure("Treeview.Heading", font=("Courier", 20), background=COULEUR_DE_FOND, foreground="white")
         style.configure("Treeview", font=("Courier", 15), background="lightGrey", borderwidth=0, highlightthickness=0)
-
-        # Ajuster la hauteur de ligne pour augmenter l'espace entre les lignes
-        style.configure("Treeview.Item", font=("Courier", 15), rowheight=30)  # Ajustez la valeur de rowheight selon vos besoins
+        style.configure("Treeview.Item", font=("Courier", 15), rowheight=30)
 
         for col in colonnes:
-            self.tree.heading(col, text=col)
-            self.tree.column(col, width=310, anchor="center")
-
-        donnees = []
-
-        for ligne in donnees:
-            self.tree.insert("", "end", values=ligne)
-
-        self.tree.bind("<ButtonRelease-1>", self.selection_quantite)
-        self.tree.place(x=40, y=70)
+            self.tableau.heading(col, text=col)
+            self.tableau.column(col, width=310, anchor="center")
 
     def quitter_page(self):
-        """Quitter la page"""
         MsgBox = messagebox.askquestion(
             title="Déconnexion de l'application",
             message="Êtes-vous sûr de vouloir vous déconnecter ? ",
             icon="warning")
         if MsgBox == "yes":
-            self.destroy()
+            self.quit()
 
     def actualiser_tableau(self):
-        """Actualiser le tableau avec les données les plus récentes."""
-        self.AffOF()
+        self.afficher_OF()
         self.after(500, self.actualiser_tableau)
 
     def update_table(self, data):
-        """Mettre à jour le contenu du tableau avec les nouvelles données."""
-        self.tree.delete(*self.tree.get_children())  # Effacer toutes les lignes actuelles
+        self.tableau.delete(*self.tableau.get_children())
 
         for ligne in data:
-            self.tree.insert("", "end", values=ligne)
+            self.tableau.insert("", "end", values=ligne)
 
-    def AffOF(self):
+    def afficher_OF(self):
         self.id_of_mapping = {}
         try:
-            # Récupérer les OF non terminés et non annulés
             self.of_records = xmlrpc.client.ServerProxy(f"{'http://172.31.11.13:8069'}/xmlrpc/2/object").execute_kw(
                 'demo2', 2, '2000', 'mrp.production', 'search_read',
                 [[('state', 'not in', ['done', 'cancel'])]],
                 {'fields': ['product_id', 'name', 'product_qty', 'date_planned_start', 'qty_producing', 'state']}
             )
 
-            # Collecter les données pour mettre à jour le tableau
             table_data = []
             for of in self.of_records:
                 article_name = of.get('product_id')[1] if of.get('product_id') else ''
                 OF_ID = of.get('id')
                 OF_Name = of.get('name')
-                Quantity = of.get('product_qty')
-                quantity_produced = of.get('qty_producing')
+                Quantity = int(of.get('product_qty'))
+                quantity_produced = int(of.get('qty_producing'))
                 date = datetime.strptime(of.get('date_planned_start'), '%Y-%m-%d %H:%M:%S').strftime('%d/%m/%y %H:%M:%S')
                 etat_OF = of.get('state')
 
-                table_data.append((article_name, OF_Name, date, Quantity, quantity_produced,etat_OF))   
+                table_data.append((article_name, OF_Name, date, Quantity, quantity_produced, etat_OF))
                 self.id_of_mapping[OF_Name] = OF_ID
 
-            # Mettre à jour le tableau avec les nouvelles données
             self.update_table(table_data)
 
         except Exception as e:
             print(f"Erreur lors de la lecture des ordres de fabrication : {e}")
 
     def selection_quantite(self, event):
-        # Obtenir l'élément sélectionné
-        item = self.tree.selection()
+        item = self.tableau.selection()
 
         if item and self.modif_en_cours:
-
-            # Obtenir la valeur de la cellule à modifier
-            values = self.tree.item(item, "values")
+            colonne = self.tableau.identify_column(event.x)
+            id_colonne = self.tableau.column(colonne)["id"]
+            indice_colonne = self.tableau["columns"].index(id_colonne)
+            values = self.tableau.item(item, "values")
 
             if values:
-                # Vérifier si la valeur que vous essayez d'obtenir existe
                 OF_Name = values[1]
-
-                # Demander à l'utilisateur de saisir la nouvelle valeur
                 nouvelle_valeur = simpledialog.askinteger("Modifier Valeur", f"Modifier la valeur pour l'OF {OF_Name} :", initialvalue=values[4])
-
-                # Obtenir l'ID à partir du dictionnaire
-                order_id_to_modify = self.id_of_mapping.get(OF_Name) 
+                order_id_to_modify = self.id_of_mapping.get(OF_Name)
 
                 self.modif_qty(order_id_to_modify, nouvelle_valeur)
-                print("ID OF",order_id_to_modify,"new value", nouvelle_valeur)
 
             self.modif_en_cours = False
 
             style = ttk.Style()
-            style.configure("Modifier.TButton", background=background_color)
+            style.configure("Modifier.TButton", background=COULEUR_DE_FOND)
 
-    # Couleur et retour bouton modification d'OF
     def bouton_modifier_clic(self):
-        if self.modif_en_cours == False:
+        if not self.modif_en_cours:
             self.modif_en_cours = True
             style = ttk.Style()
             style.configure("Modifier.TButton", background="green")
-            print("True")
-        else : 
-            print("faux")
+        else:
             self.modif_en_cours = False
             style = ttk.Style()
-            style.configure("Modifier.TButton", background=background_color)
-    
-    # Fonction pour modifier la quantité produite dans un ordre de fabrication
+            style.configure("Modifier.TButton", background=COULEUR_DE_FOND)
+
     def modif_qty(self, order_id, new_quantity):
-        print(order_id)
         try:
             result = xmlrpc.client.ServerProxy(f"{'http://172.31.11.13:8069'}/xmlrpc/2/object").execute_kw(
                 'demo2', 2, '2000', 'mrp.production', 'write',
@@ -202,7 +170,6 @@ class AppProd(tk.Tk):
                 print(f"La modification de la quantité produite dans l'ordre de fabrication avec l'ID {order_id} a échoué.")
         except Exception as e:
             print(f"Erreur lors de la modification de la quantité produite : {e}")
-
 
 if __name__ == "__main__":
     monApp = AppProd()

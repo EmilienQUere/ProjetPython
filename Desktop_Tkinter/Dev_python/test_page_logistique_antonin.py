@@ -14,34 +14,31 @@ class AppLog(tk.Tk):
 
     def __init__(self):
         """Constructeur de l'application (héritage de l'objet Tk)"""
+        
         super().__init__()
         self.nom = "Antonin"
         self.geometry(f"{self.winfo_screenwidth()}x{self.winfo_screenheight()}+0+0")
         self.resizable(True, True)
-        self.minsize(100, 100)
+        self.minsize(self.winfo_screenwidth(), self.winfo_screenheight())
         self.maxsize(self.winfo_screenwidth(), self.winfo_screenheight())
         self.attributes('-alpha', 0.9)  # transparence de la fenêtre
         self.configure(bg="white")
+        self.iconphoto(False, tk.PhotoImage(file="Desktop_Tkinter/Image/BARBAK.png"))
 
         self.selected_product_image = None
 
-        # Définir l'icône de la fenêtre
-        self.set_icon()
+        
         self.title("Barbak")
         self.init_widgets()
         self.init_image()
         self.AffichageArticles()
         self.after(5000, self.actualiser_tableau)  # temps en ms
 
-    def set_icon(self):
-        """Définir l'icône de la fenêtre"""
-        try:
-            chemin_icone = "Desktop_Tkinter/Image/BARBAK.png"
-            icone_img = Image.open(chemin_icone).convert("RGBA")
-            self.icone_img = ImageTk.PhotoImage(icone_img)
-            self.tk.call('wm', 'iconphoto', self._w, self.icone_img)
-        except Exception as e:
-            print(f"Erreur lors du réglage de l'icône de la fenêtre : {e}")
+    def init_widgets(self):
+        # Bouton Déconnexion
+        self.init_exit_button()
+        self.init_modify_button()
+        self.init_table()
 
     def init_image(self):
         """Initialiser tous les widgets de la fenêtre principale"""
@@ -57,12 +54,6 @@ class AppLog(tk.Tk):
         # Créer un widget Label pour afficher l'image du produit sélectionné
         self.selected_product_image_label = ttk.Label(self, image=None)
         self.selected_product_image_label.place(x=1000, y=500)
-
-    def init_widgets(self):
-        # Bouton Déconnexion
-        self.init_exit_button()
-        self.init_modify_button()
-        self.init_table()
 
     def init_exit_button(self):
         exit_style = ttk.Style()
@@ -136,11 +127,11 @@ class AppLog(tk.Tk):
             for article in self.article_records:
                 article_ID = article.get('id')
                 article_nom = article.get('name')
-                Prix_vente = article.get('list_price')
-                Cout = article.get('qty_available')
+                prix_vente = round(article.get('list_price'), 2) if article.get('list_price') else ''
+                quantité_stock = int(article.get('qty_available')) if article.get('qty_available') else ''
                 article_code = article.get('default_code')
 
-                table_data.append((article_nom, article_code, Prix_vente, Cout))
+                table_data.append((article_nom, article_code, prix_vente, quantité_stock))
                 self.id_of_mapping[article_nom] = article_ID
 
             # Mettre à jour le tableau avec les nouvelles données
@@ -156,6 +147,12 @@ class AppLog(tk.Tk):
         # Obtenir la valeur de la cellule à modifier
         values = self.tree.item(item, "values")
 
+        # Même si values n'est pas défini, essayez d'obtenir article_nom pour la mise à jour de l'image
+        if values:
+            self.article_nom = values[0]
+            self.current_selected_product = self.article_nom
+            self.update_selected_product_image()
+
         if item and self.modif_en_cours and values:
             # Vérifier si la valeur que vous essayez d'obtenir existe
             article_nom = values[0]
@@ -170,12 +167,6 @@ class AppLog(tk.Tk):
 
         self.modif_en_cours = False
         self.configure_modify_button()
-
-        # Même si values n'est pas défini, essayez d'obtenir article_nom pour la mise à jour de l'image
-        if values:
-            self.article_nom = values[0]
-            self.current_selected_product = self.article_nom
-            self.update_selected_product_image()
 
     def update_selected_product_image(self):
         # Mettre à jour l'image du produit sélectionné dans le Label
