@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox, Tk, Frame
 from PIL import ImageTk, Image
 import xmlrpc.client
-from page_admin import ConnectionWeb as visuAdmin
+#from page_admin import ConnectionWeb as visuAdmin
 from test_page_logistique_antonin import AppLog as visuLog
 from test_page_prod_antonin import AppProd as visuprod
 
@@ -10,7 +10,7 @@ from test_page_prod_antonin import AppProd as visuprod
 bg_color = "#f1f1f1"
 txt_color = "#34494A"
 
-#
+
 class App(tk.Tk):
     """ Application GUI in TKinter"""
     def __init__(self):
@@ -159,24 +159,21 @@ class App(tk.Tk):
         self.destroy()  # Fermer la fenêtre de connexion actuelle
         fenetre_utilisateur = None
         
-        # Ouvrir une nouvelle page administrateur
-
+        # Ouvrir une nouvelle page logistique
         if self.user_to_test == "logistique":
             fenetre_utilisateur = visuLog() 
             fenetre_utilisateur.mainloop()
             
-        # Ouvrir une nouvelle page logistique
-            
-        elif self.user_to_test == "administrateur":
-            fenetre_utilisateur = visuAdmin()
-            fenetre_utilisateur.run()
         # Ouvrir une nouvelle page production
             
         elif self.user_to_test == "production":
             fenetre_utilisateur = visuprod() 
             fenetre_utilisateur.mainloop()
             
-
+        # Ouvrir une nouvelle page administrateur
+        #elif self.user_to_test == "administrateur":
+        #   fenetre_utilisateur = visuAdmin()
+        #   fenetre_utilisateur.run()
 
 # Boucle principale
 if __name__ == "__main__":
