@@ -153,10 +153,6 @@ class AppProd(tk.Tk):
         item = self.tree.selection()
 
         if item and self.modif_en_cours:
-            # Récupérer la région de l'élément sélectionné
-            colonne = self.tree.identify_column(event.x)
-            id_colonne = self.tree.column(colonne)["id"]
-            indice_colonne = self.tree["columns"].index(id_colonne)
 
             # Obtenir la valeur de la cellule à modifier
             values = self.tree.item(item, "values")
@@ -194,6 +190,7 @@ class AppProd(tk.Tk):
     
     # Fonction pour modifier la quantité produite dans un ordre de fabrication
     def modif_qty(self, order_id, new_quantity):
+        print(order_id)
         try:
             result = xmlrpc.client.ServerProxy(f"{'http://172.31.11.13:8069'}/xmlrpc/2/object").execute_kw(
                 'demo2', 2, '2000', 'mrp.production', 'write',

@@ -1,8 +1,9 @@
-from pathlib import Path
 import tkinter as tk
 from tkinter import ttk, messagebox, simpledialog
 from PIL import Image, ImageTk
 import xmlrpc.client
+import io
+import base64
 
 # Définir la couleur de fond en utilisant les valeurs RGB pour le même fond que l'image
 rgb_background = (52, 73, 74)
@@ -10,6 +11,7 @@ background_color = "#{:02x}{:02x}{:02x}".format(*rgb_background)
 
 class AppLog(tk.Tk):
     """Application GUI en Tkinter"""
+
 
     def __init__(self):
         """Constructeur de l'application (héritage de l'objet Tk)"""
@@ -28,14 +30,13 @@ class AppLog(tk.Tk):
         self.init_widgets()
         self.init_image()
         self.AffichageArticles()
-        self.after(5000, self.actualiser_tableau) #temps en ms
+        self.after(5000, self.actualiser_tableau)  # temps en ms
 
     def set_icon(self):
         """Définir l'icône de la fenêtre"""
-        chemin_icone = Path("/home/user/Bureau/Projet Python/BARBAK.png")  #/home/user/Bureau/Projet Python/BARBAK.png
         try:
-            icone_img = Image.open(chemin_icone)
-            icone_img = icone_img.convert("RGBA")
+            chemin_icone = "Desktop_Tkinter/Image/BARBAK.png"
+            icone_img = Image.open(chemin_icone).convert("RGBA")
             self.icone_img = ImageTk.PhotoImage(icone_img)
             self.tk.call('wm', 'iconphoto', self._w, self.icone_img)
         except Exception as e:
@@ -43,12 +44,12 @@ class AppLog(tk.Tk):
 
     def init_image(self):
         """Initialiser tous les widgets de la fenêtre principale"""
-        # Load the image using Pillow
-        image_path = "Desktop_Tkinter/Image/BARBAK.png" 
+        # Charger l'image avec Pillow
+        image_path = "Desktop_Tkinter/Image/BARBAK.png"
         pil_image = Image.open(image_path)
         self.img = ImageTk.PhotoImage(pil_image)
 
-        # Place the image BARBAK at specific coordinates (x, y)
+        # Placer l'image BARBAK à des coordonnées spécifiques (x, y)
         self.image = ttk.Label(self, image=self.img)
         self.image.place(x=10, y=650)
 
@@ -84,10 +85,6 @@ class AppLog(tk.Tk):
             self.tree.heading(col, text=col)
             self.tree.column(col, width=310, anchor="center")
 
-        #####################################################
-        # TODO reprendre les donnee produit via programme emilien 
-        ##################################################### 
-
         # Ajout de quelques données fictives pour l'exemple
         donnees = []
 
@@ -119,6 +116,7 @@ class AppLog(tk.Tk):
             self.tree.insert("", "end", values=ligne)
 
     def AffichageArticles(self):
+        self.id_of_mapping = {}
         try:
             # Récupérer les articles
             self.article_records = xmlrpc.client.ServerProxy(f"{'http://172.31.11.13:8069'}/xmlrpc/2/object").execute_kw(
@@ -129,13 +127,28 @@ class AppLog(tk.Tk):
             # Collecter les données pour mettre à jour le tableau
             table_data = []
             for article in self.article_records:
+                article_ID = article.get('id')
                 article_nom = article.get('name')
                 Prix_vente = article.get('list_price')
                 Cout = article.get('qty_available')
                 article_code = article.get('default_code')
-                categorie_article = article.get('categ_id')[1] if article.get('categ_id') else ''
-                
+
                 table_data.append((article_nom, article_code, Prix_vente, Cout))
+                self.id_of_mapping[article_nom] = article_ID
+
+            image_odoo = article.get('image_1920')
+            if image_odoo:
+                # Convertir les données binaires de l'image en format image
+                image_article = io.BytesIO(base64.b64decode(image_odoo))
+                img_article = Image.open(image_article)
+
+                #Taille de l'image
+                resized_image_article = img_article.resize((300,300), Image.ANTIALIAS)
+                self.img_article = ImageTk.PhotoImage(resized_image_article)
+
+                # Placer l'image 
+                self.image_article = ttk.Label(self, image=self.img_article)
+                self.image_article.place(x=50, y=500)
 
             # Mettre à jour le tableau avec les nouvelles données
             self.update_table(table_data)
@@ -143,44 +156,35 @@ class AppLog(tk.Tk):
         except Exception as e:
             print(f"Erreur lors de la récupération et de l'affichage des articles : {e}")
 
-
     def selection_quantite(self, event):
         # Obtenir l'élément sélectionné
         item = self.tree.selection()
-
+        print(item)
         if item and self.modif_en_cours:
-            # Récupérer la région de l'élément sélectionné
-            colonne = self.tree.identify_column(event.x)
-            id_colonne = self.tree.column(colonne)["id"]
-            indice_colonne = self.tree["columns"].index(id_colonne)
 
             # Obtenir la valeur de la cellule à modifier
-            numero_of = self.tree.item(item, "values")[1]
-            quantite_a_modifier = self.tree.item(item, "values")[3]
-            print(numero_of, quantite_a_modifier)
+            values = self.tree.item(item, "values")
+
+            if values:
+                # Vérifier si la valeur que vous essayez d'obtenir existe
+                article_nom = values[0]
+
+                # Demander à l'utilisateur de saisir la nouvelle valeur
+                nouvelle_valeur = simpledialog.askinteger("Modifier Valeur", f"Modifier la valeur pour l'article {article_nom} :", initialvalue=values[3])
+
+                # Obtenir l'ID à partir du dictionnaire
+                article_id_to_modify = self.id_of_mapping.get(article_nom) 
+                print(article_id_to_modify)
 
 
-            self.article = ttk.Label(self, text="Article", font=("Courier", 20), foreground="black", background="black", padding=[40,20])   
-            self.article.place(x=0, y=500)
-
-            # Demander à l'utilisateur de saisir la nouvelle valeur
-            nouvelle_valeur = simpledialog.askinteger("Modifier Valeur", f"Modifier la quantité de l'article {numero_of} :", initialvalue=quantite_a_modifier)
-
-            # Mettre à jour la valeur dans le tableau
-            if nouvelle_valeur is not None:
-                valeurs = list(self.tree.item(item, 'values'))
-                valeurs[indice_colonne] = nouvelle_valeur
-                self.tree.item(item, values=valeurs)
-
-            #####################################################
-            # TODO renvoyer nouvelle valeur via programme emilien 
-            #####################################################  
+                self.modif_qty(article_id_to_modify, nouvelle_valeur)
+                print("ID article",article_id_to_modify,"new value", nouvelle_valeur)
 
             self.modif_en_cours = False
+
             style = ttk.Style()
             style.configure("Modifier.TButton", background=background_color)
-    
-    # Couleur et retour bouton modification d'OF
+
     def bouton_modifier_clic(self):
         if self.modif_en_cours == False:
             self.modif_en_cours = True
@@ -193,7 +197,19 @@ class AppLog(tk.Tk):
             style = ttk.Style()
             style.configure("Modifier.TButton", background=background_color)
 
+    def modif_qty(self, order_id, new_quantity):
+        try:
+            result = xmlrpc.client.ServerProxy(f"{'http://172.31.11.13:8069'}/xmlrpc/2/object").execute_kw(
+                'demo2', 2, '2000', 'product.product', 'write',
+                [[order_id], {'qty_available': new_quantity}]
+            )
+            if result:
+                print(f"Quantité dans le stock de l'article avec l'ID {order_id} modifiée avec succès.")
+            else:
+                print(f"La modification de la quantité dans le stock de l'article avec l'ID {order_id} a échoué.")
+        except Exception as e:
+            print(f"Erreur lors de la modification de la quantité dans le stock : {e}")
+
 if __name__ == "__main__":
     monApp = AppLog()
     monApp.mainloop()
-
