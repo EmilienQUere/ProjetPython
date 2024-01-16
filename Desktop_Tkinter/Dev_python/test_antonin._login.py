@@ -156,7 +156,7 @@ class App(tk.Tk):
         
     def ouvrir_page_utilisateur(self):
         
-        self.destroy()  # Fermer la fenêtre de connexion actuelle
+        self.quit()  # Fermer la fenêtre de connexion actuelle
         fenetre_utilisateur = None
         
         # Ouvrir une nouvelle page logistique

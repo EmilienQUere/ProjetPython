@@ -5,6 +5,7 @@ from PIL import Image, ImageTk
 from datetime import datetime
 import xmlrpc.client
 
+
 COULEUR_DE_FOND = "#{:02x}{:02x}{:02x}".format(52, 73, 74)
 
 class AppProd(tk.Tk):
@@ -89,6 +90,9 @@ class AppProd(tk.Tk):
             icon="warning")
         if MsgBox == "yes":
             self.quit()
+            
+
+
 
     def actualiser_tableau(self):
         self.afficher_OF()
