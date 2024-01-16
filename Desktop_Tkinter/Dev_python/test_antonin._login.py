@@ -73,7 +73,7 @@ class App(tk.Tk):
         self.image.pack()    #use anchor = 'ne' pour placer l'image en haut à droite
 
     def user(self):
-        utilisateurs = {"Administrateur", "Production", "Logistique", "Vente"}
+        utilisateurs = { "Production", "Logistique"}
 
         self.user = ttk.Label(self.log_frame, text="Nom d'utilisateur",font=("Helvetica", 13),foreground=txt_color, background=bg_color)
         self.user.grid(row=0, column=0, pady=10, ipadx=5, ipady=5)
@@ -170,10 +170,6 @@ class App(tk.Tk):
             fenetre_utilisateur = visuprod() 
             fenetre_utilisateur.mainloop()
             
-        # Ouvrir une nouvelle page administrateur
-        #elif self.user_to_test == "administrateur":
-        #   fenetre_utilisateur = visuAdmin()
-        #   fenetre_utilisateur.run()
 
 # Boucle principale
 if __name__ == "__main__":

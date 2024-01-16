@@ -188,7 +188,7 @@ class AppLog(tk.Tk):
                 # Convertir les données binaires de l'image en format image
                 image_article = io.BytesIO(base64.b64decode(image_odoo))
                 img_article = Image.open(image_article)
-                resized_image_article = img_article.resize((300, 300), Image.ANTIALIAS)
+                resized_image_article = img_article.resize((300, 300), Image.LANCZOS)
                 selected_product_image = ImageTk.PhotoImage(resized_image_article)
 
                 return selected_product_image
