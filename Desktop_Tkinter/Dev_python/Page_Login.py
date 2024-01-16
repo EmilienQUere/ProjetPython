@@ -3,8 +3,8 @@ from tkinter import ttk, messagebox, Tk, Frame
 from PIL import ImageTk, Image
 import xmlrpc.client
 #from page_admin import ConnectionWeb as visuAdmin
-from test_page_logistique_antonin import AppLog as visuLog
-from test_page_prod_antonin import AppProd as visuprod
+from Page_Logistique import AppLog as visuLog
+from Page_Production import AppProd as visuprod
 
 
 bg_color = "#f1f1f1"
