@@ -1,5 +1,0 @@
-{
-    "python.analysis.extraPaths": [
-        "./ODOO/Dev_python"
-    ]
-}

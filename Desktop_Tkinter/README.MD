@@ -22,4 +22,4 @@ En fonction du login choisi : LOGISTIQUE OU PRODUCTION -> redirection vers la bo
                                 => Pour modifier la quantité produite d'un OF : Appui sur le bouton modifier + selection de la ligne du tableau correspondant à l'OF souhaité, une pop-up s'affiche => Entrer la nouvelle valeur de la quantité produite.
                                 => Un bouton déconnexion pour quitter l'application.
 
-Les logins ADMINISTRATEUR et VENTE : A la validation de l'identifiant et du mdp : ouvre le navigateur 
+Les logins ADMINISTRATEUR et VENTE : A la validation de l'identifiant et du mdp : ouvre le navigateur sur la page de LOGIN Odoo.
