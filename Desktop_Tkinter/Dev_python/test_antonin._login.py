@@ -73,7 +73,7 @@ class App(tk.Tk):
         self.image.pack()    #use anchor = 'ne' pour placer l'image en haut à droite
 
     def user(self):
-        utilisateurs = {"administrateur", "production", "logistique", "vente"}
+        utilisateurs = {"Administrateur", "Production", "Logistique", "Vente"}
 
         self.user = ttk.Label(self.log_frame, text="Nom d'utilisateur",font=("Helvetica", 13),foreground=txt_color, background=bg_color)
         self.user.grid(row=0, column=0, pady=10, ipadx=5, ipady=5)
@@ -160,13 +160,13 @@ class App(tk.Tk):
         fenetre_utilisateur = None
         
         # Ouvrir une nouvelle page logistique
-        if self.user_to_test == "logistique":
+        if self.user_to_test == "Logistique":
             fenetre_utilisateur = visuLog() 
             fenetre_utilisateur.mainloop()
             
         # Ouvrir une nouvelle page production
             
-        elif self.user_to_test == "production":
+        elif self.user_to_test == "Production":
             fenetre_utilisateur = visuprod() 
             fenetre_utilisateur.mainloop()
             
