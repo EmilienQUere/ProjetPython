@@ -1,22 +1,21 @@
-from pathlib import Path
 import tkinter as tk
 from tkinter import ttk, messagebox, simpledialog
 from PIL import Image, ImageTk
-from datetime import datetime
 import xmlrpc.client
+import io
+import base64
 
 # Définir la couleur de fond en utilisant les valeurs RGB pour le même fond que l'image
 rgb_background = (52, 73, 74)
 background_color = "#{:02x}{:02x}{:02x}".format(*rgb_background)
 
-
-class AppProd(tk.Tk):
+class AppLog(tk.Tk):
     """Application GUI en Tkinter"""
 
     def __init__(self):
         """Constructeur de l'application (héritage de l'objet Tk)"""
         super().__init__()
-
+        self.nom = "Antonin"
         self.geometry(f"{self.winfo_screenwidth()}x{self.winfo_screenheight()}+0+0")
         self.resizable(True, True)
         self.minsize(100, 100)
@@ -24,78 +23,83 @@ class AppProd(tk.Tk):
         self.attributes('-alpha', 0.9)  # transparence de la fenêtre
         self.configure(bg="white")
 
+        self.selected_product_image = None
+
         # Définir l'icône de la fenêtre
         self.set_icon()
-        self.title("Production Barbak") 
+        self.title("Barbak")
         self.init_widgets()
-        self.AffOF()
-        self.after(5000, self.actualiser_tableau) 
-        
+        self.init_image()
+        self.AffichageArticles()
+        self.after(5000, self.actualiser_tableau)  # temps en ms
+
     def set_icon(self):
         """Définir l'icône de la fenêtre"""
-        chemin_icone = Path("Desktop_Tkinter/Image/BARBAK.png")
         try:
-            icone_img = Image.open(chemin_icone)
-            icone_img = icone_img.convert("RGBA")
+            chemin_icone = "Desktop_Tkinter/Image/BARBAK.png"
+            icone_img = Image.open(chemin_icone).convert("RGBA")
             self.icone_img = ImageTk.PhotoImage(icone_img)
             self.tk.call('wm', 'iconphoto', self._w, self.icone_img)
         except Exception as e:
             print(f"Erreur lors du réglage de l'icône de la fenêtre : {e}")
 
-    def init_widgets(self):
+    def init_image(self):
         """Initialiser tous les widgets de la fenêtre principale"""
-        # Load the image using Pillow
+        # Charger l'image avec Pillow
         image_path = "Desktop_Tkinter/Image/BARBAK.png"
-        try:
-            pil_image = Image.open(image_path)
-            self.img = ImageTk.PhotoImage(pil_image)
-        except Exception as e:
-            print(f"Error loading image: {e}")
-            self.img = None
+        pil_image = Image.open(image_path)
+        self.img = ImageTk.PhotoImage(pil_image)
 
-        if self.img:
-            # Place the image BARBAK at specific coordinates (x, y)
-            x_position = 10
-            y_position = 650
-            self.image = ttk.Label(self, image=self.img)
-            self.image.place(x=x_position, y=y_position)
+        # Placer l'image BARBAK à des coordonnées spécifiques (x, y)
+        self.image = ttk.Label(self, image=self.img)
+        self.image.place(x=10, y=650)
 
+        # Créer un widget Label pour afficher l'image du produit sélectionné
+        self.selected_product_image_label = ttk.Label(self, image=None)
+        self.selected_product_image_label.place(x=1000, y=500)
+
+    def init_widgets(self):
         # Bouton Déconnexion
+        self.init_exit_button()
+        self.init_modify_button()
+        self.init_table()
+
+    def init_exit_button(self):
         exit_style = ttk.Style()
         exit_style.configure("Déconnexion.TButton", font=("Courier", 20), foreground="white", background=background_color, padding=[25, 15])
 
         exit_button = ttk.Button(self, text="Déconnexion", command=self.quitter_page, style="Déconnexion.TButton")
         exit_button.place(x=1680, y=800)
 
-        # Bouton modifier
+    def init_modify_button(self):
+        self.modif_en_cours = False
+
         style_modifier = ttk.Style()
         style_modifier.configure("Modifier.TButton", font=("Courier", 20), foreground="white", background=background_color, padding=[39, 15])
 
         bouton_modifier = ttk.Button(self, text="Modifier\nquantité", style="Modifier.TButton", command=self.bouton_modifier_clic)
         bouton_modifier.place(x=1680, y=650)
 
-        # Tableau des OF's
-        colonnes = ("Produit", "OF", "Date", "Quantité à produire", "Quantité produite", "Etat")
+    def init_table(self):
+        colonnes = ("Nom", "Code", "Prix", "Quantité en stock")
         self.tree = ttk.Treeview(self, columns=colonnes, show="headings", selectmode="browse")
 
-        style = ttk.Style(self)
-        style.configure("Treeview.Heading", font=("Courier", 20), background=background_color, foreground="white")
-        style.configure("Treeview", font=("Courier", 15), background="lightGrey", borderwidth=0, highlightthickness=0)
-
-        # Ajuster la hauteur de ligne pour augmenter l'espace entre les lignes
-        style.configure("Treeview.Item", font=("Courier", 15), rowheight=30)  # Ajustez la valeur de rowheight selon vos besoins
+        self.configure_tree_styles()
 
         for col in colonnes:
             self.tree.heading(col, text=col)
             self.tree.column(col, width=310, anchor="center")
 
-        donnees = []
-
-        for ligne in donnees:
-            self.tree.insert("", "end", values=ligne)
-
         self.tree.bind("<ButtonRelease-1>", self.selection_quantite)
-        self.tree.place(x=40, y=70)
+        self.tree.place(x=100, y=70)
+
+    def configure_tree_styles(self):
+        style = ttk.Style(self)
+        style.configure("Treeview.Heading", font=("Courier", 20), background=background_color, foreground="white")
+        style.configure("Treeview", font=("Courier", 15), background="lightGrey", borderwidth=0, highlightthickness=0)
+
+        # Ajuster la hauteur de ligne pour augmenter l'espace entre les lignes
+        style.configure("Treeview.Item", font=("Courier", 15), rowheight=30)
 
     def quitter_page(self):
         """Quitter la page"""
@@ -108,7 +112,7 @@ class AppProd(tk.Tk):
 
     def actualiser_tableau(self):
         """Actualiser le tableau avec les données les plus récentes."""
-        self.AffOF()
+        self.AffichageArticles()
         self.after(500, self.actualiser_tableau)
 
     def update_table(self, data):
@@ -118,92 +122,115 @@ class AppProd(tk.Tk):
         for ligne in data:
             self.tree.insert("", "end", values=ligne)
 
-    def AffOF(self):
+    def AffichageArticles(self):
         self.id_of_mapping = {}
         try:
-            # Récupérer les OF non terminés et non annulés
-            self.of_records = xmlrpc.client.ServerProxy(f"{'http://172.31.11.13:8069'}/xmlrpc/2/object").execute_kw(
-                'demo2', 2, '2000', 'mrp.production', 'search_read',
-                [[('state', 'not in', ['done', 'cancel'])]],
-                {'fields': ['product_id', 'name', 'product_qty', 'date_planned_start', 'qty_producing', 'state']}
-            )
+            # Récupérer les articles
+            self.article_records = xmlrpc.client.ServerProxy(f"{'http://172.31.11.13:8069'}/xmlrpc/2/object").execute_kw(
+                'demo2', 2, '2000', 'product.product', 'search_read',
+                [[]],
+                {'fields': ['name', 'default_code', 'list_price', 'qty_available', 'image_1920']})
 
             # Collecter les données pour mettre à jour le tableau
             table_data = []
-            for of in self.of_records:
-                article_name = of.get('product_id')[1] if of.get('product_id') else ''
-                OF_ID = of.get('id')
-                OF_Name = of.get('name')
-                Quantity = of.get('product_qty')
-                quantity_produced = of.get('qty_producing')
-                date = datetime.strptime(of.get('date_planned_start'), '%Y-%m-%d %H:%M:%S').strftime('%d/%m/%y %H:%M:%S')
-                etat_OF = of.get('state')
+            for article in self.article_records:
+                article_ID = article.get('id')
+                article_nom = article.get('name')
+                Prix_vente = article.get('list_price')
+                Cout = article.get('qty_available')
+                article_code = article.get('default_code')
 
-                table_data.append((article_name, OF_Name, date, Quantity, quantity_produced,etat_OF))   
-                self.id_of_mapping[OF_Name] = OF_ID
+                table_data.append((article_nom, article_code, Prix_vente, Cout))
+                self.id_of_mapping[article_nom] = article_ID
 
             # Mettre à jour le tableau avec les nouvelles données
             self.update_table(table_data)
 
         except Exception as e:
-            print(f"Erreur lors de la lecture des ordres de fabrication : {e}")
+            print(f"Erreur lors de la récupération et de l'affichage des articles : {e}")
 
     def selection_quantite(self, event):
         # Obtenir l'élément sélectionné
         item = self.tree.selection()
 
-        if item and self.modif_en_cours:
+        # Obtenir la valeur de la cellule à modifier
+        values = self.tree.item(item, "values")
 
-            # Obtenir la valeur de la cellule à modifier
-            values = self.tree.item(item, "values")
+        if item and self.modif_en_cours and values:
+            # Vérifier si la valeur que vous essayez d'obtenir existe
+            article_nom = values[0]
 
-            if values:
-                # Vérifier si la valeur que vous essayez d'obtenir existe
-                OF_Name = values[1]
+            # Demander à l'utilisateur de saisir la nouvelle valeur
+            nouvelle_valeur = simpledialog.askinteger("Modifier Valeur", f"Modifier la valeur pour l'article {article_nom} :", initialvalue=values[3])
 
-                # Demander à l'utilisateur de saisir la nouvelle valeur
-                nouvelle_valeur = simpledialog.askinteger("Modifier Valeur", f"Modifier la valeur pour l'OF {OF_Name} :", initialvalue=values[4])
+            # Obtenir l'ID à partir du dictionnaire
+            article_id_to_modify = self.id_of_mapping.get(article_nom)
 
-                # Obtenir l'ID à partir du dictionnaire
-                order_id_to_modify = self.id_of_mapping.get(OF_Name) 
+            self.modif_qty(article_id_to_modify, nouvelle_valeur)
 
-                self.modif_qty(order_id_to_modify, nouvelle_valeur)
-                print("ID OF",order_id_to_modify,"new value", nouvelle_valeur)
+        self.modif_en_cours = False
+        self.configure_modify_button()
 
-            self.modif_en_cours = False
+        # Même si values n'est pas défini, essayez d'obtenir article_nom pour la mise à jour de l'image
+        if values:
+            self.article_nom = values[0]
+            self.current_selected_product = self.article_nom
+            self.update_selected_product_image()
 
-            style = ttk.Style()
-            style.configure("Modifier.TButton", background=background_color)
+    def update_selected_product_image(self):
+        # Mettre à jour l'image du produit sélectionné dans le Label
+        if self.current_selected_product:
+            selected_product_image = self.get_selected_product_image(self.current_selected_product)
+            self.selected_product_image_label.configure(image=selected_product_image)
+            self.selected_product_image_label.image = selected_product_image
 
-    # Couleur et retour bouton modification d'OF
+    def get_selected_product_image(self, article_nom):
+        # Récupérer l'enregistrement du produit
+        selected_product = next((article for article in self.article_records if article['name'] == article_nom), None)
+
+        if selected_product:
+            # Récupérer l'image du produit
+            image_odoo = selected_product.get('image_1920')
+
+            if image_odoo:
+                # Convertir les données binaires de l'image en format image
+                image_article = io.BytesIO(base64.b64decode(image_odoo))
+                img_article = Image.open(image_article)
+                resized_image_article = img_article.resize((300, 300), Image.ANTIALIAS)
+                selected_product_image = ImageTk.PhotoImage(resized_image_article)
+
+                return selected_product_image
+
+        return None
+
     def bouton_modifier_clic(self):
-        if self.modif_en_cours == False:
-            self.modif_en_cours = True
-            style = ttk.Style()
-            style.configure("Modifier.TButton", background="green")
-            print("True")
-        else : 
-            print("faux")
-            self.modif_en_cours = False
-            style = ttk.Style()
-            style.configure("Modifier.TButton", background=background_color)
-    
-    # Fonction pour modifier la quantité produite dans un ordre de fabrication
-    def modif_qty(self, order_id, new_quantity):
-        print(order_id)
-        try:
-            result = xmlrpc.client.ServerProxy(f"{'http://172.31.11.13:8069'}/xmlrpc/2/object").execute_kw(
-                'demo2', 2, '2000', 'mrp.production', 'write',
-                [[order_id], {'qty_producing': new_quantity}]
-            )
-            if result:
-                print(f"Quantité produite dans l'ordre de fabrication avec l'ID {order_id} modifiée avec succès.")
-            else:
-                print(f"La modification de la quantité produite dans l'ordre de fabrication avec l'ID {order_id} a échoué.")
-        except Exception as e:
-            print(f"Erreur lors de la modification de la quantité produite : {e}")
+        self.modif_en_cours = not self.modif_en_cours
+        self.configure_modify_button()
+        print("True" if self.modif_en_cours else "False")
 
+    def configure_modify_button(self):
+        style = ttk.Style()
+        button_color = "green" if self.modif_en_cours else background_color
+        style.configure("Modifier.TButton", background=button_color)
+
+    def modif_qty(self, product_id, new_quantity):
+
+        try:
+            # Modifie la quantité disponible (qty_available) dans le stock.quant
+            stock_quant_ids = xmlrpc.client.ServerProxy(f"{'http://172.31.11.13:8069'}/xmlrpc/2/object").execute_kw('demo2', 2, '2000', 'stock.quant', 'search',
+                [[('product_id', '=', product_id)]]
+            )
+            if stock_quant_ids:
+                xmlrpc.client.ServerProxy(f"{'http://172.31.11.13:8069'}/xmlrpc/2/object").execute_kw('demo2', '2', '2000', 'stock.quant', 'write',
+                    [stock_quant_ids, {'quantity': new_quantity}]
+                )
+                print(f"Quantité dans le stock de l'article avec l'ID {product_id} modifiée avec succès.")
+            else:
+                print(f"Aucun enregistrement stock.quant trouvé pour le produit avec l'ID {product_id}.")
+
+        except Exception as e:
+            print(f"Erreur lors de la modification de la quantité dans le stock : {e}")
 
 if __name__ == "__main__":
-    monApp = AppProd()
+    monApp = AppLog()
     monApp.mainloop()
