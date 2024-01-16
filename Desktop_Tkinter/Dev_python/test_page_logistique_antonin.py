@@ -104,7 +104,8 @@ class AppLog(tk.Tk):
     def actualiser_tableau(self):
         """Actualiser le tableau avec les données les plus récentes."""
         self.AffichageArticles()
-        self.after(500, self.actualiser_tableau)
+        self.update_table(self)
+        self.after(5000, self.actualiser_tableau)
 
     def update_table(self, data):
         """Mettre à jour le contenu du tableau avec les nouvelles données."""
