@@ -65,7 +65,7 @@ class App(tk.Tk):
         #print(mon_image.size)  #taille par défaut de l'image
 
         #Redimensionner image
-        resized_image = mon_image.resize((225,225), Image.ANTIALIAS)
+        resized_image = mon_image.resize((225,225), Image.LANCZOS)
         self.new_image = ImageTk.PhotoImage(resized_image)
         
         #Placer image
