@@ -164,19 +164,19 @@ class App(tk.Tk):
 
         if self.user_to_test == "logistique":
             fenetre_utilisateur = visuLog() 
+            fenetre_utilisateur.mainloop()
             
         # Ouvrir une nouvelle page logistique
             
         elif self.user_to_test == "administrateur":
             fenetre_utilisateur = visuAdmin()
-
+            fenetre_utilisateur.run()
         # Ouvrir une nouvelle page production
             
         elif self.user_to_test == "production":
             fenetre_utilisateur = visuprod() 
-
-        if fenetre_utilisateur:
             fenetre_utilisateur.mainloop()
+            
 
 
 # Boucle principale
