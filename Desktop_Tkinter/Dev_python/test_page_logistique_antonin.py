@@ -72,7 +72,7 @@ class AppLog(tk.Tk):
         bouton_modifier.place(x=1680, y=650)
 
     def init_table(self):
-        colonnes = ("Nom", "Code", "Prix", "Quantité en stock")
+        colonnes = ("Nom", "Code", "Prix en €", "Quantité en stock")
         self.tree = ttk.Treeview(self, columns=colonnes, show="headings", selectmode="browse")
 
         self.configure_tree_styles()
