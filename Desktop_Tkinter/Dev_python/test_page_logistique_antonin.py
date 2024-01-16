@@ -99,7 +99,7 @@ class AppLog(tk.Tk):
             message="Êtes-vous sûr de vouloir vous déconnecter ? ",
             icon="warning")
         if MsgBox == "yes":
-            self.quit()
+            self.destroy()
 
     def actualiser_tableau(self):
         """Actualiser le tableau avec les données les plus récentes."""
