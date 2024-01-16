@@ -124,7 +124,6 @@ class App(tk.Tk):
         ip_add = "http://172.31.11.13:8069"
         self.user_to_test = self.user_list.get()
         self.mdp_to_test = self.mdp_entry.get()
-        print(self.user_to_test)
 
         try:
             common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format(ip_add))

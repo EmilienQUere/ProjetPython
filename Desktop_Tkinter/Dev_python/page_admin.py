@@ -3,7 +3,7 @@ from selenium import webdriver
 import time
 
 class ConnectionWeb():
-    def __init__(self, config_path='Desktop_Tkinter/Dev_python/config.json', gecko_driver_path='/home/user/Bureau/geckodriver'):
+    def __init__(self, config_path='Desktop_Tkinter/Dev_python/config.json', gecko_driver_path='Desktop_Tkinter/Dev_python/Driver/geckodriver'):
         self.config_path = config_path
         self.gecko_driver_path = gecko_driver_path
         self.url_odoo = 'http://172.31.11.13:8069'
