@@ -5,6 +5,6 @@ Collaborateurs : Quere Emilien (manager)
 
 ## Fichiers :
 
-- Deskop_Tkinter : Dossier regroupant tous les dévelloppements sur python pour les utilisateurs LOGISTIQUE/PRODUCTION
+- Deskop_Tkinter : Dossier regroupant tous les développements sur python pour les utilisateurs LOGISTIQUE/PRODUCTION
 - ODOO  : Dossier regroupant les back-ups de la base de données ODOO ainsi qu'un tutoriel de mise en service d'un serveur Odoo depuis Portainer.
 
