@@ -5,6 +5,7 @@ import xmlrpc.client
 import io
 import base64
 
+
 # Définir la couleur de fond en utilisant les valeurs RGB pour le même fond que l'image
 rgb_background = (52, 73, 74)
 background_color = "#{:02x}{:02x}{:02x}".format(*rgb_background)
@@ -119,7 +120,7 @@ class AppLog(tk.Tk):
         try:
             # Récupérer les articles
             self.article_records = xmlrpc.client.ServerProxy(f"{'http://172.31.11.13:8069'}/xmlrpc/2/object").execute_kw(
-                'demo2', 2, '2000', 'product.product', 'search_read',
+                'demo2','2','2000','product.product', 'search_read',
                 [[]],
                 {'fields': ['name', 'default_code', 'list_price', 'qty_available', 'image_1920']})
 
