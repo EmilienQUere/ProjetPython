@@ -2,7 +2,6 @@ import tkinter as tk
 from tkinter import ttk, messagebox, Tk, Frame
 from PIL import ImageTk, Image
 import xmlrpc.client
-#from page_admin import ConnectionWeb as visuAdmin
 from Page_Logistique import AppLog as visuLog
 from Page_Production import AppProd as visuprod
 

@@ -72,7 +72,7 @@ class AppLog(tk.Tk):
         bouton_modifier.place(x=1680, y=650)
 
     def init_table(self):
-        colonnes = ("Nom", "Code", "Prix en €", "Quantité en stock")
+        colonnes = ("Nom", "Code", "Prix en € (Kg)", "Quantité en stock")
         self.tree = ttk.Treeview(self, columns=colonnes, show="headings", selectmode="browse")
 
         self.configure_tree_styles()
@@ -128,9 +128,9 @@ class AppLog(tk.Tk):
             for article in self.article_records:
                 article_ID = article.get('id')
                 article_nom = article.get('name')
-                prix_vente = round(article.get('list_price'), 2) if article.get('list_price') else ''
-                quantité_stock = int(article.get('qty_available')) if article.get('qty_available') else ''
-                article_code = article.get('default_code')
+                prix_vente = round(article.get('list_price'), 2) if article.get('list_price') else 'Non renseigné'
+                quantité_stock = int(article.get('qty_available')) if article.get('qty_available') else '0'
+                article_code = article.get('default_code') if article.get('default_code') else 'Non renseigné'
 
                 table_data.append((article_nom, article_code, prix_vente, quantité_stock))
                 self.id_of_mapping[article_nom] = article_ID
