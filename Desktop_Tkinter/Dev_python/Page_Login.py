@@ -27,7 +27,7 @@ class App(tk.Tk):
         self.maxsize(self.winfo_screenwidth(), self.winfo_screenheight())
         self.attributes('-alpha', 0.9)
         self.config(bg=bg_color)
-        self.iconphoto(False, tk.PhotoImage(file="Desktop_Tkinter/Image/BARBAK.png"))
+        ##self.iconphoto(False, tk.PhotoImage(file="Desktop_Tkinter/Image/BARBAK.png"))
         self.title("Login Barbak")
 
         """Appel des fonctions"""
