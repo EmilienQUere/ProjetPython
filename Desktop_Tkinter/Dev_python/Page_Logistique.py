@@ -46,7 +46,6 @@ class AppLog(tk.Tk):
     def init_image(self):
         """Initialiser tous les widgets de la fenêtre principale"""
         # Charger l'image avec Pillow
-        image_path = image_path
         pil_image = Image.open(image_path)
         self.img = ImageTk.PhotoImage(pil_image)
 
