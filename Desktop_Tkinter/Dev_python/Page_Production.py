@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 import tkinter as tk
 from tkinter import ttk, messagebox, simpledialog
@@ -6,6 +7,7 @@ from datetime import datetime
 import xmlrpc.client
 
 COULEUR_DE_FOND = "#{:02x}{:02x}{:02x}".format(52, 73, 74)
+image_path = os.path.abspath("BARBAK.png")
 
 #=========================================================================================
 
@@ -27,7 +29,7 @@ class AppProd(tk.Tk):
         self.maxsize(self.winfo_screenwidth(), self.winfo_screenheight())
         self.attributes('-alpha', 0.9)
         self.configure(bg="white")
-        self.iconphoto(False, tk.PhotoImage(file="Desktop_Tkinter/Dev_python/BARBAK.png"))
+        self.iconphoto(False, tk.PhotoImage(file=image_path))
 
     def init_widgets(self):
         self.charger_image()
@@ -36,7 +38,7 @@ class AppProd(tk.Tk):
         self.initialiser_tableau()
 
     def charger_image(self):
-        chemin_image = "Desktop_Tkinter/Dev_python/BARBAK.png"
+        chemin_image = image_path
         try:
             pil_image = Image.open(chemin_image)
             self.image = ImageTk.PhotoImage(pil_image)
