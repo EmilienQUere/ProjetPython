@@ -5,18 +5,18 @@ from PIL import Image, ImageTk
 from datetime import datetime
 import xmlrpc.client
 
-
 COULEUR_DE_FOND = "#{:02x}{:02x}{:02x}".format(52, 73, 74)
+
+#=========================================================================================
 
 class AppProd(tk.Tk):
     """Application GUI en Tkinter"""
-
     def __init__(self):
         super().__init__()
 
         self.configurer_fenetre()
         self.title("Production Barbak")
-        self.initialiser_widgets()
+        self.init_widgets()
         self.afficher_OF()
         self.after(5000, self.actualiser_tableau)
 
@@ -27,16 +27,16 @@ class AppProd(tk.Tk):
         self.maxsize(self.winfo_screenwidth(), self.winfo_screenheight())
         self.attributes('-alpha', 0.9)
         self.configure(bg="white")
-        self.iconphoto(False, tk.PhotoImage(file="Desktop_Tkinter/Image/BARBAK.png"))
+        self.iconphoto(False, tk.PhotoImage(file="Desktop_Tkinter/Dev_python/BARBAK.png"))
 
-    def initialiser_widgets(self):
+    def init_widgets(self):
         self.charger_image()
         self.initialiser_bouton_deconnexion()
         self.initialiser_bouton_modifier()
         self.initialiser_tableau()
 
     def charger_image(self):
-        chemin_image = "Desktop_Tkinter/Image/BARBAK.png"
+        chemin_image = "Desktop_Tkinter/Dev_python/BARBAK.png"
         try:
             pil_image = Image.open(chemin_image)
             self.image = ImageTk.PhotoImage(pil_image)
@@ -91,9 +91,6 @@ class AppProd(tk.Tk):
         if MsgBox == "yes":
             self.destroy()
             
-
-
-
     def actualiser_tableau(self):
         self.afficher_OF()
         self.after(500, self.actualiser_tableau)
@@ -161,7 +158,7 @@ class AppProd(tk.Tk):
             self.modif_en_cours = False
             style = ttk.Style()
             style.configure("Modifier.TButton", background=COULEUR_DE_FOND)
-
+    
     def modif_qty(self, order_id, new_quantity):
         try:
             result = xmlrpc.client.ServerProxy(f"{'http://172.31.11.13:8069'}/xmlrpc/2/object").execute_kw(
@@ -175,6 +172,8 @@ class AppProd(tk.Tk):
         except Exception as e:
             print(f"Erreur lors de la modification de la quantité produite : {e}")
 
+#=========================================================================================
+            
 if __name__ == "__main__":
     monApp = AppProd()
     monApp.mainloop()

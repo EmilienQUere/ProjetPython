@@ -23,7 +23,7 @@ class AppLog(tk.Tk):
         self.maxsize(self.winfo_screenwidth(), self.winfo_screenheight())
         self.attributes('-alpha', 0.9)  # transparence de la fenêtre
         self.configure(bg="white")
-        self.iconphoto(False, tk.PhotoImage(file="Desktop_Tkinter/Image/BARBAK.png"))
+        self.iconphoto(False, tk.PhotoImage(file="Desktop_Tkinter/Dev_python/BARBAK.png"))
 
         self.selected_product_image = None
 
@@ -43,7 +43,7 @@ class AppLog(tk.Tk):
     def init_image(self):
         """Initialiser tous les widgets de la fenêtre principale"""
         # Charger l'image avec Pillow
-        image_path = "Desktop_Tkinter/Image/BARBAK.png"
+        image_path = "Desktop_Tkinter/Dev_python/BARBAK.png"
         pil_image = Image.open(image_path)
         self.img = ImageTk.PhotoImage(pil_image)
 

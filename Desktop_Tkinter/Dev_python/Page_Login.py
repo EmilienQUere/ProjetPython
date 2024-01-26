@@ -12,10 +12,12 @@ txt_color = "#34494A"
 
 class App(tk.Tk):
     """ Application GUI in TKinter"""
+
     def __init__(self):
-        
         """ Application constructor (heritage=Tk object)"""
         super().__init__()
+        self.mdp_to_test = ''
+
         self.screen_h = 500     #self.winfo_screenwidth()    pour prendre toute la taille de la fenetre
         self.screen_v = 650     #self.winfo_screenheight()
         self.screen_x = int((self.winfo_screenwidth()/2) - (self.screen_h/2))   #centrer la fenetre
@@ -27,7 +29,7 @@ class App(tk.Tk):
         self.maxsize(self.winfo_screenwidth(), self.winfo_screenheight())
         self.attributes('-alpha', 0.9)
         self.config(bg=bg_color)
-        self.iconphoto(False, tk.PhotoImage(file="Desktop_Tkinter/Image/BARBAK.png"))
+        self.iconphoto(False, tk.PhotoImage(file="Desktop_Tkinter/Dev_python/BARBAK.png"))
         self.title("Login Barbak")
 
         """Appel des fonctions"""
@@ -60,7 +62,7 @@ class App(tk.Tk):
     def widget_image(self):
 
         #Ouvrir image
-        mon_image = Image.open("Desktop_Tkinter/Image/BARBAK.png")
+        mon_image = Image.open("Desktop_Tkinter/Dev_python/BARBAK.png")
         #print(mon_image.size)  #taille par défaut de l'image
 
         #Redimensionner image
@@ -104,10 +106,6 @@ class App(tk.Tk):
 
         self.bp_quitter = ttk.Button(self.quitter_frame, text="Quitter", command=self.click_quitter, style="Quitter.TButton")
         self.bp_quitter.grid(sticky="se")
-        
-####TODO tester la connexion######
-    def click_connexion(self):   
-        print("Button connexion")
 
     def click_quitter(self):
 
@@ -133,11 +131,11 @@ class App(tk.Tk):
                 return models, xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(ip_add))
             else:
                 print("Connexion échouée : Authentification impossible")
+                self.mdp_to_test  = ''
             return False
         except Exception as e:
             print(f"Erreur de connexion : {e}")
             return False
-
 
     def verifier_connexion(self):
         print("Try to verif")
