@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 from tkinter import ttk, messagebox, Tk, Frame
 from PIL import ImageTk, Image
@@ -8,7 +9,7 @@ from Page_Production import AppProd as visuprod
 
 bg_color = "#f1f1f1"
 txt_color = "#34494A"
-
+image_path = os.path.abspath("BARBAK.png")
 
 class App(tk.Tk):
     """ Application GUI in TKinter"""
@@ -29,7 +30,7 @@ class App(tk.Tk):
         self.maxsize(self.winfo_screenwidth(), self.winfo_screenheight())
         self.attributes('-alpha', 0.9)
         self.config(bg=bg_color)
-        self.iconphoto(False, tk.PhotoImage(file="Desktop_Tkinter/Dev_python/BARBAK.png"))
+        self.iconphoto(False, tk.PhotoImage(file=image_path))
         self.title("Login Barbak")
 
         """Appel des fonctions"""
@@ -62,7 +63,7 @@ class App(tk.Tk):
     def widget_image(self):
 
         #Ouvrir image
-        mon_image = Image.open("Desktop_Tkinter/Dev_python/BARBAK.png")
+        mon_image = Image.open(image_path)
         #print(mon_image.size)  #taille par défaut de l'image
 
         #Redimensionner image
