@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 from tkinter import ttk, messagebox, simpledialog
 from PIL import Image, ImageTk
@@ -9,6 +10,7 @@ import base64
 # Définir la couleur de fond en utilisant les valeurs RGB pour le même fond que l'image
 rgb_background = (52, 73, 74)
 background_color = "#{:02x}{:02x}{:02x}".format(*rgb_background)
+image_path = os.path.abspath("BARBAK.png")
 
 class AppLog(tk.Tk):
     """Application GUI en Tkinter"""
@@ -24,7 +26,7 @@ class AppLog(tk.Tk):
         self.maxsize(self.winfo_screenwidth(), self.winfo_screenheight())
         self.attributes('-alpha', 0.9)  # transparence de la fenêtre
         self.configure(bg="white")
-        self.iconphoto(False, tk.PhotoImage(file="Desktop_Tkinter/Dev_python/BARBAK.png"))
+        self.iconphoto(False, tk.PhotoImage(file=image_path))
 
         self.selected_product_image = None
 
@@ -44,7 +46,7 @@ class AppLog(tk.Tk):
     def init_image(self):
         """Initialiser tous les widgets de la fenêtre principale"""
         # Charger l'image avec Pillow
-        image_path = "Desktop_Tkinter/Dev_python/BARBAK.png"
+        image_path = image_path
         pil_image = Image.open(image_path)
         self.img = ImageTk.PhotoImage(pil_image)
 
