@@ -7,7 +7,7 @@ from datetime import datetime
 import xmlrpc.client
 
 COULEUR_DE_FOND = "#{:02x}{:02x}{:02x}".format(52, 73, 74)
-image_path = os.path.abspath("BARBAK.png")
+image_path = os.path.abspath("Desktop_Tkinter/Dev_python/BARBAK.png")
 
 #=========================================================================================
 

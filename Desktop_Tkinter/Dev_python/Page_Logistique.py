@@ -10,7 +10,7 @@ import base64
 # Définir la couleur de fond en utilisant les valeurs RGB pour le même fond que l'image
 rgb_background = (52, 73, 74)
 background_color = "#{:02x}{:02x}{:02x}".format(*rgb_background)
-image_path = os.path.abspath("BARBAK.png")
+image_path = os.path.abspath("Desktop_Tkinter/Dev_python/BARBAK.png")
 
 class AppLog(tk.Tk):
     """Application GUI en Tkinter"""
