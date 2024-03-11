@@ -9,7 +9,7 @@ from Page_Production import AppProd as visuprod
 
 bg_color = "#f1f1f1"
 txt_color = "#34494A"
-image_path = os.path.abspath("Desktop_Tkinter/Dev_python/BARBAK.png")
+image_path = os.path.abspath("BARBAK.png")
 
 class App(tk.Tk):
     """ Application GUI in TKinter"""
@@ -28,7 +28,7 @@ class App(tk.Tk):
         self.resizable(True, True) #(width, height)
         self.minsize(380, 550)
         self.maxsize(self.winfo_screenwidth(), self.winfo_screenheight())
-        self.attributes('-alpha', 0.9)
+        self.attributes('-alpha', 1)
         self.config(bg=bg_color)
         self.iconphoto(False, tk.PhotoImage(file=image_path))
         self.title("Login Barbak")

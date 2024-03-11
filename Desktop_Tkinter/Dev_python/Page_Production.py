@@ -7,7 +7,7 @@ from datetime import datetime
 import xmlrpc.client
 
 COULEUR_DE_FOND = "#{:02x}{:02x}{:02x}".format(52, 73, 74)
-image_path = os.path.abspath("Desktop_Tkinter/Dev_python/BARBAK.png")
+image_path = os.path.abspath("BARBAK.png")
 
 #=========================================================================================
 
@@ -27,7 +27,7 @@ class AppProd(tk.Tk):
         self.resizable(True, True)
         self.minsize(self.winfo_screenwidth(), self.winfo_screenheight())
         self.maxsize(self.winfo_screenwidth(), self.winfo_screenheight())
-        self.attributes('-alpha', 0.9)
+        self.attributes('-alpha', 1)
         self.configure(bg="white")
         self.iconphoto(False, tk.PhotoImage(file=image_path))
 
