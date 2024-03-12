@@ -142,10 +142,10 @@ class App(tk.Tk):
                 return False
         except socket.timeout:
             print("Délai d'attente dépassé. Vérifiez votre connexion réseau.")
-            return False
+            return 3
         except Exception as e:
             print(f"Erreur de connexion : {e}")
-            return False
+            return 4
 
     def verifier_connexion(self):
         print("Vérification de la connexion")
@@ -153,14 +153,17 @@ class App(tk.Tk):
         self.connect()
 
         odoo_connection = self.connect()
+        print(odoo_connection)
         if odoo_connection:
             print("Connexion à Odoo réussie")
             self.save_mdp_to_test()  # Déplacez cet appel ici
             self.ouvrir_page_utilisateur()
             # ne reste plus que à ouvrir la page associée à l'utilisateur ouvrir_page_utilisateur(nom_utilisateur)
-        else:
+        elif odoo_connection == 3:
             print("Nom d'utilisateur ou mot de passe incorrect.")
             messagebox.showerror("Erreur de connexion", "Nom d'utilisateur ou mot de passe incorrect.")
+        elif odoo_connection == 4:
+            messagebox.showerror("Délai d'attente dépassé. Vérifiez votre connexion réseau.")
 
 
     def save_mdp_to_test(self):
