@@ -37,8 +37,11 @@ sudo apt install postgresql -y
 Se connecter a internet (Mozilla Firefox) via : [erp](http://localhost:9000/#!/home) pour accéder au portainer
 
 Un menu de connexion apparaît : 
+
 Identifiant : **admin**
+
 Mot de passe : **portainer**
+
 Une fois les informations saisies, cliquez sur **Login**.
 
 Vous allez être redirigés vers le menu principal de l'application, sélectionnez **l'endpoint local**.
