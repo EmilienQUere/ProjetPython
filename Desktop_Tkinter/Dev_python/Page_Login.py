@@ -6,6 +6,7 @@ import threading
 import time
 import xmlrpc.client
 import socket
+import subprocess
 from Page_Logistique import AppLog as visuLog
 from Page_Production import AppProd as visuProd
 
@@ -162,10 +163,16 @@ class App(tk.Tk):
             fenetre_utilisateur.mainloop()    
 
     def myping(self):
-        response = os.system("ping -c 1 " + "172.31.11.13")
-        if response == 0:
+        try:
+            # Exécutez la commande ping avec un seul paquet et un timeout de 1 seconde
+            subprocess.run(["ping", "-c", "1", "172.31.11.13"], timeout=0.5, check=True)
+            # Si la commande ping réussit, retournez True
             return True
-        else:
+        except subprocess.TimeoutExpired:
+            # Si le délai d'attente est expiré, considérez le ping comme un échec et retournez False
+            return False
+        except subprocess.CalledProcessError:
+            # Si la commande ping échoue pour une autre raison, considérez le ping comme un échec et retournez False
             return False
 
     def check_connection(self):
