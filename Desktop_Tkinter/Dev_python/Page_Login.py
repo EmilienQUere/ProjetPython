@@ -141,7 +141,7 @@ class App(tk.Tk):
                 return False
         except socket.timeout:
             print("Délai d'attente dépassé. Vérifiez votre connexion réseau.")
-            messagebox.showerror("Délai d'attente dépassé", "Vérifiez votre connexion réseau.")
+            messagebox.showerror("Erreur de connexion","Délai d'attente dépassé. Vérifiez votre connexion réseau.")
             return False
         except Exception as e:
             print(f"Erreur de connexion : {e}")

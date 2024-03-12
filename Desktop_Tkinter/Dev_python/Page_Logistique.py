@@ -91,7 +91,6 @@ class AppLog(tk.Tk):
     def clear_file(self):
         try:
             os.remove("test.txt")
-            print(f".")
         except FileNotFoundError:
             print(f"Le fichier n'existe pas.")
         except Exception as e:
