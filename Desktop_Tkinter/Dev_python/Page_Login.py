@@ -141,7 +141,7 @@ class App(tk.Tk):
                 return False
         except socket.timeout:
             print("Délai d'attente dépassé. Vérifiez votre connexion réseau.")
-            messagebox.showerror("Délai d'attente dépassé. Vérifiez votre connexion réseau.")
+            messagebox.showerror("Délai d'attente dépassé", "Vérifiez votre connexion réseau.")
             return False
         except Exception as e:
             print(f"Erreur de connexion : {e}")
@@ -166,7 +166,8 @@ class App(tk.Tk):
         
         self.destroy()  # Fermer la fenêtre de connexion actuelle
         fenetre_utilisateur = None
-        
+        print(f"Connexion à la page {self.user_to_test}")
+
         # Ouvrir une nouvelle page logistique
         if self.user_to_test == "Logistique":
             fenetre_utilisateur = visuLog() 
@@ -177,7 +178,7 @@ class App(tk.Tk):
         elif self.user_to_test == "Production":
             fenetre_utilisateur = visuprod() 
             fenetre_utilisateur.mainloop()
-            
+   
 
 # Boucle principale
 if __name__ == "__main__":
