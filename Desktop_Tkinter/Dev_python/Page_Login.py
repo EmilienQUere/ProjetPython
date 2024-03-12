@@ -154,7 +154,7 @@ class App(tk.Tk):
 
         odoo_connection = self.connect()
         print(odoo_connection)
-        if odoo_connection:
+        if odoo_connection == True
             print("Connexion à Odoo réussie")
             self.save_mdp_to_test()  # Déplacez cet appel ici
             self.ouvrir_page_utilisateur()
