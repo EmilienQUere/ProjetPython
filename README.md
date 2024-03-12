@@ -16,7 +16,8 @@ Collaborateurs : Quere Emilien (manager)
 2- copier puis coller la commande dans l'invite de commande :
 
 Ouvrir le chemin du repository depuis l'invité de commande avec la fonction cd jusqu'a accéder au dossier Dev_Python
-Exemple : cd /home/user/Documents/ProjetPython/Desktop_Tkinter/Dev_python
+Exemple : 
+```cd /home/user/Documents/ProjetPython/Desktop_Tkinter/Dev_python```
  
 3 - copier puis coller la commande dans l'invite de commande :  
  
