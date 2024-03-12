@@ -15,7 +15,8 @@
 
 Odoo à besoin d'un serveur Postgre SQL pour fonctionner correctement
 
- ```sudo apt install postgresql -y```
+ ```sudo apt install postgresql -y
+ ```
 
 Se connecter a internet via : [erp](http://localhost:9000/#!/home) pour accéder au portainer
 Créer un stack : 
