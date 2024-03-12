@@ -139,8 +139,6 @@ class App(tk.Tk):
         except Exception as e:
             print(f"Erreur de connexion : {e}")
             return False
-        
-
 
     def verifier_connexion(self):
         print("Vérification de la connexion")
@@ -154,7 +152,7 @@ class App(tk.Tk):
             self.ouvrir_page_utilisateur()
             # ne reste plus que à ouvrir la page associée à l'utilisateur ouvrir_page_utilisateur(nom_utilisateur)
         else:
-            print("Échec de connexion à Odoo")
+            print("Nom d'utilisateur ou mot de passe incorrect.")
             messagebox.showerror("Erreur de connexion", "Nom d'utilisateur ou mot de passe incorrect.")
 
 
