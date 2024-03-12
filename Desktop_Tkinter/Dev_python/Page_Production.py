@@ -16,6 +16,10 @@ class AppProd(tk.Tk):
     def __init__(self):
         super().__init__()
 
+        # Ajoutez cette ligne pour récupérer le mot de passe du fichier
+        self.mdp_to_test = self.load_mdp_to_test()
+        print(self.mdp_to_test)
+
         self.configurer_fenetre()
         self.title("Production Barbak")
         self.init_widgets()
@@ -57,6 +61,16 @@ class AppProd(tk.Tk):
 
         bouton_deconnexion = ttk.Button(self, text="Déconnexion", command=self.quitter_page, style="Deconnexion.TButton")
         bouton_deconnexion.place(x=1680, y=800)
+
+
+
+    def load_mdp_to_test(self):
+        # Chargez le mot de passe depuis le fichier
+        try:
+            with open("mdp_file.txt", "r") as file:
+                return file.read().strip()
+        except FileNotFoundError:
+            return ''
 
     def initialiser_bouton_modifier(self):
         self.modif_en_cours = False
@@ -107,7 +121,7 @@ class AppProd(tk.Tk):
         self.id_of_mapping = {}
         try:
             self.of_records = xmlrpc.client.ServerProxy(f"{'http://172.31.11.13:8069'}/xmlrpc/2/object").execute_kw(
-                'demo2', 2, '2000', 'mrp.production', 'search_read',
+                'demo2', 9 , self.mdp_to_test , 'mrp.production', 'search_read',
                 [[('state', 'not in', ['done', 'cancel'])]],
                 {'fields': ['product_id', 'name', 'product_qty', 'date_planned_start', 'qty_producing', 'state']}
             )
@@ -164,7 +178,7 @@ class AppProd(tk.Tk):
     def modif_qty(self, order_id, new_quantity):
         try:
             result = xmlrpc.client.ServerProxy(f"{'http://172.31.11.13:8069'}/xmlrpc/2/object").execute_kw(
-                'demo2', 2, '2000', 'mrp.production', 'write',
+                'demo2', 9, self.mdp_to_test , 'mrp.production', 'write',
                 [[order_id], {'qty_producing': new_quantity}]
             )
             if result:

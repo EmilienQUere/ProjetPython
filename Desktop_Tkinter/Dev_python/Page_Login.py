@@ -41,6 +41,7 @@ class App(tk.Tk):
         self.mot_de_passe()
         self.bouton_connexion()
         self.bouton_quitter()
+        self.save_mdp_to_test()
 
     def frame(self):
 
@@ -129,6 +130,8 @@ class App(tk.Tk):
             
             if uid:
                 models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(ip_add))
+                self.user_id = uid
+                print(self.user_id)
                 return models, xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(ip_add))
             else:
                 print("Connexion échouée : Authentification impossible")
@@ -137,6 +140,8 @@ class App(tk.Tk):
         except Exception as e:
             print(f"Erreur de connexion : {e}")
             return False
+        
+
 
     def verifier_connexion(self):
         print("Try to verif")
@@ -146,11 +151,19 @@ class App(tk.Tk):
         odoo_connection = self.connect()
         if odoo_connection:
             print("Connexion à Odoo réussie")
+            self.save_mdp_to_test()  # Déplacez cet appel ici
             self.ouvrir_page_utilisateur()
-            # ne reste plus que à ouvrir la page asssocié à l'utilisateur        ouvrir_page_utilisateur(nom_utilisateur)
+            # ne reste plus que à ouvrir la page associée à l'utilisateur ouvrir_page_utilisateur(nom_utilisateur)
         else:
             print("Échec de connexion à Odoo")
             messagebox.showerror("Erreur de connexion", "Nom d'utilisateur ou mot de passe incorrect.")
+
+
+    def save_mdp_to_test(self):
+        print(self.mdp_to_test)
+        # Enregistrez self.mdp_to_test dans un fichier
+        with open("mdp_file.txt", "w") as file:
+            file.write(self.mdp_to_test)
         
     def ouvrir_page_utilisateur(self):
         

@@ -17,6 +17,9 @@ class AppLog(tk.Tk):
 
     def __init__(self):
         """Constructeur de l'application (héritage de l'objet Tk)"""
+        # Ajoutez cette ligne pour récupérer le mot de passe du fichier
+        self.mdp_to_test = self.load_mdp_to_test()
+        print(self.mdp_to_test)
         
         super().__init__()
         self.nom = "Antonin"
@@ -73,6 +76,15 @@ class AppLog(tk.Tk):
         bouton_modifier = ttk.Button(self, text="Modifier\nquantité", style="Modifier.TButton", command=self.bouton_modifier_clic)
         bouton_modifier.place(x=1680, y=650)
 
+    def load_mdp_to_test(self):
+        # Chargez le mot de passe depuis le fichier
+        try:
+            with open("mdp_file.txt", "r") as file:
+                return file.read().strip()
+        except FileNotFoundError:
+            return ''
+
+
     def init_table(self):
         colonnes = ("Nom", "Code", "Prix en € (Kg)", "Quantité en stock")
         self.tree = ttk.Treeview(self, columns=colonnes, show="headings", selectmode="browse")
@@ -121,7 +133,7 @@ class AppLog(tk.Tk):
         try:
             # Récupérer les articles
             self.article_records = xmlrpc.client.ServerProxy(f"{'http://172.31.11.13:8069'}/xmlrpc/2/object").execute_kw(
-                'demo2','2','2000','product.product', 'search_read',
+                'demo2', 8,self.mdp_to_test,'product.product', 'search_read',
                 [[]],
                 {'fields': ['name', 'default_code', 'list_price', 'qty_available', 'image_1920']})
 
@@ -211,11 +223,11 @@ class AppLog(tk.Tk):
 
         try:
             # Modifie la quantité disponible (qty_available) dans le stock.quant
-            stock_quant_ids = xmlrpc.client.ServerProxy(f"{'http://172.31.11.13:8069'}/xmlrpc/2/object").execute_kw('demo2', 2, '2000', 'stock.quant', 'search',
+            stock_quant_ids = xmlrpc.client.ServerProxy(f"{'http://172.31.11.13:8069'}/xmlrpc/2/object").execute_kw('demo2', 8, self.mdp_to_test, 'stock.quant', 'search',
                 [[('product_id', '=', product_id)]]
             )
             if stock_quant_ids:
-                xmlrpc.client.ServerProxy(f"{'http://172.31.11.13:8069'}/xmlrpc/2/object").execute_kw('demo2', '2', '2000', 'stock.quant', 'write',
+                xmlrpc.client.ServerProxy(f"{'http://172.31.11.13:8069'}/xmlrpc/2/object").execute_kw('demo2', 8, self.mdp_to_test, 'stock.quant', 'write',
                     [stock_quant_ids, {'quantity': new_quantity}]
                 )
                 print(f"Quantité dans le stock de l'article avec l'ID {product_id} modifiée avec succès.")
