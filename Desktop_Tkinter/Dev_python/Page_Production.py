@@ -152,6 +152,7 @@ class AppProd(tk.Tk):
 
         except Exception as e:
             print(f"Erreur lors de la lecture des ordres de fabrication : {e}")
+            messagebox.showerror("Erreur de communication", f"Erreur lors de la lecture des ordres de fabrication : {e}, vérifier la connection")
 
     def selection_quantite(self, event):
         item = self.tableau.selection()
@@ -212,6 +213,7 @@ class AppProd(tk.Tk):
                     print(f"Quantité produite dans l'ordre de fabrication avec l'ID {order_id} modifiée avec succès.")
                 else:
                     print(f"La modification de la quantité produite dans l'ordre de fabrication avec l'ID {order_id} a échoué.")
+                    messagebox.showerror("Erreur de communication", f"La modification de la quantité produite dans l'ordre de fabrication avec l'ID {order_id} a échoué.")
             else:
                 print(f"La nouvelle quantité produite dépasse la quantité à produire pour l'ordre de fabrication avec l'ID {order_id}.")
                 # Demandez à l'utilisateur de saisir une nouvelle quantité valide
@@ -222,6 +224,7 @@ class AppProd(tk.Tk):
 
         except Exception as e:
             print(f"Erreur lors de la modification de la quantité produite : {e}")
+            messagebox.showerror("Erreur de communication", "Erreur lors de la modification de la quantité produite : {e}, vérifier la connection")
 
 
 #=========================================================================================

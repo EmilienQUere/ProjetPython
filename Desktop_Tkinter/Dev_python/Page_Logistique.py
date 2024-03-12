@@ -165,6 +165,7 @@ class AppLog(tk.Tk):
 
         except Exception as e:
             print(f"Erreur lors de la récupération et de l'affichage des articles : {e}")
+            messagebox.showerror("Erreur de communication", f"Erreur lors de la récupération et de l'affichage des articles : {e}, vérifier la connection")
 
     def selection_quantite(self, event):
         # Obtenir l'élément sélectionné
@@ -244,9 +245,11 @@ class AppLog(tk.Tk):
                 print(f"Quantité dans le stock de l'article avec l'ID {product_id} modifiée avec succès.")
             else:
                 print(f"Aucun enregistrement stock.quant trouvé pour le produit avec l'ID {product_id}.")
+                messagebox.showerror("Erreur de réference", f"Aucune quantité trouvée pour le produit avec l'ID {product_id}")
 
         except Exception as e:
             print(f"Erreur lors de la modification de la quantité dans le stock : {e}")
+            messagebox.showerror("Erreur de communication", f"Erreur lors de la modification de la quantité dans le stock : {e}, vérifier la connection")
 
 if __name__ == "__main__":
     monApp = AppLog()
