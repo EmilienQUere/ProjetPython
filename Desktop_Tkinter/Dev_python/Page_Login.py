@@ -116,7 +116,7 @@ class App(tk.Tk):
         self.mdp_to_test = self.mdp_entry.get()
 
         try:
-            socket.setdefaulttimeout(2)
+            socket.setdefaulttimeout(1)
             common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format(ip_add))
             uid = common.authenticate('demo2', self.user_to_test, self.mdp_to_test, {})
 
@@ -179,7 +179,7 @@ class App(tk.Tk):
                 print("Ping échoué")
                 self.connexion_status.config(text="Échec de connexion", foreground="red")
             # Attendez 5 secondes avant la prochaine vérification
-            time.sleep(2)
+            time.sleep(1)
 
 # Boucle principale
 if __name__ == "__main__":
