@@ -15,7 +15,9 @@
 
 Odoo à besoin d'un serveur Postgre SQL pour fonctionner correctement
 
- ```sudo apt install postgresql -y```
+ ```
+sudo apt install postgresql -y
+ ```
 
 Se connecter a internet via : [erp](http://localhost:9000/#!/home) pour accéder au portainer
 Créer un stack : 
@@ -69,11 +71,15 @@ Database Name: demo2
 Ouvrir le chemin du repository depuis l'invité de commande avec la fonction cd jusqu'a accéder au dossier Dev_Python
 Exemple : 
 
-```cd /home/user/Documents/ProjetPython/Desktop_Tkinter/Dev_python```
+```
+cd /home/user/Documents/ProjetPython/Desktop_Tkinter/Dev_python
+```
  
 ## 3 - copier puis coller la commande dans l'invite de commande :  
  
-``` python3 Page_Login.py ```
+``` 
+python3 Page_Login.py
+```
 
  
 ## 4- Choisir le compte souhaité et entrez le mot de passe puis cliquer sur le bouton connexion
