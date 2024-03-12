@@ -126,15 +126,13 @@ class App(tk.Tk):
         self.mdp_to_test = self.mdp_entry.get()
 
         try:
-            # Configurer un délai d'attente de 3 secondes
-            socket.setdefaulttimeout(3)
+            # Configurer un délai d'attente de 5 secondes
+            socket.setdefaulttimeout(5)
 
             common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format(ip_add))
             uid = common.authenticate('demo2', self.user_to_test, self.mdp_to_test, {})
 
             if uid:
-                #models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(ip_add))
-                #self.user_id = uid
                 return True
             else:
                 print("Connexion échouée : Authentification impossible")
@@ -148,6 +146,7 @@ class App(tk.Tk):
         except Exception as e:
             print(f"Erreur de connexion : {e}")
             return False
+
 
     def verifier_connexion(self):
         print("Vérification de la connexion")
