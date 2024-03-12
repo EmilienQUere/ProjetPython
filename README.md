@@ -18,8 +18,31 @@ Odoo à besoin d'un serveur Postgre SQL pour fonctionner correctement
  ```sudo apt install postgresql -y```
 
 Se connecter a internet via : [erp](http://localhost:9000/#!/home) pour accéder au portainer
-Créer un stack : odoo15 (cf. **docker-compose.yml**)
-Lancer les containers
+Créer un stack : 
+- nom : odoo15
+- Saisir dans la zone :
+   ```
+  version: '2'
+services:
+  web:
+    image: odoo:15.0
+    depends_on:
+      - mydb
+    ports:
+      - "8069:8069"
+    environment:
+    - HOST=mydb
+    - USER=odoo
+    - PASSWORD=myodoo
+  mydb:
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_PASSWORD=myodoo
+      - POSTGRES_USER=odoo
+restart : Always
+```
+Lancer les containers dans l'onglet containers
 
 
 ## 2- Restoration de la base de donnée :
