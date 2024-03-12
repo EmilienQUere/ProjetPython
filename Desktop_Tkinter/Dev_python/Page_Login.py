@@ -165,7 +165,7 @@ class App(tk.Tk):
     def myping(self):
         try:
             # Exécutez la commande ping avec un seul paquet et un timeout de 1 seconde
-            subprocess.run(["ping", "-c", "1", "172.31.11.13"], timeout=0.5, check=True)
+            subprocess.run(["ping", "-c", "1", "172.31.11.13"], timeout=1, check=True)
             # Si la commande ping réussit, retournez True
             return True
         except subprocess.TimeoutExpired:
@@ -186,7 +186,7 @@ class App(tk.Tk):
                 print("Ping échoué")
                 self.connexion_status.config(text="Échec de connexion", foreground="red")
             # Attendez 5 secondes avant la prochaine vérification
-            time.sleep(1)
+            time.sleep(3)
 
 # Boucle principale
 if __name__ == "__main__":
