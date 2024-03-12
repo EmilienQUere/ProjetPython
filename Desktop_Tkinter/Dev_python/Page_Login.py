@@ -135,7 +135,7 @@ class App(tk.Tk):
             if uid:
                 models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(ip_add))
                 self.user_id = uid
-                return True, models, xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(ip_add))
+                return True
             else:
                 print("Connexion échouée : Authentification impossible")
                 self.mdp_to_test = ''
