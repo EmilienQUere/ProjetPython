@@ -135,10 +135,10 @@ class App(tk.Tk):
             if uid:
                 models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(ip_add))
                 self.user_id = uid
-                return models, xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(ip_add))
+                return True, models, xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(ip_add))
             else:
                 print("Connexion échouée : Authentification impossible")
-                self.mdp_to_test  = ''
+                self.mdp_to_test = ''
                 return False
         except socket.timeout:
             print("Délai d'attente dépassé. Vérifiez votre connexion réseau.")
@@ -150,11 +150,9 @@ class App(tk.Tk):
     def verifier_connexion(self):
         print("Vérification de la connexion")
     
-        self.connect()
-
-        odoo_connection = self.connect()
+        odoo_connection, _, _ = self.connect()
         print(odoo_connection)
-        if odoo_connection == True
+        if odoo_connection:
             print("Connexion à Odoo réussie")
             self.save_mdp_to_test()  # Déplacez cet appel ici
             self.ouvrir_page_utilisateur()
