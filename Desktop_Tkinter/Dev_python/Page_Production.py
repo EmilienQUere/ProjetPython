@@ -70,15 +70,15 @@ class AppProd(tk.Tk):
                 return file.read().strip()            
         except FileNotFoundError:
             return ''
-            
+        
     def clear_file(self):
         try:
             os.remove("test.txt")
-            print(f"Le fichier test.txt a été supprimé avec succès.")
+            print(f".")
         except FileNotFoundError:
-            print(f"Le fichier test.txt n'existe pas.")
+            print(f"Le fichier n'existe pas.")
         except Exception as e:
-            print(f"Erreur lors de la suppression du fichier test.txt: {e}")
+            print(f"Erreur fichier : {e}")
 
     def initialiser_bouton_modifier(self):
         self.modif_en_cours = False
