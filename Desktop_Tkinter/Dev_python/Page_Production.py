@@ -20,12 +20,13 @@ class AppProd(tk.Tk):
         # Ajoutez cette ligne pour récupérer le mot de passe du fichier
         self.mdp_to_test = self.load_mdp_to_test()
         print(self.mdp_to_test)
-
+        self.clear_file()
         self.configurer_fenetre()
         self.title("Production Barbak")
         self.init_widgets()
         self.afficher_OF()
         self.after(5000, self.actualiser_tableau)
+        
 
     def configurer_fenetre(self):
         self.geometry(f"{self.winfo_screenwidth()}x{self.winfo_screenheight()}+0+0")
@@ -67,9 +68,17 @@ class AppProd(tk.Tk):
         # Chargez le mot de passe depuis le fichier
         try:
             with open("mdp_file.txt", "r") as file:
-                return file.read().strip()
+                return file.read().strip()            
         except FileNotFoundError:
             return ''
+            
+    def clear_file(self):
+        try:
+            with open("mdp_file.txt", 'w'):
+                pass  # Ne rien écrire dans le fichier, ce qui effacera son contenu
+            print(f"Le contenu du fichier mdp_file.txt a été effacé avec succès.")
+        except Exception as e:
+            print(f"Erreur lors de l'effacement du contenu du fichier mdp_file.txt: {e}")
 
     def initialiser_bouton_modifier(self):
         self.modif_en_cours = False

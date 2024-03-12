@@ -17,11 +17,13 @@ class AppLog(tk.Tk):
 
     def __init__(self):
         """Constructeur de l'application (héritage de l'objet Tk)"""
+
+        super().__init__()
+
         # Ajoutez cette ligne pour récupérer le mot de passe du fichier
         self.mdp_to_test = self.load_mdp_to_test()
         print(self.mdp_to_test)
-        
-        super().__init__()
+        self.clear_file()
         self.nom = "Antonin"
         self.geometry(f"{self.winfo_screenwidth()}x{self.winfo_screenheight()}+0+0")
         self.resizable(True, True)
@@ -82,8 +84,18 @@ class AppLog(tk.Tk):
             with open("mdp_file.txt", "r") as file:
                 return file.read().strip()
         except FileNotFoundError:
+            # Si le fichier n'est pas trouvé, créez-le et retournez une chaîne vide
+            with open("mdp_file.txt", "w") as file:
+                pass  # Ne faites rien, le fichier sera vide
             return ''
-
+        
+    def clear_file(self):
+        try:
+            with open("mdp_file.txt", 'w'):
+                pass  # Ne rien écrire dans le fichier, ce qui effacera son contenu
+            print(f"Le contenu du fichier mdp_file.txt a été effacé avec succès.")
+        except Exception as e:
+            print(f"Erreur lors de l'effacement du contenu du fichier mdp_file.txt: {e}")
 
     def init_table(self):
         colonnes = ("Nom", "Code", "Prix en € (Kg)", "Quantité en stock")
