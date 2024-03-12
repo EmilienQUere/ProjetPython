@@ -19,24 +19,32 @@ Afin que la machine physique et la VM soient sur le même réseau, il faut confi
 #### 5- Démarrez la VM, elle sera sur le même réseau que la machine physique sur la WIFI Guest
 
 
-# ERP ODOO
+# Installation de l'ERP ODOO sur la VM1 - PC1 Linux
 
-## 1- Préparation a l'installation :
-
-[odoo](https://www.odoo.com/documentation/15.0/fr/administration/install/packages.html)
+#### 1- Préparation a l'installation :
 
 Odoo à besoin d'un serveur Postgre SQL pour fonctionner correctement
 
+Saisissez le code suivant dans l'invité de commande Linux
  ```
 sudo apt install postgresql -y
  ```
 
-Se connecter a internet via : [erp](http://localhost:9000/#!/home) pour accéder au portainer
+Se connecter a internet (Mozilla Firefox) via : [erp](http://localhost:9000/#!/home) pour accéder au portainer
+
+Un menu de connexion apparaît : 
+Identifiant : **admin**
+Mot de passe : **portainer**
+Une fois les informations saisies, cliquez sur **Login**.
+
+Vous allez être redirigés vers le menu principal de l'application, sélectionnez **l'endpoint local**.
+
+Dans le menu affiché a gauche de l'écran, sélectionnez la rubrique **Stacks**.
+
 Créer un stack : 
 - nom : odoo15
 - Saisir dans la zone :
 
-  
  ```
 version: '2'
 services:
@@ -59,10 +67,11 @@ services:
 restart : Always
 ```
 
-Lancer les containers dans l'onglet containers
+Dans le menu **containers** cochez toutes les lignes de la colonne Name et cliquez sur **Start**.
+Les serveurs sont démarrés.
 
 
-## 2- Restoration de la base de donnée :
+#### 2- Restoration de la base de donnée :
 
 Se connecter a l'adresse configurée dans le stack dans la barre de recherche du navigateur (`localhost:8069`) pour acceder a odoo
 
@@ -78,9 +87,9 @@ Database Name: demo2
 # Une fois le Git importé dans le SSD et le serveur Odoo opérationnel :
 (Executer le code python)
  
-## 1- ouvrir l'invite de commande
+#### 1- ouvrir l'invite de commande
 
-## 2- copier puis coller la commande dans l'invite de commande :
+#### 2- copier puis coller la commande dans l'invite de commande :
 
 Ouvrir le chemin du repository depuis l'invité de commande avec la fonction cd jusqu'a accéder au dossier Dev_Python
 Exemple : 
@@ -89,13 +98,13 @@ Exemple :
 cd /home/user/Documents/ProjetPython/Desktop_Tkinter/Dev_python
 ```
  
-## 3 - copier puis coller la commande dans l'invite de commande :  
+#### 3 - copier puis coller la commande dans l'invite de commande :  
  
 ``` 
 python3 Page_Login.py
 ```
 
  
-## 4- Choisir le compte souhaité et entrez le mot de passe puis cliquer sur le bouton connexion
+#### 4- Choisir le compte souhaité et entrez le mot de passe puis cliquer sur le bouton connexion
 
 
