@@ -1,5 +1,4 @@
-# Projet Python 
-Collaborateurs : Quere Emilien (manager)
+ Collaborateurs : Quere Emilien (manager)
                 Esseul Antonin
                 Le Roy Alexis
 
@@ -17,6 +16,7 @@ Collaborateurs : Quere Emilien (manager)
 
 Ouvrir le chemin du repository depuis l'invité de commande avec la fonction cd jusqu'a accéder au dossier Dev_Python
 Exemple : 
+
 ```cd /home/user/Documents/ProjetPython/Desktop_Tkinter/Dev_python```
  
 3 - copier puis coller la commande dans l'invite de commande :  
