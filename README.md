@@ -20,8 +20,8 @@ Exemple : cd /home/user/Documents/ProjetPython/Desktop_Tkinter/Dev_python
  
 3 - copier puis coller la commande dans l'invite de commande :  
  
-``` python3 Page_Login.py
-```
+``` python3 Page_Login.py ```
+
  
 14- Choisir le compte souhaité et entez le mot de passe puis cliquer sur le bouton connexion
 
