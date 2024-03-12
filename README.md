@@ -12,11 +12,11 @@
 
 Afin que la machine physique et la VM soient sur le même réseau, il faut configurer un accès par pont dans l'onglet réseau dans la configuration de la VM
 
-## 1- Dans Oracle VM BOX sélectionnez la VM concernée. 
-## 2- Cliquez sur **Configuration**
-## 3- Sélectionnez l'onglet **Réseau**
-## 4- Dans le menu **Mode accès réseau** sélectionnez **Accès par pont**
-## 5- Démarrez la VM, elle sera sur le même réseau que la machine physique sur la WIFI Guest
+#### 1- Dans Oracle VM BOX sélectionnez la VM concernée. 
+#### 2- Cliquez sur **Configuration**
+#### 3- Sélectionnez l'onglet **Réseau**
+#### 4- Dans le menu **Mode accès réseau** sélectionnez **Accès par pont**
+#### 5- Démarrez la VM, elle sera sur le même réseau que la machine physique sur la WIFI Guest
 
 
 # ERP ODOO
