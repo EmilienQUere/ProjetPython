@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox, Tk, Frame
 from PIL import ImageTk, Image
 import xmlrpc.client
+import socket
 from Page_Logistique import AppLog as visuLog
 from Page_Production import AppProd as visuprod
 
@@ -118,16 +119,19 @@ class App(tk.Tk):
         if MsgBox == 'yes':
             self.quit()
 
+
     def connect(self):
-        
         ip_add = "http://172.31.11.13:8069"
         self.user_to_test = self.user_list.get()
         self.mdp_to_test = self.mdp_entry.get()
 
         try:
+            # Configurer un délai d'attente de 5 secondes
+            socket.setdefaulttimeout(5)
+
             common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format(ip_add))
             uid = common.authenticate('demo2', self.user_to_test, self.mdp_to_test, {})
-            
+
             if uid:
                 models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(ip_add))
                 self.user_id = uid
@@ -135,6 +139,9 @@ class App(tk.Tk):
             else:
                 print("Connexion échouée : Authentification impossible")
                 self.mdp_to_test  = ''
+                return False
+        except socket.timeout:
+            print("Délai d'attente dépassé. Vérifiez votre connexion réseau.")
             return False
         except Exception as e:
             print(f"Erreur de connexion : {e}")
