@@ -69,7 +69,9 @@ Se connecter a l'adresse configurée dans le stack dans la barre de recherche du
 Cliquer sur **restore database**
 
 Master password: 1308
-File: /home/user/Documents/ProjetPython/ODOO/Backup_data_base/demo2_2024-03-11_12-31-54.zip
+
+Le fichier se trouve dans : ProjetPython/Odoo/Document/demo2_2024-03-11_12-31-54.zip **Il suffit d'aller le sélectionner dans l'explorateur de fichiers**
+
 Database Name: demo2
 
 
