@@ -22,7 +22,6 @@ class AppLog(tk.Tk):
 
         # Ajoutez cette ligne pour récupérer le mot de passe du fichier
         self.mdp_to_test = self.load_mdp_to_test()
-        print(self.mdp_to_test)
         self.clear_file()
         self.nom = "Antonin"
         self.geometry(f"{self.winfo_screenwidth()}x{self.winfo_screenheight()}+0+0")
@@ -81,23 +80,23 @@ class AppLog(tk.Tk):
     def load_mdp_to_test(self):
         # Chargez le mot de passe depuis le fichier
         try:
-            with open("mdp_file.txt", "r") as file:
+            with open("test.txt", "r") as file:
                 return file.read().strip()
         except FileNotFoundError:
             # Si le fichier n'est pas trouvé, créez-le et retournez une chaîne vide
-            with open("mdp_file.txt", "w") as file:
+            with open("test.txt", "w") as file:
                 pass  # Ne faites rien, le fichier sera vide
             return ''
         
     def clear_file(self):
         try:
-            os.remove("mdp_file.txt")
-            print(f"Le fichier mdp_file.txt a été supprimé avec succès.")
+            os.remove("test.txt")
+            print(f"Le fichier test.txt a été supprimé avec succès.")
         except FileNotFoundError:
-            print(f"Le fichier mdp_file.txt n'existe pas.")
+            print(f"Le fichier test.txt n'existe pas.")
         except Exception as e:
-            print(f"Erreur lors de la suppression du fichier mdp_file.txt: {e}")
-            
+            print(f"Erreur lors de la suppression du fichier test.txt: {e}")
+
     def init_table(self):
         colonnes = ("Nom", "Code", "Prix en € (Kg)", "Quantité en stock")
         self.tree = ttk.Treeview(self, columns=colonnes, show="headings", selectmode="browse")
@@ -225,7 +224,7 @@ class AppLog(tk.Tk):
     def bouton_modifier_clic(self):
         self.modif_en_cours = not self.modif_en_cours
         self.configure_modify_button()
-        print("True" if self.modif_en_cours else "False")
+        print("Modification disponible" if self.modif_en_cours else "Modication indisponible")
 
     def configure_modify_button(self):
         style = ttk.Style()

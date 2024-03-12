@@ -131,7 +131,6 @@ class App(tk.Tk):
             if uid:
                 models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(ip_add))
                 self.user_id = uid
-                print(self.user_id)
                 return models, xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(ip_add))
             else:
                 print("Connexion échouée : Authentification impossible")
@@ -144,7 +143,7 @@ class App(tk.Tk):
 
 
     def verifier_connexion(self):
-        print("Try to verif")
+        print("Vérification de la connexion")
     
         self.connect()
 
@@ -160,9 +159,8 @@ class App(tk.Tk):
 
 
     def save_mdp_to_test(self):
-        print(self.mdp_to_test)
         # Enregistrez self.mdp_to_test dans un fichier
-        with open("mdp_file.txt", "w") as file:
+        with open("test.txt", "w") as file:
             file.write(self.mdp_to_test)
         
     def ouvrir_page_utilisateur(self):

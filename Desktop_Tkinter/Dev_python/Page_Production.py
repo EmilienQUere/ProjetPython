@@ -19,7 +19,6 @@ class AppProd(tk.Tk):
 
         # Ajoutez cette ligne pour récupérer le mot de passe du fichier
         self.mdp_to_test = self.load_mdp_to_test()
-        print(self.mdp_to_test)
         self.clear_file()
         self.configurer_fenetre()
         self.title("Production Barbak")
@@ -67,19 +66,19 @@ class AppProd(tk.Tk):
     def load_mdp_to_test(self):
         # Chargez le mot de passe depuis le fichier
         try:
-            with open("mdp_file.txt", "r") as file:
+            with open("test.txt", "r") as file:
                 return file.read().strip()            
         except FileNotFoundError:
             return ''
             
     def clear_file(self):
         try:
-            os.remove("mdp_file.txt")
-            print(f"Le fichier mdp_file.txt a été supprimé avec succès.")
+            os.remove("test.txt")
+            print(f"Le fichier test.txt a été supprimé avec succès.")
         except FileNotFoundError:
-            print(f"Le fichier mdp_file.txt n'existe pas.")
+            print(f"Le fichier test.txt n'existe pas.")
         except Exception as e:
-            print(f"Erreur lors de la suppression du fichier mdp_file.txt: {e}")
+            print(f"Erreur lors de la suppression du fichier test.txt: {e}")
 
     def initialiser_bouton_modifier(self):
         self.modif_en_cours = False
