@@ -7,7 +7,7 @@
 - Deskop_Tkinter : Dossier regroupant tous les développements sur python pour les utilisateurs LOGISTIQUE/PRODUCTION
 - ODOO  : Dossier regroupant les back-ups de la base de données ODOO ainsi qu'un tutoriel de mise en service d'un serveur Odoo depuis Portainer.
 
-# Une fois le Git importé dans le SSD :
+# Une fois le Git importé dans le SSD et le serveur Odoo opérationnel :
 (Executer le code python)
  
 1- ouvrir l'invite de commande
@@ -24,5 +24,6 @@ Exemple :
 ``` python3 Page_Login.py ```
 
  
-14- Choisir le compte souhaité et entez le mot de passe puis cliquer sur le bouton connexion
+4- Choisir le compte souhaité et entrez le mot de passe puis cliquer sur le bouton connexion
+
 
