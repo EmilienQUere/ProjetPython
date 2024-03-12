@@ -21,8 +21,9 @@ Se connecter a internet via : [erp](http://localhost:9000/#!/home) pour accéder
 Créer un stack : 
 - nom : odoo15
 - Saisir dans la zone :
-   ```
-  version: '2'
+
+  
+ ```version: '2'
 services:
   web:
     image: odoo:15.0
@@ -40,8 +41,8 @@ services:
       - POSTGRES_DB=postgres
       - POSTGRES_PASSWORD=myodoo
       - POSTGRES_USER=odoo
-restart : Always
-```
+restart : Always ```
+
 Lancer les containers dans l'onglet containers
 
 
