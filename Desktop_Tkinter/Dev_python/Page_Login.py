@@ -12,7 +12,7 @@ from Page_Production import AppProd as visuProd
 
 bg_color = "#f1f1f1"
 txt_color = "#34494A"
-image_path = os.path.abspath("Desktop_Tkinter/Dev_python/BARBAK.png")
+image_path = os.path.abspath("BARBAK.png")
 
 class App(tk.Tk):
     """ Application GUI in TKinter"""
