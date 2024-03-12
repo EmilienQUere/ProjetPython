@@ -12,12 +12,16 @@
 
 Afin que la machine physique et la VM soient sur le même réseau, il faut configurer un accès par pont dans l'onglet réseau dans la configuration de la VM
 
+**L'opération est à réaliser sur les 3 VMs de l'application**
+
 #### 1- Dans Oracle VM BOX sélectionnez la VM concernée. 
 #### 2- Cliquez sur **Configuration**
 #### 3- Sélectionnez l'onglet **Réseau**
 #### 4- Dans le menu **Mode accès réseau** sélectionnez **Accès par pont**
 #### 5- Démarrez la VM, elle sera sur le même réseau que la machine physique sur la WIFI Guest
 
+Dans le lanceur d'application, onglet ordinateur, sélectionnez **Configuration du système**. Sélectionnez la rubrique Connexions (onglet Réseau). Dans l'onglet IPv4 passez de la Méthode Automatique à **Manuelle** puis cliquez sur Ajouter.
+**Entrer l'adresse IPv4 de la VM1-PC1 qui héberge le serveur Odoo : entrez l'adresse IP suivante : 172.31.11.13**
 
 # Installation de l'ERP ODOO sur la VM1 - PC1 Linux
 
@@ -86,7 +90,7 @@ Database Name: demo2
 
 # Une fois le Git importé dans le SSD et le serveur Odoo opérationnel : PC2-VM2 (Desktop Logistique sur Linux) et PC3-VM3 (Desktop Production sur Windows)
 (Executer le code python)
- 
+
 #### 1- Ouvrir l'invite de commande
 
 #### 2- Dans l'invite de commande :
