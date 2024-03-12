@@ -74,11 +74,12 @@ class AppProd(tk.Tk):
             
     def clear_file(self):
         try:
-            with open("mdp_file.txt", 'w'):
-                pass  # Ne rien écrire dans le fichier, ce qui effacera son contenu
-            print(f"Le contenu du fichier mdp_file.txt a été effacé avec succès.")
+            os.remove("mdp_file.txt")
+            print(f"Le fichier mdp_file.txt a été supprimé avec succès.")
+        except FileNotFoundError:
+            print(f"Le fichier mdp_file.txt n'existe pas.")
         except Exception as e:
-            print(f"Erreur lors de l'effacement du contenu du fichier mdp_file.txt: {e}")
+            print(f"Erreur lors de la suppression du fichier mdp_file.txt: {e}")
 
     def initialiser_bouton_modifier(self):
         self.modif_en_cours = False
