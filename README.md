@@ -84,12 +84,12 @@ Le fichier se trouve dans : ProjetPython/Odoo/Document/demo2_2024-03-11_12-31-54
 Database Name: demo2
 
 
-# Une fois le Git importé dans le SSD et le serveur Odoo opérationnel :
+# Une fois le Git importé dans le SSD et le serveur Odoo opérationnel : PC2-VM2 (Desktop Logistique sur Linux) et PC3-VM3 (Desktop Production sur Windows)
 (Executer le code python)
  
-#### 1- ouvrir l'invite de commande
+#### 1- Ouvrir l'invite de commande
 
-#### 2- copier puis coller la commande dans l'invite de commande :
+#### 2- Dans l'invite de commande :
 
 Ouvrir le chemin du repository depuis l'invité de commande avec la fonction cd jusqu'a accéder au dossier Dev_Python
 Exemple : 
@@ -99,11 +99,14 @@ cd /home/user/Documents/ProjetPython/Desktop_Tkinter/Dev_python
 ```
  
 #### 3 - copier puis coller la commande dans l'invite de commande :  
- 
+Pour Linux :
 ``` 
 python3 Page_Login.py
 ```
-
+Pour Windows : 
+``` 
+python Page_Login.py
+```
  
 #### 4- Choisir le compte souhaité et entrez le mot de passe puis cliquer sur le bouton connexion
 
