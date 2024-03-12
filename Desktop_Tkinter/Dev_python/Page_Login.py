@@ -179,7 +179,7 @@ class App(tk.Tk):
                 print("Ping échoué")
                 self.connexion_status.config(text="Échec de connexion", foreground="red")
             # Attendez 5 secondes avant la prochaine vérification
-            time.sleep(5)
+            time.sleep(2)
 
 # Boucle principale
 if __name__ == "__main__":
