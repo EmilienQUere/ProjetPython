@@ -63,8 +63,6 @@ class AppProd(tk.Tk):
         bouton_deconnexion = ttk.Button(self, text="Déconnexion", command=self.quitter_page, style="Deconnexion.TButton")
         bouton_deconnexion.place(x=1680, y=800)
 
-
-
     def load_mdp_to_test(self):
         # Chargez le mot de passe depuis le fichier
         try:
@@ -179,14 +177,13 @@ class AppProd(tk.Tk):
     
     def saisir_quantite(self, qty_to_produce):
         while True:
-            nouvelle_valeur = tkinter.simpledialog.askinteger("Modifier Valeur", f"La nouvelle quantité produite ne peut pas dépasser {qty_to_produce}. Entrez une nouvelle quantité :", initialvalue=qty_to_produce)
+            nouvelle_valeur = tkinter.simpledialog.askinteger("Modifier Valeur", f"La nouvelle quantité produite ne peut pas dépasser {int(qty_to_produce)}. Entrez une nouvelle quantité entière :", initialvalue=int(qty_to_produce))
             if nouvelle_valeur is None:
                 return None  # L'utilisateur a appuyé sur Annuler, donc sortez de la boucle
             elif isinstance(nouvelle_valeur, int):
                 return nouvelle_valeur  # La valeur est une entière, sortez de la boucle
             else:
                 messagebox.showerror("Erreur", "Veuillez entrer une valeur entière.")
-
 
     def modif_qty(self, order_id, new_quantity):
         try:
