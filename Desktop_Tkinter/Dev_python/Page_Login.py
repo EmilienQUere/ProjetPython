@@ -116,7 +116,7 @@ class App(tk.Tk):
         self.mdp_to_test = self.mdp_entry.get()
 
         try:
-            socket.setdefaulttimeout(5)
+            socket.setdefaulttimeout(2)
             common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format(ip_add))
             uid = common.authenticate('demo2', self.user_to_test, self.mdp_to_test, {})
 
