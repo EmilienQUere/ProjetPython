@@ -7,8 +7,14 @@
 - Deskop_Tkinter : Dossier regroupant tous les développements sur python pour les utilisateurs LOGISTIQUE/PRODUCTION
 - ODOO  : Dossier regroupant les back-ups de la base de données ODOO ainsi qu'un tutoriel de mise en service d'un serveur Odoo depuis Portainer.
 
+# Installation des 3 VM.
 
-# Pontage de la VM (WIFI Guest)
+Sur votre machine physique, ouvrez Oracle VM Virtual Box
+Cliquez ensuite sur **Ajouter** (+)
+Allez chercher les VM dans le disque dur (Master_Debian_11 sur PC1 et PC2 et Master_Windows_10 sur PC3)
+Le télechargement des VM peut être long.
+
+# Pontage de la VM (WIFI Guest).
 
 Afin que la machine physique et la VM soient sur le même réseau, il faut configurer un accès par pont dans l'onglet réseau dans la configuration de la VM
 
@@ -99,6 +105,7 @@ Database Name: demo2
 #### 2- Dans l'invite de commande :
 
 Ouvrir le chemin du repository depuis l'invité de commande avec la fonction cd jusqu'a accéder au dossier Dev_Python
+
 Exemple : 
 
 ```
@@ -116,5 +123,36 @@ python Page_Login.py
 ```
  
 #### 4- Choisir le compte souhaité et entrez le mot de passe puis cliquer sur le bouton connexion
+
+
+# Utilisation de l'ERP Odoo
+
+Vous allez devoir utiliser l'ERP Odoo afin de créer de nouveaux articles du stock en logistique (avec le compte administrateur) et créer de nouveaux ordres de fabrication (avec le compte Commercial)
+
+Pour se faire sur PC2 VM2 et PC3 VM3: 
+
+Dans le navigateur internet (Mozilla Firefox) dans la barre de recherche écrivez : 
+
+```172.31.11.13:8069```
+
+Vous allez être redirigés vers le serveur WEB d'Odoo.
+
+Dans la page de connexion, entrez les identifiants correspondant aux log Admin ou Commercial
+
+Cliquez ensuite sur le bouton en haut a gauche de la page et un sous-menu contextuel apparaîtra.
+
+Pour créer de nouveaux articles (Uniquement avec le compte administrateur) : Cliquez sur Stock
+
+Cliquez ensuite sur **Articles** dans le menu en haut de la page.
+
+Et et ensuite : cliquez sur créer.
+
+Pour créer un odre de fabrication (avec le compte commercial uniquement).
+
+Cliquez ensuite sur le bouton en haut a gauche de la page et un sous-menu contextuel apparaîtra.
+
+Cliquez sur fabrication
+
+Cliquez ensuite sur créer.
 
 
