@@ -156,3 +156,25 @@ Cliquez sur fabrication
 Cliquez ensuite sur créer.
 
 
+# LOG : 
+
+Compte administrateur :
+
+ID : Administrateur
+MDP : 2000
+
+Compte production : 
+
+MDP : 2
+
+Compte logistique : 
+
+MDP : 1
+
+Compte commercial :
+
+ID : Vente
+
+MDP : 2000
+
+
