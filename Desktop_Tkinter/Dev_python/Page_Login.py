@@ -159,14 +159,19 @@ class App(tk.Tk):
             fenetre_utilisateur.mainloop()
         elif self.user_to_test == "Production":
             fenetre_utilisateur = visuProd()
-            fenetre_utilisateur.mainloop()    
+            fenetre_utilisateur.mainloop() 
 
     def myping(self):
         try:
             # Exécutez la commande ping avec un seul paquet et un timeout de 1 seconde
-            subprocess.run(["ping", "-c", "1", "172.31.11.13"], timeout=1, check=True)
-            # Si la commande ping réussit, retournez True
-            return True
+            letter = "-n"  # Sur Windows, utilisez "-n"
+            if os.name == 'posix':
+                letter = "-c"  # Sur POSIX (Linux, macOS), utilisez "-c"
+                    
+            # Exécutez la commande ping avec un seul paquet et un timeout de 1 seconde
+            subprocess.run(["ping", letter, "1", "172.31.11.13"], timeout=1, check=True)
+            return True  # Si la commande ping réussit, retournez True
+            
         except subprocess.TimeoutExpired:
             # Si le délai d'attente est expiré, considérez le ping comme un échec et retournez False
             return False
