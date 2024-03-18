@@ -232,24 +232,24 @@ class AppLog(tk.Tk):
         style.configure("Modifier.TButton", background=button_color)
 
     def modif_qty(self, product_id, new_quantity):
-
-        try:
-            # Modifie la quantité disponible (qty_available) dans le stock.quant
-            stock_quant_ids = xmlrpc.client.ServerProxy(f"{'http://172.31.11.13:8069'}/xmlrpc/2/object").execute_kw('demo2', 8, self.mdp_to_test, 'stock.quant', 'search',
-                [[('product_id', '=', product_id)]]
-            )
-            if stock_quant_ids:
-                xmlrpc.client.ServerProxy(f"{'http://172.31.11.13:8069'}/xmlrpc/2/object").execute_kw('demo2', 8, self.mdp_to_test, 'stock.quant', 'write',
-                    [stock_quant_ids, {'quantity': new_quantity}]
+        if new_quantity != None : 
+            try:
+                # Modifie la quantité disponible (qty_available) dans le stock.quant
+                stock_quant_ids = xmlrpc.client.ServerProxy(f"{'http://172.31.11.13:8069'}/xmlrpc/2/object").execute_kw('demo2', 8, self.mdp_to_test, 'stock.quant', 'search',
+                    [[('product_id', '=', product_id)]]
                 )
-                print(f"Quantité dans le stock de l'article avec l'ID {product_id} modifiée avec succès.")
-            else:
-                print(f"Aucun enregistrement stock.quant trouvé pour le produit avec l'ID {product_id}.")
-                messagebox.showerror("Erreur de réference", f"Aucune quantité trouvée pour le produit avec l'ID {product_id}")
+                if stock_quant_ids:
+                    xmlrpc.client.ServerProxy(f"{'http://172.31.11.13:8069'}/xmlrpc/2/object").execute_kw('demo2', 8, self.mdp_to_test, 'stock.quant', 'write',
+                        [stock_quant_ids, {'quantity': new_quantity}]
+                    )
+                    print(f"Quantité dans le stock de l'article avec l'ID {product_id} modifiée avec succès.")
+                else:
+                    print(f"Aucun enregistrement stock.quant trouvé pour le produit avec l'ID {product_id}.")
+                    messagebox.showerror("Erreur de réference", f"Aucune quantité trouvée pour le produit avec l'ID {product_id}")
 
-        except Exception as e:
-            print(f"Erreur lors de la modification de la quantité dans le stock : {e}")
-            messagebox.showerror("Erreur de communication", f"Erreur lors de la modification de la quantité dans le stock : {e}, vérifier la connection")
+            except Exception as e:
+                print(f"Erreur lors de la modification de la quantité dans le stock : {e}")
+                messagebox.showerror("Erreur de communication", f"Erreur lors de la modification de la quantité dans le stock : {e}, vérifier la connection")
 
 if __name__ == "__main__":
     monApp = AppLog()

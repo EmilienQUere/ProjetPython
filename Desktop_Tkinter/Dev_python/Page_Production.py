@@ -195,36 +195,37 @@ class AppProd(tk.Tk):
                 messagebox.showerror("Erreur", "Veuillez entrer une valeur entière.")
 
     def modif_qty(self, order_id, new_quantity):
-        try:
-            # Récupérez la quantité à produire pour l'OF
-            of_record = xmlrpc.client.ServerProxy(f"{'http://172.31.11.13:8069'}/xmlrpc/2/object").execute_kw(
-                'demo2', 9, self.mdp_to_test, 'mrp.production', 'read',
-                [[order_id], ['product_qty']]
-            )
-            qty_to_produce = of_record[0]['product_qty']
-
-            # Vérifiez si la nouvelle quantité produite est inférieure ou égale à la quantité à produire
-            if 0 <= new_quantity <= qty_to_produce:
-                result = xmlrpc.client.ServerProxy(f"{'http://172.31.11.13:8069'}/xmlrpc/2/object").execute_kw(
-                    'demo2', 9, self.mdp_to_test, 'mrp.production', 'write',
-                    [[order_id], {'qty_producing': new_quantity}]
+        if new_quantity != None :
+            try:
+                # Récupérez la quantité à produire pour l'OF
+                of_record = xmlrpc.client.ServerProxy(f"{'http://172.31.11.13:8069'}/xmlrpc/2/object").execute_kw(
+                    'demo2', 9, self.mdp_to_test, 'mrp.production', 'read',
+                    [[order_id], ['product_qty']]
                 )
-                if result:
-                    print(f"Quantité produite dans l'ordre de fabrication avec l'ID {order_id} modifiée avec succès.")
-                else:
-                    print(f"La modification de la quantité produite dans l'ordre de fabrication avec l'ID {order_id} a échoué.")
-                    messagebox.showerror("Erreur de communication", f"La modification de la quantité produite dans l'ordre de fabrication avec l'ID {order_id} a échoué.")
-            else:
-                print(f"La nouvelle quantité produite dépasse la quantité à produire pour l'ordre de fabrication avec l'ID {order_id}.")
-                # Demandez à l'utilisateur de saisir une nouvelle quantité valide
-                nouvelle_quantite = self.saisir_quantite(qty_to_produce)
-                if nouvelle_quantite is not None:
-                    # Appelez récursivement modif_qty avec la nouvelle quantité saisie
-                    self.modif_qty(order_id, nouvelle_quantite)
+                qty_to_produce = of_record[0]['product_qty']
 
-        except Exception as e:
-            print(f"Erreur lors de la modification de la quantité produite : {e}")
-            messagebox.showerror("Erreur de communication", "Erreur lors de la modification de la quantité produite : {e}, vérifier la connection")
+                # Vérifiez si la nouvelle quantité produite est inférieure ou égale à la quantité à produire
+                if 0 <= new_quantity <= qty_to_produce:
+                    result = xmlrpc.client.ServerProxy(f"{'http://172.31.11.13:8069'}/xmlrpc/2/object").execute_kw(
+                        'demo2', 9, self.mdp_to_test, 'mrp.production', 'write',
+                        [[order_id], {'qty_producing': new_quantity}]
+                    )
+                    if result:
+                        print(f"Quantité produite dans l'ordre de fabrication avec l'ID {order_id} modifiée avec succès.")
+                    else:
+                        print(f"La modification de la quantité produite dans l'ordre de fabrication avec l'ID {order_id} a échoué.")
+                        messagebox.showerror("Erreur de communication", f"La modification de la quantité produite dans l'ordre de fabrication avec l'ID {order_id} a échoué.")
+                else:
+                    print(f"La nouvelle quantité produite dépasse la quantité à produire pour l'ordre de fabrication avec l'ID {order_id}.")
+                    # Demandez à l'utilisateur de saisir une nouvelle quantité valide
+                    nouvelle_quantite = self.saisir_quantite(qty_to_produce)
+                    if nouvelle_quantite is not None:
+                        # Appelez récursivement modif_qty avec la nouvelle quantité saisie
+                        self.modif_qty(order_id, nouvelle_quantite)
+
+            except Exception as e:
+                print(f"Erreur lors de la modification de la quantité produite : {e}")
+                messagebox.showerror("Erreur de communication", "Erreur lors de la modification de la quantité produite : {e}, vérifier la connection")
 
 
 #=========================================================================================
